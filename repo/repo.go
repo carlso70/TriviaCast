@@ -2,7 +2,6 @@ package repo
 
 import (
 	"errors"
-	"fmt"
 
 	"github.com/carlso70/triviacast/user"
 )

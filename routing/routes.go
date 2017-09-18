@@ -34,4 +34,10 @@ var routes = Routes{
 		"/listusers",
 		handlers.ListUsers,
 	},
+	Route{
+		"ListGames",
+		"GET",
+		"/listgames",
+		handlers.ListGames,
+	},
 }

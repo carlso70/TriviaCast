@@ -10,7 +10,7 @@ import (
 )
 
 type GameServer interface {
-	CreateGame(createrId int) (int, error)
+	CreateGame() (int, error)
 	DeleteGame(gameId int) error
 	AddUserToGame(gameId int, userId int) error
 	GetUsers() ([]user.User, error)
@@ -27,7 +27,7 @@ var once sync.Once
 // GetInstance gets the current singleton instance if it exists, if not returns an empty instance
 func GetInstance() *GameManager {
 	once.Do(func() {
-		games := make([]*game.Game, 0)
+		games := make([]game.Game, 0)
 		//initSocketServer()
 		instance = &GameManager{Games: games}
 	})
