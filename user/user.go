@@ -6,8 +6,10 @@ import (
 
 // SessionId is the current gameId
 type User struct {
-	Id        int `json:"id"`
-	SessionId int `json:"sessionID"`
+	Id        int    `json:"id" bson:"id"`
+	Username  string `json:"username" bson:"username"`
+	password  string `json:"password" bson:"password"`
+	SessionId int    `json:"sessionID" bson:"sessionId"`
 }
 
 func Init() User {
