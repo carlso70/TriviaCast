@@ -6,37 +6,32 @@ import (
 	"sync"
 
 	"github.com/carlso70/triviacast/game"
-	"github.com/carlso70/triviacast/user"
+	"github.com/carlso70/triviacast/gamemanager"
 )
 
-type GameServer interface {
-	CreateGame() (int, error)
-	DeleteGame(gameId int) error
-	AddUserToGame(gameId int, userId int) error
-	GetUsers() ([]user.User, error)
-}
-
 const (
-	Port = ":8081"
+	CONN_HOST = "localhost"
+	CONN_PORT = "3333"
+	CONN_TYPE = "tcp"
 )
 
 // Singleton instance of game manager
-var instance *GameManager
+var instance *gamemanager.GameManager
 var once sync.Once
 
 // GetInstance gets the current singleton instance if it exists, if not returns an empty instance
-func GetInstance() *GameManager {
+func GetInstance() *gamemanager.GameManager {
 	once.Do(func() {
 		games := make([]game.Game, 0)
 		//initSocketServer()
-		instance = &GameManager{Games: games}
+		instance = &gamemanager.GameManager{Games: games}
 	})
 	return instance
 }
 
 /*
 func initSocketServer() {
-	ln, err := net.Listen("tcp", ":8081")
+	ln, err := net.Listen(CONN_TYPE, CONN_HOST+":"+CONN_PORT)
 	if err != nil {
 		panic(err)
 	}

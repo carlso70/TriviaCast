@@ -1,12 +1,9 @@
 package repo
 
 import (
-	"errors"
-	//	"time"
-
 	"github.com/carlso70/triviacast/user"
 	"gopkg.in/mgo.v2"
-	//"gopkg.in/mgo.v2/bson"
+	"gopkg.in/mgo.v2/bson"
 )
 
 var Users []user.User
@@ -22,14 +19,6 @@ const (
 	Database   = "trivia"
 	Collection = "users"
 )
-
-func CreateDummyUsers() {
-	for i := 0; i < 15; i++ {
-		user := user.Init()
-		user.Id = i
-		AddUserToDB(user)
-	}
-}
 
 func AddUserToDB(user user.User) error {
 	session, err := mgo.DialWithInfo(&mgo.DialInfo{
@@ -64,15 +53,27 @@ func FindUser(userId int) (user.User, error) {
 		// },
 	})
 	if err != nil {
-		panic(err)
+		return user.User{}, err
 	}
 	defer session.Close()
 	// Collection
 	c := session.DB(Database).C(Collection)
-
-	return user.User{}, errors.New("User not found error")
+	result := user.User{}
+	// Refer to the bson encodings in the user package for other properties
+	err = c.Find(bson.M{"id": userId}).One(&result)
+	return result, err
 }
 
 func GetUsers() ([]user.User, error) {
-	return Users, nil
+	session, err := mgo.DialWithInfo(&mgo.DialInfo{
+		Addrs: Host,
+	})
+	defer session.Close()
+
+	// Collection
+	c := session.DB(Database).C(Collection)
+	result := []user.User{}
+	// Refer to the bson encodings in the user package for other properties
+	err = c.Find(bson.M{}).All(&result)
+	return result, err
 }
