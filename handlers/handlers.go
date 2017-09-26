@@ -41,9 +41,9 @@ func StartGame(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	// Get the gameserver instance, start new game
-	gameserver := gameserver.GetInstance()
-	gameId, err := gameserver.CreateGame(request.UserId)
+	// Get the gamemanager instance, start new game
+	gamemanager := gameserver.GetInstance()
+	gameId, err := gamemanager.CreateGame()
 	if err != nil {
 		panic(err)
 	}
@@ -54,16 +54,29 @@ func StartGame(w http.ResponseWriter, r *http.Request) {
 // RequestUsers gets a list of all the users
 func ListUsers(w http.ResponseWriter, r *http.Request) {
 
-	// Get the gameserver instance, start new game
-	gameserver := gameserver.GetInstance()
-	users, err := gameserver.GetUsers()
+	// Get the gamemanager instance, get all users
+	gamemanager := gameserver.GetInstance()
+	users, err := gamemanager.GetUsers()
 	if err != nil {
 		panic(err)
 	}
 
 	for _, user := range users {
-		fmt.Println(user.Id)
 		str := "UserID = " + strconv.Itoa(user.Id)
 		fmt.Fprint(w, str)
 	}
+}
+
+// ListGames responds with a list of all the active games
+func ListGames(w http.ResponseWriter, r *http.Request) {
+
+	// Get the gamemanager instance, get all active games
+	gamemanager := gameserver.GetInstance()
+	games := gamemanager.GetGames()
+
+	fmt.Println(games)
+	for _, game := range games {
+		fmt.Fprint(w, game.Id)
+	}
+
 }

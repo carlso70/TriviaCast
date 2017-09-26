@@ -6,11 +6,11 @@ import (
 )
 
 type Game struct {
-	Id    int          `json:"id"`
-	Users []*user.User `json:"users"`
+	Id    int         `json:"id"`
+	Users []user.User `json:"users"`
 }
 
-func Init() *Game {
+func Init() Game {
 	id := utils.GenerateId()
-	return &Game{Id: id, Users: nil}
+	return Game{Id: id, Users: nil}
 }
