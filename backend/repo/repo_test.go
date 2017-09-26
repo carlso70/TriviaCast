@@ -5,11 +5,11 @@ import (
 	"testing"
 )
 
+var testId = -1
+
 func TestAddUserToDB(t *testing.T) {
-	// create dummy user
-	userTest := user.Init()
-	userTest.Id = -1
-	if err := AddUserToDB(userTest); err != nil {
+	// Create dummy user
+	if err := AddUserToDB(user.User{Id: testId}); err != nil {
 		t.Error("Error AddUserToDB: ", err)
 	}
 }
@@ -17,7 +17,7 @@ func TestAddUserToDB(t *testing.T) {
 func TestFindUser(t *testing.T) {
 	// Create a test user with an Id only tests will have
 	userTest := user.Init()
-	userTest.Id = -1
+	userTest.Id = testId
 	err := AddUserToDB(userTest)
 	if err != nil {
 		t.Errorf("Error in AddUserToDB: %s", err)
@@ -35,4 +35,13 @@ func TestGetAllUser(t *testing.T) {
 	if err != nil && len(users) > 0 {
 		t.Errorf("Error Recieved:", err)
 	}
+}
+
+func TestDeleteUser(t *testing.T) {
+	t.Run("Add Test User", TestAddUserToDB)
+	err := DeleteUser(testId)
+	if err != nil {
+		t.Errorf("Error Recieved: ", err)
+	}
+
 }
