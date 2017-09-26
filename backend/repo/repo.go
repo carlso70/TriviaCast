@@ -77,3 +77,24 @@ func GetUsers() ([]user.User, error) {
 	err = c.Find(bson.M{}).All(&result)
 	return result, err
 }
+
+func DeleteUser(userId int) error {
+	session, err := mgo.DialWithInfo(&mgo.DialInfo{
+		Addrs: Host,
+		// Username: Username,
+		// Password: Password,
+		// Database: Database,
+		// DialServer: func(addr *mgo.ServerAddr) (net.Conn, error) {
+		// 	return tls.Dial("tcp", addr.String(), &tls.Config{})
+		// },
+	})
+	if err != nil {
+		return err
+	}
+	defer session.Close()
+	// Collection
+	c := session.DB(Database).C(Collection)
+	// Refer to the bson encodings in the user package for other properties
+	err = c.Remove(bson.M{"id": userId})
+	return err
+}
