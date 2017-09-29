@@ -1,8 +1,9 @@
 package repo
 
 import (
-	"github.com/carlso70/triviacast/backend/user"
 	"testing"
+
+	"github.com/carlso70/triviacast/backend/user"
 )
 
 var testId = -1
