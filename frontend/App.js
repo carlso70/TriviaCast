@@ -1,23 +1,43 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { Component } from 'react';
+import {
+  AppRegistry,
+  Image,
+  Text,
+} from 'react-native';
 
-export default class App extends React.Component {
+const remotebackg = 'https://i.imgur.com/vqTkUz8.png';
+
+export default class BackgroundImage extends Component {
   render() {
+
     return (
-      <View style={styles.container}>
-        <Text>Changes you make will automatically reload.</Text>
-        <Text>Shake your phone to open the developer menu.</Text>
-        <Text>TriviaCast</Text>
-      </View>
+      <Image
+        style={{
+          backgroundColor: '#ccc',
+          flex: 1,
+          resizeMode: 'cover',
+          position: 'absolute',
+          width: '100%',
+          height: '100%',
+          justifyContent: 'center',
+        }}
+        source={{ uri: remotebackg }}
+      >
+
+        <Text
+          style={{
+            backgroundColor: 'transparent',
+            textAlign: 'center',
+            fontSize: 45,
+            color: 'white',
+            padding: 40,
+          }}
+        >
+          {'TriviaCast'}
+        </Text>
+      </Image>
     );
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+AppRegistry.registerComponent('BackgroundImage', () => BackgroundImage);
