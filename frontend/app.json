@@ -1,7 +1,7 @@
 {
   "expo": {
-  	"name": "TriviaCast",
-  	"slug": "triviacast",
+    "name": "TriviaCast",
+    "slug": "triviacast",
     "sdkVersion": "20.0.0"
   }
 }
