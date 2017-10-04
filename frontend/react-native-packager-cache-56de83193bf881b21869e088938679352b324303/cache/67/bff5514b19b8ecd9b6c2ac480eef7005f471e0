@@ -122,10 +122,6 @@
       }
     }
 
-    if (typeof global.process === "object" && global.process.domain) {
-      invoke = global.process.domain.bind(invoke);
-    }
-
     var previousPromise;
 
     function enqueue(method, arg) {
@@ -555,4 +551,6 @@
       return ContinueSentinel;
     }
   };
-}(typeof global === "object" ? global : typeof window === "object" ? window : typeof self === "object" ? self : this);
+}(function () {
+  return this;
+}() || Function("return this")());

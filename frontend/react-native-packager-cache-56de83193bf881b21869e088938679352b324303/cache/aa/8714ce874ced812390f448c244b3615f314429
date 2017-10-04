@@ -1,0 +1,77 @@
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = undefined;
+var _jsxFileName = '/home/jimmy/Documents/goworkspace/src/github.com/carlso70/triviacast/frontend/pages/MainPage.js';
+
+var _react = require('react');
+
+var _react2 = babelHelpers.interopRequireDefault(_react);
+
+var _reactNative = require('react-native');
+
+var _ButtonDemo = require('../components/ButtonDemo');
+
+var _ButtonDemo2 = babelHelpers.interopRequireDefault(_ButtonDemo);
+
+var remotebackg = 'https://i.imgur.com/vqTkUz8.png';
+
+var MainPage = function (_Component) {
+  babelHelpers.inherits(MainPage, _Component);
+
+  function MainPage() {
+    babelHelpers.classCallCheck(this, MainPage);
+    return babelHelpers.possibleConstructorReturn(this, (MainPage.__proto__ || Object.getPrototypeOf(MainPage)).apply(this, arguments));
+  }
+
+  babelHelpers.createClass(MainPage, [{
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        _reactNative.Image,
+        {
+          style: {
+            backgroundColor: '#ccc',
+            flex: 1,
+            resizeMode: 'cover',
+            position: 'absolute',
+            width: '100%',
+            height: '100%',
+            justifyContent: 'center'
+          },
+          source: { uri: remotebackg },
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 16
+          }
+        },
+        _react2.default.createElement(
+          _reactNative.Text,
+          {
+            style: {
+              backgroundColor: 'transparent',
+              textAlign: 'center',
+              fontSize: 45,
+              color: 'white',
+              padding: 40
+            },
+            __source: {
+              fileName: _jsxFileName,
+              lineNumber: 29
+            }
+          },
+          'TriviaCast'
+        ),
+        _react2.default.createElement(_ButtonDemo2.default, {
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 40
+          }
+        })
+      );
+    }
+  }]);
+  return MainPage;
+}(_react.Component);
+
+exports.default = MainPage;
