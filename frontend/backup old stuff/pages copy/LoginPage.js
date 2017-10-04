@@ -7,10 +7,9 @@ import {
 } from 'react-native';
 
 import ButtonDemo from '../components/ButtonDemo'
-import { StackNavigator } from 'react-navigation';
 const remotebackg = 'https://i.imgur.com/vqTkUz8.png';
 
-export default class MainPage extends Component {
+export default class LoginPage extends Component {
 
   render() {
     return (
@@ -36,7 +35,7 @@ export default class MainPage extends Component {
             padding: 40,
           }}
         >
-          {'TriviaCast'}
+          {'login page test'}
         </Text>
         <ButtonDemo/>
       </Image>

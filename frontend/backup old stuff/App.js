@@ -10,17 +10,17 @@ import { StackNavigator } from 'react-navigation';
 
 
 
-import MainPage from './pages/MainPage.js'
-import LoginPage from './pages/LoginPage.js'
+//import MainPage from './pages/MainPage.js'
+//import LoginPage from './pages/LoginPage.js'
 
-// class MainPage extends Component{
-//   static navigationOptions = {
-//     title: 'Welcome',
-//   };
-//   render() {
-//     return <Text>Hello</Text>;
-//   }
-// }
+class MainPage extends Component{
+  static navigationOptions = {
+    title: 'Welcome',
+  };
+  render() {
+    return <Text>Hello</Text>;
+  }
+}
 
 // class LoginPage extends Component{
 //   static navigationOptions = {
