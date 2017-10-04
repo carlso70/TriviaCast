@@ -16,6 +16,7 @@ import LoginPage from './pages/LoginPage.js'
 // class MainPage extends Component{
 //   static navigationOptions = {
 //     title: 'Welcome',
+//     header: { visible:false }
 //   };
 //   render() {
 //     return <Text>Hello</Text>;
