@@ -3,16 +3,11 @@ package gameserver
 // Singleton class
 
 import (
+	"fmt"
 	"sync"
 
 	"github.com/carlso70/triviacast/backend/game"
 	"github.com/carlso70/triviacast/backend/gamemanager"
-)
-
-const (
-	CONN_HOST = "localhost"
-	CONN_PORT = "3333"
-	CONN_TYPE = "tcp"
 )
 
 // Singleton instance of game manager
@@ -23,24 +18,9 @@ var once sync.Once
 func GetInstance() *gamemanager.GameManager {
 	once.Do(func() {
 		games := make([]game.Game, 0)
-		//initSocketServer()
+		fmt.Println("Get Instance: once.DO")
+		InitSocketServer()
 		instance = &gamemanager.GameManager{Games: games}
 	})
 	return instance
 }
-
-/*
-func initSocketServer() {
-	ln, err := net.Listen(CONN_TYPE, CONN_HOST+":"+CONN_PORT)
-	if err != nil {
-		panic(err)
-	}
-	for {
-		conn, err := ln.Accept()
-		if err != nil {
-			panic(err)
-		}
-		go handleConnection(conn)
-	}
-}
-*/
