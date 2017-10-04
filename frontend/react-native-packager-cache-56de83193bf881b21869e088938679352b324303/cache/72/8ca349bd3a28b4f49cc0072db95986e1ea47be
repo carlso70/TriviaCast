@@ -47,6 +47,7 @@ var handlerIDToTag = {};
 
 var GestureHandlerPropTypes = {
   id: _propTypes2.default.string,
+  enabled: _propTypes2.default.bool,
   waitFor: _propTypes2.default.oneOfType([_propTypes2.default.string, _propTypes2.default.arrayOf(_propTypes2.default.string)]),
   simultaneousHandlers: _propTypes2.default.oneOfType([_propTypes2.default.string, _propTypes2.default.arrayOf(_propTypes2.default.string)]),
   shouldCancelWhenOutside: _propTypes2.default.bool,
@@ -88,6 +89,10 @@ function filterConfig(props, validProps) {
       var _value = props[key];
       if (key === 'simultaneousHandlers' || key === 'waitFor') {
         _value = transformIntoHandlerTags(props[key]);
+      } else if (key === 'hitSlop') {
+        if (typeof _value !== 'object') {
+          _value = { top: _value, left: _value, bottom: _value, right: _value };
+        }
       }
       res[key] = _value;
     }
@@ -322,7 +327,7 @@ function createNativeWrapper(Component) {
           ref: this._refHandler,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 361
+            lineNumber: 366
           }
         }));
       }
@@ -408,7 +413,7 @@ var BaseButton = (_temp3 = _class3 = function (_React$Component3) {
         onGestureEvent: this._onHandlerEvent,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 440
+          lineNumber: 445
         }
       }));
     }
@@ -456,14 +461,14 @@ var RectButton = (_temp4 = _class4 = function (_React$Component4) {
         BaseButton,
         babelHelpers.extends({}, rest, { onActiveStateChange: this._handleActiveStateChange, __source: {
             fileName: _jsxFileName,
-            lineNumber: 479
+            lineNumber: 484
           }
         }),
         _react2.default.createElement(_reactNative.Animated.View, {
           style: [btnStyles.underlay, { backgroundColor: this.props.underlayColor }, { opacity: this._opacity }],
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 480
+            lineNumber: 485
           }
         }),
         children
@@ -507,7 +512,7 @@ var BorderlessButton = (_temp5 = _class5 = function (_React$Component5) {
           onActiveStateChange: this._handleActiveStateChange,
           style: [style, _reactNative.Platform.OS === 'ios' && { opacity: this._opacity }], __source: {
             fileName: _jsxFileName,
-            lineNumber: 510
+            lineNumber: 515
           }
         }),
         children
