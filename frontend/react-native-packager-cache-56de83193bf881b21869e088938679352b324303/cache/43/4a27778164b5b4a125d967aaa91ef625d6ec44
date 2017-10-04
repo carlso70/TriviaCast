@@ -10,58 +10,73 @@ var _react2 = babelHelpers.interopRequireDefault(_react);
 
 var _reactNative = require('react-native');
 
-var App = function (_React$Component) {
-  babelHelpers.inherits(App, _React$Component);
+var _ButtonDemo = require('./components/ButtonDemo');
 
-  function App() {
-    babelHelpers.classCallCheck(this, App);
-    return babelHelpers.possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).apply(this, arguments));
+var _ButtonDemo2 = babelHelpers.interopRequireDefault(_ButtonDemo);
+
+var remotebackg = 'https://i.imgur.com/vqTkUz8.png';
+
+var BackgroundImage = function (_Component) {
+  babelHelpers.inherits(BackgroundImage, _Component);
+
+  function BackgroundImage() {
+    babelHelpers.classCallCheck(this, BackgroundImage);
+    return babelHelpers.possibleConstructorReturn(this, (BackgroundImage.__proto__ || Object.getPrototypeOf(BackgroundImage)).apply(this, arguments));
   }
 
-  babelHelpers.createClass(App, [{
+  babelHelpers.createClass(BackgroundImage, [{
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
-        _reactNative.View,
-        { style: styles.container, __source: {
+        _reactNative.Image,
+        {
+          style: {
+            backgroundColor: '#ccc',
+            flex: 1,
+            resizeMode: 'cover',
+            position: 'absolute',
+            width: '100%',
+            height: '100%',
+            justifyContent: 'center'
+          },
+          source: { uri: remotebackg },
+          __source: {
             fileName: _jsxFileName,
-            lineNumber: 7
+            lineNumber: 16
           }
         },
         _react2.default.createElement(
           _reactNative.Text,
           {
+            style: {
+              backgroundColor: 'transparent',
+              textAlign: 'center',
+              fontSize: 45,
+              color: 'white',
+              padding: 40
+            },
             __source: {
               fileName: _jsxFileName,
-              lineNumber: 8
+              lineNumber: 29
             }
           },
-          'Changes you make will automatically reload.'
+          'TriviaCast'
         ),
-        _react2.default.createElement(
-          _reactNative.Text,
-          {
-            __source: {
-              fileName: _jsxFileName,
-              lineNumber: 9
-            }
-          },
-          'Shake your phone to open the developer menu.'
-        )
+        _react2.default.createElement(_ButtonDemo2.default, {
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 40
+          }
+        })
       );
     }
   }]);
-  return App;
-}(_react2.default.Component);
+  return BackgroundImage;
+}(_react.Component);
 
-exports.default = App;
+exports.default = BackgroundImage;
 
 
-var styles = _reactNative.StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center'
-  }
+_reactNative.AppRegistry.registerComponent('BackgroundImage', function () {
+  return BackgroundImage;
 });
