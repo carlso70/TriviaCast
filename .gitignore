@@ -117,3 +117,5 @@ android/logcat.txt
  ios/Podfile.lock
  ios/Pods
  .expo
+
+frontend/react-native-package-cache*
