@@ -23,6 +23,12 @@ var routes = Routes{
 		handlers.Index,
 	},
 	Route{
+		"CreateGame",
+		"POST",
+		"/creategame",
+		handlers.CreateGame,
+	},
+	Route{
 		"StartGame",
 		"POST",
 		"/startgame",

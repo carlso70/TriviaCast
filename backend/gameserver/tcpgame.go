@@ -12,6 +12,12 @@ const (
 	CONN_TYPE = "tcp"
 )
 
+// TCP request objects, these are for in game
+type RequestObj struct {
+	UserId int `json:"userId"`
+	GameId int `json:"gameId"`
+}
+
 // Listener referneced in main.go set to close when main method ends
 var Listener net.Listener
 
@@ -40,8 +46,9 @@ func handleRequest(conn net.Conn) {
 	buf := make([]byte, 2048)
 	// Read the incoming connection into the buffer
 	reqLen, err := conn.Read(buf)
-	fmt.Println(reqLen)
+	fmt.Println("Message Recieved of len:", reqLen)
 	fmt.Println(string(buf))
+
 	if err != nil {
 		panic(err)
 	}

@@ -9,12 +9,6 @@ import (
 	"github.com/carlso70/triviacast/backend/routing"
 )
 
-const (
-	CONN_HOST = "localhost"
-	CONN_PORT = "3333"
-	CONN_TYPE = "tcp"
-)
-
 func main() {
 	fmt.Println("Launching Server")
 
