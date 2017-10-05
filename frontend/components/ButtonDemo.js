@@ -10,7 +10,7 @@ class ButtonDemo extends Component {
       buttonStyle={{backgroundColor: 'white', borderRadius: 10}}
       textStyle={{textAlign: 'center', color: 'black'}}
       title={`Create an account`}
-      //onPress={() => navigate(LoginPage.js)}
+      onPress={() => navigate(LoginPage)}
     />
     )
   }

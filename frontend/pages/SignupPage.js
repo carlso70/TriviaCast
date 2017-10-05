@@ -35,7 +35,7 @@ export default class LoginPage extends Component {
             padding: 40,
           }}
         >
-          {'login page test'}
+          {'signup page test'}
         </Text>
       </Image>
     );
