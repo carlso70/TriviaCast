@@ -3,11 +3,21 @@ import {
   AppRegistry,
   Image,
   Text,
-  View
+  View,
+  TextInput,
+  StyleSheet
 } from 'react-native';
 
 import ButtonDemo from '../components/ButtonDemo'
+import { Button } from 'react-native-elements';
 const remotebackg = 'https://i.imgur.com/vqTkUz8.png';
+
+const styles = StyleSheet.create({
+   inputText: {
+      marginLeft: '20%',
+      width: '60%'
+   },
+});
 
 export default class LoginPage extends Component {
 
@@ -26,18 +36,21 @@ export default class LoginPage extends Component {
           source={{ uri: remotebackg }}
         >
 
-        <Text
-          style={{
-            backgroundColor: 'transparent',
-            textAlign: 'center',
-            fontSize: 45,
-            color: 'white',
-            padding: 40,
-          }}
-        >
-          {'login page test'}
-        </Text>
+
+        <TextInput placeholder='Username' style={styles.inputText} />
+        <TextInput placeholder='Password' style={styles.inputText} secureTextEntry={true}/>
+                <Button
+      raised
+      icon={{name: 'account-circle', color: 'black'}}
+      buttonStyle={{backgroundColor: 'white', borderRadius: 10}}
+      textStyle={{textAlign: 'center', color: 'black'}}
+      title={`Login`}
+      //onPress={() => navigate('LoginPage')}
+    />
+
       </Image>
     );
   }
 }
+
+

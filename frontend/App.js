@@ -17,25 +17,47 @@ import MainPage from './pages/MainPage.js'
 import LoginPage from './pages/LoginPage.js'
 import SignupPage from './pages/SignupPage.js'
 
+var styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    width: null,
+    height: null,
+  },
+});
+
 class Home extends React.Component{
   static navigationOptions = {
     title: 'Welcome',
-    // header: { visible:false }
+    //header: { visible:false }
   };
   render() {
     const { navigate } = this.props.navigation;
     return (
-      <View>
-      <Text>TriviaCast</Text>
-      <Button
-        onPress={() => navigate('SignupPage')}
-        title="Create an Account"
-      />
-      <Button
-        onPress={() => navigate('LoginPage')}
-        title="Login"
-      />
-      </View>
+
+    	 <Image source={{uri: 'https://i.imgur.com/vqTkUz8.png'}} style={styles.container}>
+  <View>
+  			<Button
+      raised
+      icon={{name: 'account-circle', color: 'black'}}
+      buttonStyle={{backgroundColor: 'white', borderRadius: 10}}
+      textStyle={{textAlign: 'center', color: 'black'}}
+      title={`Login`}
+      onPress={() => navigate('LoginPage')}
+    />
+
+    	<Button
+      raised
+      icon={{name: 'account-circle', color: 'black'}}
+      buttonStyle={{backgroundColor: 'white', borderRadius: 10}}
+      textStyle={{textAlign: 'center', color: 'black'}}
+      title={`Create an account`}
+      onPress={() => navigate('SignupPage')}
+    />
+
+      
+  </View>
+ </Image>
+
     );
   }
 }
@@ -64,7 +86,6 @@ const TriviaCast = StackNavigator({
   LoginPage: {screen: LogIn}
 });
 
-const remotebackg = 'https://i.imgur.com/vqTkUz8.png';
 
 
 // export default class App extends Component {
