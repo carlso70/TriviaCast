@@ -3,10 +3,7 @@ package handlers
 import (
 	"encoding/json"
 	"fmt"
-	"io"
-	"io/ioutil"
 	"net/http"
-	"strconv"
 
 	"github.com/carlso70/triviacast/backend/gameserver"
 )
@@ -14,11 +11,6 @@ import (
 type GameSessionRequest struct {
 	UserId int `json:"userId"`
 	GameId int `json:"gameId"`
-}
-
-// INDEX welcome
-func Index(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "Welcome")
 }
 
 // CreateGame generates a new game, and adds the user to the game, responds back with game id token
@@ -84,21 +76,6 @@ func JoinGame(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 	fmt.Fprint(w, "User Added To Game")
-}
-
-// RequestUsers gets a list of all the users
-func ListUsers(w http.ResponseWriter, r *http.Request) {
-	// Get the gamemanager instance, get all users
-	gamemanager := gameserver.GetInstance()
-	users, err := gamemanager.GetUsers()
-	if err != nil {
-		panic(err)
-	}
-
-	for _, user := range users {
-		str := "UserID = " + strconv.Itoa(user.Id)
-		fmt.Fprint(w, str)
-	}
 }
 
 // ListGames responds with a list of all the active games

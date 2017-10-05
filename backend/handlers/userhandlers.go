@@ -5,7 +5,9 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"strconv"
 
+	"github.com/carlso70/triviacast/backend/gameserver"
 	"github.com/carlso70/triviacast/backend/repo"
 	"github.com/carlso70/triviacast/backend/user"
 )
@@ -38,4 +40,19 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	fmt.Fprint(w, usr.Id)
+}
+
+// RequestUsers gets a list of all the users
+func ListUsers(w http.ResponseWriter, r *http.Request) {
+	// Get the gamemanager instance, get all users
+	gamemanager := gameserver.GetInstance()
+	users, err := gamemanager.GetUsers()
+	if err != nil {
+		panic(err)
+	}
+
+	for _, user := range users {
+		str := "UserID = " + strconv.Itoa(user.Id)
+		fmt.Fprint(w, str)
+	}
 }
