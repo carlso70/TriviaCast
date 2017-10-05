@@ -24,23 +24,13 @@ func Index(w http.ResponseWriter, r *http.Request) {
 // CreateGame generates a new game, and adds the user to the game, responds back with game id token
 func CreateGame(w http.ResponseWriter, r *http.Request) {
 	var request GameSessionRequest
-	// Limit request size
-	body, err := ioutil.ReadAll(io.LimitReader(r.Body, 1048576))
+
+	decoder := json.NewDecoder(r.Body)
+	err := decoder.Decode(&request)
 	if err != nil {
 		panic(err)
 	}
-	if err := r.Body.Close(); err != nil {
-		panic(err)
-	}
-
-	// Decode json
-	if err := json.Unmarshal(body, &request); err != nil {
-		w.Header().Set("Content-Type", "application/json;charset=UTF-8")
-		w.WriteHeader(422) // Unprocessable entity
-		if err := json.NewEncoder(w).Encode(err); err != nil {
-			panic(err)
-		}
-	}
+	defer r.Body.Close()
 
 	// Get the gamemanager instance, create new game, and add user to the game
 	gamemanager := gameserver.GetInstance()
@@ -57,23 +47,15 @@ func CreateGame(w http.ResponseWriter, r *http.Request) {
 // StartGame starts running a new game instance, checks if it exists
 func StartGame(w http.ResponseWriter, r *http.Request) {
 	var request GameSessionRequest
-	// Limit request size
-	body, err := ioutil.ReadAll(io.LimitReader(r.Body, 1048576))
+
+	decoder := json.NewDecoder(r.Body)
+	err := decoder.Decode(&request)
 	if err != nil {
 		panic(err)
 	}
-	if err := r.Body.Close(); err != nil {
-		panic(err)
-	}
 
-	// Decode json
-	if err := json.Unmarshal(body, &request); err != nil {
-		w.Header().Set("Content-Type", "application/json;charset=UTF-8")
-		w.WriteHeader(422) // Unprocessable entity
-		if err := json.NewEncoder(w).Encode(err); err != nil {
-			panic(err)
-		}
-	}
+	defer r.Body.Close()
+	fmt.Println(request.GameId, request.UserId)
 
 	// Get the gamemanager instance, start new game
 	gamemanager := gameserver.GetInstance()
@@ -87,23 +69,13 @@ func StartGame(w http.ResponseWriter, r *http.Request) {
 // JoinGame adds a user to a game with a specific id
 func JoinGame(w http.ResponseWriter, r *http.Request) {
 	var request GameSessionRequest
-	// Limit request size
-	body, err := ioutil.ReadAll(io.LimitReader(r.Body, 1048576))
+
+	decoder := json.NewDecoder(r.Body)
+	err := decoder.Decode(&request)
 	if err != nil {
 		panic(err)
 	}
-	if err := r.Body.Close(); err != nil {
-		panic(err)
-	}
-
-	// Decode json
-	if err := json.Unmarshal(body, &request); err != nil {
-		w.Header().Set("Content-Type", "application/json;charset=UTF-8")
-		w.WriteHeader(422) // Unprocessable entity
-		if err := json.NewEncoder(w).Encode(err); err != nil {
-			panic(err)
-		}
-	}
+	defer r.Body.Close()
 
 	// Get the gamemanager instance, start new game
 	gamemanager := gameserver.GetInstance()

@@ -3,8 +3,7 @@ package handlers
 import (
 	"encoding/json"
 	"errors"
-	"io"
-	"io/ioutil"
+	"fmt"
 	"net/http"
 
 	"github.com/carlso70/triviacast/backend/repo"
@@ -19,23 +18,13 @@ type AccountRequest struct {
 func CreateUser(w http.ResponseWriter, r *http.Request) {
 	var request AccountRequest
 
-	// Limit request size
-	body, err := ioutil.ReadAll(io.LimitReader(r.Body, 1048576))
+	decoder := json.NewDecoder(r.Body)
+	err := decoder.Decode(&request)
 	if err != nil {
 		panic(err)
 	}
-	if err := r.Body.Close(); err != nil {
-		panic(err)
-	}
-
-	// Decode json
-	if err := json.Unmarshal(body, &request); err != nil {
-		w.Header().Set("Content-Type", "application/json;charset=UTF-8")
-		w.WriteHeader(422) // Unproccesable entity
-		if err := json.NewEncoder(w).Encode(err); err != nil {
-			panic(err)
-		}
-	}
+	defer r.Body.Close()
+	fmt.Println("username: ", request.Username)
 
 	// TODO password encrypting check user is valid
 	if request.Username == "" || request.Password == "" {
@@ -47,4 +36,6 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 	if err := repo.AddUserToDB(usr); err != nil {
 		panic(err)
 	}
+
+	fmt.Fprint(w, usr.Id)
 }
