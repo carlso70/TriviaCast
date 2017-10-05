@@ -23,7 +23,5 @@ func main() {
 
 	router := routing.NewRouter()
 	go gameserver.InitSocketServer()
-
-	fmt.Println("Testin")
 	log.Fatal(http.ListenAndServe(":8080", router))
 }
