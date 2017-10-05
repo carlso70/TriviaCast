@@ -12,6 +12,7 @@ import { StackNavigator } from 'react-navigation';
 
 import MainPage from './pages/MainPage.js'
 import LoginPage from './pages/LoginPage.js'
+import MainMenu from './pages/MainMenu.js'
 
 // class MainPage extends Component{
 //   static navigationOptions = {
@@ -35,6 +36,7 @@ import LoginPage from './pages/LoginPage.js'
 const TriviaCast = StackNavigator({
   MainPage: {screen: MainPage},
   //LoginPage: {screen: LoginPage},
+  //MainMenu: {screen: MainMenu}
 });
 
 const remotebackg = 'https://i.imgur.com/vqTkUz8.png';

@@ -1,17 +1,21 @@
 import React, { Component } from 'react';
 import {
   AppRegistry,
-  Alert,
   Image,
   Text,
-  View
+  View,
+  Button
 } from 'react-native';
 
-import ButtonDemo from '../components/ButtonDemo'
+import ButtonPlay from '../components/ButtonPlay'
+import ButtonUserSettings from '../components/ButtonUserSettings'
+import ButtonGameSettings from '../components/ButtonGameSettings'
+import ButtonHScores from '../components/ButtonHScores'
+
 import { StackNavigator } from 'react-navigation';
 const remotebackg = 'https://i.imgur.com/vqTkUz8.png';
 
-export default class MainPage extends Component {
+export default class MainMenu extends Component {
 
   render() {
     return (
@@ -37,10 +41,14 @@ export default class MainPage extends Component {
             padding: 40,
           }}
         >
-          {'TriviaCast'}
+          {'Main Menu'}
         </Text>
-        <ButtonDemo/>
+        <ButtonPlay/>
+        <ButtonHScores/>
+        <ButtonUserSettings/>
+        <ButtonGameSettings/>
       </Image>
     );
   }
 }
+
