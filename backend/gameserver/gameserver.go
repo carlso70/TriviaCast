@@ -19,7 +19,6 @@ func GetInstance() *gamemanager.GameManager {
 	once.Do(func() {
 		games := make([]game.Game, 0)
 		fmt.Println("Get Instance: once.DO")
-		InitSocketServer()
 		instance = &gamemanager.GameManager{Games: games}
 	})
 	return instance

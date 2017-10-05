@@ -1,7 +1,6 @@
 package main
 
 import (
-	"errors"
 	"fmt"
 	"log"
 	"net/http"
@@ -10,16 +9,21 @@ import (
 	"github.com/carlso70/triviacast/backend/routing"
 )
 
+const (
+	CONN_HOST = "localhost"
+	CONN_PORT = "3333"
+	CONN_TYPE = "tcp"
+)
+
 func main() {
 	fmt.Println("Launching Server")
 
 	// GetInstance inits the gamemanager singleton, and the TCP socket server
 	gameserver.GetInstance()
-	if gameserver.Listener != nil {
-		defer gameserver.Listener.Close()
-	} else {
-		panic(errors.New("Listener NOT STARTED"))
-	}
+
 	router := routing.NewRouter()
+	go gameserver.InitSocketServer()
+
+	fmt.Println("Testin")
 	log.Fatal(http.ListenAndServe(":8080", router))
 }
