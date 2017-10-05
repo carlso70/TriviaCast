@@ -17,10 +17,10 @@ type Routes []Route
 
 var routes = Routes{
 	Route{
-		"Index",
-		"GET",
-		"/",
-		handlers.Index,
+		"CreateGame",
+		"POST",
+		"/creategame",
+		handlers.CreateGame,
 	},
 	Route{
 		"StartGame",
@@ -39,5 +39,11 @@ var routes = Routes{
 		"GET",
 		"/listgames",
 		handlers.ListGames,
+	},
+	Route{
+		"CreateUser",
+		"POST",
+		"/createuser",
+		handlers.CreateUser,
 	},
 }

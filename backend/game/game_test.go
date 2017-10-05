@@ -53,3 +53,22 @@ func TestRemoveUserFromGame(t *testing.T) {
 		t.Error("Invalid User Count after Delete", len(game.Users))
 	}
 }
+
+func TestRunGame(t *testing.T) {
+	game := Init()
+	t.Log("Checking for no user exception on start game ....")
+	err := game.StartGame()
+	if err == nil {
+		t.Error("Missed pre checks")
+	}
+	t.Log("Pass")
+	t.Log("Adding user to game, and test startgame")
+	usr := user.User{Id: testUserId}
+	if err = game.AddUserToGame(usr); err != nil {
+		t.Error(err)
+	}
+	err = game.StartGame()
+	if err != nil {
+		t.Error("Error starting game:", err)
+	}
+}

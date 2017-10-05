@@ -2,7 +2,6 @@ package gamemanager
 
 import (
 	"errors"
-	"fmt"
 
 	"github.com/carlso70/triviacast/backend/game"
 	"github.com/carlso70/triviacast/backend/repo"
@@ -28,9 +27,17 @@ func (g *GameManager) CreateGame() (int, error) {
 	// Add game to list of games
 	g.Games = append(g.Games, newGame)
 
-	fmt.Println(g.Games)
 	// Return the games Id, and error if it exists
 	return newGame.Id, nil
+}
+
+func (g *GameManager) StartGame(id int) error {
+	game, err := findGame(g.Games, id)
+	if err != nil {
+		return err
+	}
+	game.StartGame()
+	return nil
 }
 
 // GetUsers gets all the users in the DB and returns them

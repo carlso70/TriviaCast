@@ -2,15 +2,20 @@ package game
 
 import (
 	"errors"
+	"fmt"
+	"time"
 
 	"github.com/carlso70/triviacast/backend/user"
 	"github.com/carlso70/triviacast/backend/utils"
 )
 
+/*
 type GameInterface interface {
 	AddUserToGame(user *user.User) error
 	RemoveUserFromGame(user *user.User) error
+	StartGame()
 }
+*/
 
 type Game struct {
 	Id    int         `json:"id"`
@@ -20,6 +25,29 @@ type Game struct {
 func Init() Game {
 	id := utils.GenerateId()
 	return Game{Id: id, Users: nil}
+}
+
+func (g *Game) StartGame() error {
+	// do initial testing
+	/*
+		if len(g.Users) <= 0 {
+			return errors.New("No user exception, can't start game")
+		}
+	*/
+	go g.runGame()
+	return nil
+}
+
+func (g *Game) runGame() {
+	fmt.Println("Running game:", g.Id)
+	ct := 0
+	for {
+		ct = ct + 1
+		time.Sleep(time.Millisecond * 1600)
+		if ct > 10 {
+			break
+		}
+	}
 }
 
 // AddUserToGame checks if the user is in the game, if it is then append to game slice

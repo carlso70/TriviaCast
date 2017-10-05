@@ -1,7 +1,6 @@
 package main
 
 import (
-	"errors"
 	"fmt"
 	"log"
 	"net/http"
@@ -15,11 +14,8 @@ func main() {
 
 	// GetInstance inits the gamemanager singleton, and the TCP socket server
 	gameserver.GetInstance()
-	if gameserver.Listener != nil {
-		defer gameserver.Listener.Close()
-	} else {
-		panic(errors.New("Listener NOT STARTED"))
-	}
+
 	router := routing.NewRouter()
+	go gameserver.InitSocketServer()
 	log.Fatal(http.ListenAndServe(":8080", router))
 }
