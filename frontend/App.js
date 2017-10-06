@@ -17,6 +17,7 @@ import { Button } from 'react-native-elements';
 import MainPage from './pages/MainPage.js'
 import LoginPage from './pages/LoginPage.js'
 import SignupPage from './pages/SignupPage.js'
+import QuestionPage from './pages/QuestionPage.js'
 
 var styles = StyleSheet.create({
   container: {
@@ -64,7 +65,13 @@ class Home extends React.Component{
       title={`Create an account`}
       onPress={() => navigate('SignupPage')}
     />
-
+	<Button
+      raised
+      buttonStyle={{backgroundColor: 'white', borderRadius: 10, width: 200}}
+      textStyle={{textAlign: 'center', color: 'black'}}
+      title={`Test question page`}
+      onPress={() => navigate('QuestionPage')}
+    />
 
   </View>
  </Image>
@@ -87,11 +94,19 @@ class LogIn extends React.Component{
   }
 }
 
+class Question extends React.Component{
+  static navigationOptions: { header:{ visible:false }};
+  render() {
+    return <QuestionPage />;
+  }
+}
+
 const TriviaCast = StackNavigator(
   {
     MainPage: {screen: Home},
     SignupPage: {screen: SignUp},
-    LoginPage: {screen: LogIn}
+    LoginPage: {screen: LogIn},
+    QuestionPage: {screen: Question}
   },
   {headerMode: 'screen'}
 
