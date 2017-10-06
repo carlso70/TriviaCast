@@ -7,7 +7,7 @@ import (
 )
 
 const (
-	CONN_HOST = "localhost"
+	CONN_HOST = "0.0.0.0"
 	CONN_PORT = "3333"
 	CONN_TYPE = "tcp"
 )
@@ -32,7 +32,6 @@ func InitSocketServer() {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println("Listening on " + CONN_HOST + ":" + CONN_PORT)
 	for {
 		// Listen for incoming connections
 		conn, err := Listener.Accept()
