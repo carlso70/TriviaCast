@@ -20,7 +20,10 @@ var styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'rgba(0,0,0,0)'
   },
-
+  textbox: {
+    backgroundColor: 'rgba(0,0,0,0)',
+    alignItems: 'center'
+  }
 });
 
 export default class ProfilePage extends React.Component {
@@ -43,6 +46,13 @@ export default class ProfilePage extends React.Component {
       >
       <View style={styles.container}>
          <Text style={{fontSize: 30}}>My Profile</Text>
+         <Button
+           raised
+           buttonStyle={{backgroundColor: 'white', borderRadius: 10, width: 200}}
+           textStyle={{textAlign: 'center', color: 'black'}}
+           title={`Upload my avatar`}
+           //onPress={() => navigate('LoginPage')}
+         />
          <Image
           source={require('../dog.png')}
          />
