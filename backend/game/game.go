@@ -50,12 +50,13 @@ func (g *Game) runGame() {
 	//gameserver.Broadcast()
 	for {
 		totalScore = totalScore + 1
-		time.Sleep(time.Millisecond * 1600)
+		time.Sleep(time.Millisecond * 900)
 		// Question Display, listen on tcp server for 30 seconds for answer then timeout and return response
 		if err := g.startQuestion(g.QuestionDeck[questionCt]); err != nil {
 			// TODO handle quesiton errors. To cancel game? Broadcast to users? Or kill game session?
 			panic(err)
 		}
+
 		// Max score
 		if totalScore > 100 || questionCt > len(g.QuestionDeck)-1 {
 			g.EndGame()
@@ -89,6 +90,7 @@ func (g *Game) startQuestion(q question.Question) error {
 // EndGame updates players all time score at the end of the game
 func (g *Game) EndGame() {
 	// TODO broadcast to in game users that the game is over
+	fmt.Println("Ending game....")
 
 	for i := 0; i < len(g.Users); i++ {
 		g.Users[i].Score += g.Scoreboard[g.Users[i].Username]

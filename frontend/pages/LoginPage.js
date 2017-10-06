@@ -16,6 +16,7 @@ import { Button, FormLabel, FormInput} from 'react-native-elements';
 const remotebackg = 'https://i.imgur.com/vqTkUz8.png';
 import ForgotPage from './ForgotPage.js';
 import ProfilePage from './ProfilePage.js'
+import MainMenu from './MainMenu.js'
 
 const styles = StyleSheet.create({
    inputText: {
@@ -28,6 +29,15 @@ const styles = StyleSheet.create({
      paddingBottom: 4
    }
 });
+
+class Main extends React.Component {
+  // static navigationOptions = {
+  //   header: {visible: false}
+  // };
+  render() {
+    return <MainMenu />
+  }
+}
 
 class ForgotPassword extends React.Component {
   // static navigationOptions = {
@@ -92,7 +102,7 @@ class Login extends React.Component {
             buttonStyle={{backgroundColor: 'white', borderRadius: 10, width: 200, marginTop: '5%', marginBottom: '25%'}}
             textStyle={{textAlign: 'center', color: 'black'}}
             title={`Login`}
-            onPress={() => navigate('ProfilePage')}
+            onPress={() => navigate('MainMenu')}
           />
           <Button
           raised
@@ -112,7 +122,7 @@ class Login extends React.Component {
 const LoginNav = StackNavigator({
   Login: {screen: Login},
   ForgotPage: {screen: ForgotPassword},
-  ProfilePage: {screen: ProfilePage}
+  MainMenu: {screen: MainMenu}
 },
 // { headerMode: 'screen'}
 );
