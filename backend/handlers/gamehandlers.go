@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/carlso70/triviacast/backend/gameserver"
+	"github.com/carlso70/triviacast/backend/gamemanager"
 )
 
 type GameSessionRequest struct {
@@ -25,7 +25,7 @@ func CreateGame(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
 	// Get the gamemanager instance, create new game, and add user to the game
-	gamemanager := gameserver.GetInstance()
+	gamemanager := gamemanager.GetInstance()
 	gameId, err := gamemanager.CreateGame()
 	gamemanager.AddUserToGame(gameId, request.UserId)
 	if err != nil {
@@ -50,7 +50,7 @@ func StartGame(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(request.GameId, request.UserId)
 
 	// Get the gamemanager instance, start new game
-	gamemanager := gameserver.GetInstance()
+	gamemanager := gamemanager.GetInstance()
 	err = gamemanager.StartGame(request.GameId)
 	if err != nil {
 		panic(err)
@@ -70,7 +70,7 @@ func JoinGame(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
 	// Get the gamemanager instance, start new game
-	gamemanager := gameserver.GetInstance()
+	gamemanager := gamemanager.GetInstance()
 	gamemanager.AddUserToGame(request.GameId, request.UserId)
 	if err != nil {
 		panic(err)
@@ -81,7 +81,7 @@ func JoinGame(w http.ResponseWriter, r *http.Request) {
 // ListGames responds with a list of all the active games
 func ListGames(w http.ResponseWriter, r *http.Request) {
 	// Get the gamemanager instance, get all active games
-	gamemanager := gameserver.GetInstance()
+	gamemanager := gamemanager.GetInstance()
 	games := gamemanager.GetGames()
 
 	for _, game := range games {
