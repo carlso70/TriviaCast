@@ -39,7 +39,11 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
-	fmt.Fprint(w, usr.Id)
+	byteSlice, err := json.Marshal(&usr)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Fprint(w, "%s", string(byteSlice))
 }
 
 // RequestUsers gets a list of all the users
@@ -52,7 +56,10 @@ func ListUsers(w http.ResponseWriter, r *http.Request) {
 	}
 
 	for _, user := range users {
-		str := "UserID = " + strconv.Itoa(user.Id)
-		fmt.Fprint(w, str)
+		byteSlice, err := json.Marshal(&usr)
+		if err != nil {
+			panic(err)
+		}
+		fmt.Fprint(w, "%s\n", string(byteSlice))
 	}
 }

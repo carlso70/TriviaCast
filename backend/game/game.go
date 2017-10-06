@@ -14,7 +14,7 @@ type Game struct {
 	Id           int         `json:"id"`
 	Users        []user.User `json:"users"`
 	QuestionDeck []question.Question
-	Scoreboard   map[string]int
+	Scoreboard   map[string]int `json:"scoreboard"`
 	Winner       string
 }
 
