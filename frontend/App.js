@@ -28,7 +28,6 @@ var styles = StyleSheet.create({
 class Home extends React.Component{
   static navigationOptions = {
     title: 'Welcome',
-    //header: { visible:false }
   };
   render() {
     const { navigate } = this.props.navigation;
@@ -54,7 +53,7 @@ class Home extends React.Component{
       onPress={() => navigate('SignupPage')}
     />
 
-      
+
   </View>
  </Image>
 

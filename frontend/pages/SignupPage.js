@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import {
+  Alert,
   AppRegistry,
   Image,
   Text,
   View,
   TextInput,
-  StyleSheet
+  StyleSheet,
+  TouchableOpacity
 } from 'react-native';
 
 import ButtonDemo from '../components/ButtonDemo'
@@ -40,15 +42,18 @@ export default class SignupPage extends Component {
 
                 <TextInput placeholder='Username' style={styles.inputText} />
         <TextInput placeholder='Password' style={styles.inputText} secureTextEntry={true}/>
-        <TextInput placeholder='Email' style={styles.inputText} />
-                        <Button
-      raised
-      icon={{name: 'account-circle', color: 'black'}}
-      buttonStyle={{backgroundColor: 'white', borderRadius: 10}}
-      textStyle={{textAlign: 'center', color: 'black'}}
-      title={`Create`}
-      //onPress={() => navigate('LoginPage')}
-    />
+        <TextInput
+          placeholder='Email'
+          style={styles.inputText}
+          keyboardType='email-address'
+        />
+        <Button
+          raised
+          icon={{name: 'account-circle', color: 'black'}}
+          buttonStyle={{backgroundColor: 'white', borderRadius: 10}}
+          textStyle={{textAlign: 'center', color: 'black'}}
+          title={`Create`}
+        />
       </Image>
     );
   }

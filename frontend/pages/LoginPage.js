@@ -5,11 +5,12 @@ import {
   Text,
   View,
   TextInput,
-  StyleSheet
+  StyleSheet,
+  Alert
 } from 'react-native';
 
 import ButtonDemo from '../components/ButtonDemo'
-import { Button } from 'react-native-elements';
+import { Button, FormLabel, FormInput} from 'react-native-elements';
 const remotebackg = 'https://i.imgur.com/vqTkUz8.png';
 
 const styles = StyleSheet.create({
@@ -21,8 +22,14 @@ const styles = StyleSheet.create({
 
 export default class LoginPage extends Component {
 
+  constructor(props) {
+    super(props);
+    this.state = { username: '', password: '' };
+  }
+
   render() {
     return (
+
         <Image
           style={{
             backgroundColor: '#ccc',
@@ -37,20 +44,28 @@ export default class LoginPage extends Component {
         >
 
 
-        <TextInput placeholder='Username' style={styles.inputText} />
-        <TextInput placeholder='Password' style={styles.inputText} secureTextEntry={true}/>
-                <Button
-      raised
-      icon={{name: 'account-circle', color: 'black'}}
-      buttonStyle={{backgroundColor: 'white', borderRadius: 10}}
-      textStyle={{textAlign: 'center', color: 'black'}}
-      title={`Login`}
-      //onPress={() => navigate('LoginPage')}
-    />
+        <TextInput
+          placeholder='Username'
+          style={styles.inputText}
+          onChangeText={ (text) => this.setState({ username: text })}
+          value={this.state.username}
+        />
+        <TextInput
+          placeholder='Password'
+          style={styles.inputText}
+          secureTextEntry={true}
+          onChangeText={ (text) => this.setState({ password: text })}
+          value={this.state.password}
+        />
+        <Button
+        raised
+          icon={{name: 'account-circle', color: 'black'}}
+          buttonStyle={{backgroundColor: 'white', borderRadius: 10}}
+          textStyle={{textAlign: 'center', color: 'black'}}
+          title={`Login`}
+        />
 
       </Image>
     );
   }
 }
-
-
