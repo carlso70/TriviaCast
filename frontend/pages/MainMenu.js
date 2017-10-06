@@ -51,4 +51,3 @@ export default class MainMenu extends Component {
     );
   }
 }
-
