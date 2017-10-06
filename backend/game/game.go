@@ -5,49 +5,58 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/carlso70/triviacast/backend/question"
 	"github.com/carlso70/triviacast/backend/user"
 	"github.com/carlso70/triviacast/backend/utils"
 )
 
-/*
-type GameInterface interface {
-	AddUserToGame(user *user.User) error
-	RemoveUserFromGame(user *user.User) error
-	StartGame()
-}
-*/
-
 type Game struct {
-	Id    int         `json:"id"`
-	Users []user.User `json:"users"`
+	Id           int         `json:"id"`
+	Users        []user.User `json:"users"`
+	QuestionDeck []question.Question
+	Scoreboard   map[string]int
+	Winner       string
 }
 
 func Init() Game {
 	id := utils.GenerateId()
-	return Game{Id: id, Users: nil}
+	scoreboard := make(map[string]int)
+	deck := question.GetDefaultQuestions()
+	return Game{Id: id, Users: nil, QuestionDeck: deck, Scoreboard: scoreboard}
 }
 
 func (g *Game) StartGame() error {
 	// do initial testing
-	/*
-		if len(g.Users) <= 0 {
-			return errors.New("No user exception, can't start game")
-		}
-	*/
+	if len(g.Users) <= 0 {
+		return errors.New("No user exception, can't start game")
+	}
 	go g.runGame()
 	return nil
 }
 
 func (g *Game) runGame() {
 	fmt.Println("Running game:", g.Id)
-	ct := 0
+	totalScore := 0
+	g.Winner = g.Users[0].Username
 	for {
-		ct = ct + 1
+		totalScore = totalScore + 1
 		time.Sleep(time.Millisecond * 1600)
-		if ct > 10 {
+		if totalScore > 100 {
+			g.EndGame()
 			break
 		}
 	}
+}
+
+// EndGame updates players all time score at the end of the game
+func (g *Game) EndGame() {
+	for i := 0; i < len(g.Users); i++ {
+		g.Users[i].Score += g.Scoreboard[g.Users[i].Username]
+		if g.Users[i].Username == g.Winner {
+			g.Users[i].WinCt += 1
+		}
+	}
+
 }
 
 // AddUserToGame checks if the user is in the game, if it is then append to game slice
