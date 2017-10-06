@@ -27,6 +27,9 @@ class ForgotPassword extends React.Component {
   static navigationOptions = {
     title: 'Recover Password',
   };
+  render() {
+    return <ForgotPage />
+  }
 }
 
 class Login extends React.Component {
@@ -35,9 +38,6 @@ class Login extends React.Component {
     super(props);
     this.state = { username: '', password: '' };
   }
-  static navigationOptions = {
-    title: 'Login',
-  };
 
   render() {
     const { navigate } = this.props.navigation;
