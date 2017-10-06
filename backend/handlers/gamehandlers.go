@@ -55,7 +55,7 @@ func StartGame(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Fprint(w, "Game Running")
+	fmt.Fprint(w, "Success")
 }
 
 // JoinGame adds a user to a game with a specific id
@@ -75,7 +75,7 @@ func JoinGame(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Fprint(w, "User Added To Game")
+	fmt.Fprint(w, "Success")
 }
 
 // ListGames responds with a list of all the active games
@@ -84,8 +84,12 @@ func ListGames(w http.ResponseWriter, r *http.Request) {
 	gamemanager := gameserver.GetInstance()
 	games := gamemanager.GetGames()
 
-	fmt.Println(games)
 	for _, game := range games {
-		fmt.Fprint(w, game.Id)
+		// Converts the game to a readable json
+		byteSlice, err := json.Marshal(&game)
+		if err != nil {
+			panic(err)
+		}
+		fmt.Fprintf(w, "%s\n", string(byteSlice))
 	}
 }

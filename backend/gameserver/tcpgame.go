@@ -21,10 +21,13 @@ type RequestObj struct {
 // Listener referneced in main.go set to close when main method ends
 var Listener net.Listener
 
+// List of connections
+var activeConn []net.Conn
+var deadConn []net.Conn
+
 // InitSocketServer , clients inserted into Game object as users
 func InitSocketServer() {
-	var err error
-	Listener, err = net.Listen(CONN_TYPE, CONN_HOST+":"+CONN_PORT)
+	Listener, err := net.Listen(CONN_TYPE, CONN_HOST+":"+CONN_PORT)
 	if err != nil {
 		panic(err)
 	}
@@ -32,6 +35,7 @@ func InitSocketServer() {
 	for {
 		// Listen for incoming connections
 		conn, err := Listener.Accept()
+		fmt.Println(conn.RemoteAddr())
 		if err != nil {
 			panic(err)
 		}
