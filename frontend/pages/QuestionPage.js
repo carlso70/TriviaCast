@@ -69,6 +69,11 @@ const styles = StyleSheet.create({
    messageBoxBodyText:{
      color:'#fff',
      fontSize:18
+   },
+    gameContextText:{
+     color:'#fff',
+     fontSize:18,
+     textAlign:'center'
    }
 });
 
@@ -139,7 +144,12 @@ class Question extends Component {
 	      // onPress={() => navigate('AnswerPage')}
 	    />
 	  </View>
+
 	</View>
+	<View>
+	      <Text style={styles.gameContextText}>Question 1/10 | 1 point</Text>
+	    </View>
+
       </Image>
     );
   }
