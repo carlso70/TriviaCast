@@ -45,13 +45,13 @@ class Home extends React.Component{
         style={styles.container}
         >
          <View style={styles.textbox}>
-            <Text style={{fontSize: 30}}>TriviaCast</Text>
+            <Text style={{fontSize: 30, color: 'white', marginTop: '40%', marginBottom: '5%'}}>TriviaCast</Text>
          </View>
          <View style={styles.buttonArrange}>
   			    <Button
               raised
-              icon={{name: 'account-circle', color: 'black'}}
-              buttonStyle={{backgroundColor: 'white', borderRadius: 10, width: 200}}
+              icon={{name: 'input', color: 'black'}}
+              buttonStyle={{backgroundColor: 'white', borderRadius: 10, width: 200, marginBottom: '5%'}}
               textStyle={{textAlign: 'center', color: 'black'}}
               title={`Login`}
               onPress={() => navigate('LoginPage')}
@@ -60,14 +60,14 @@ class Home extends React.Component{
     	<Button
       raised
       icon={{name: 'account-circle', color: 'black'}}
-      buttonStyle={{backgroundColor: 'white', borderRadius: 10, width: 200}}
+      buttonStyle={{backgroundColor: 'white', borderRadius: 10, width: 200, marginBottom: '5%'}}
       textStyle={{textAlign: 'center', color: 'black'}}
       title={`Create an account`}
       onPress={() => navigate('SignupPage')}
     />
 	<Button
       raised
-      buttonStyle={{backgroundColor: 'white', borderRadius: 10, width: 200}}
+      buttonStyle={{backgroundColor: 'white', borderRadius: 10, width: 200, marginBottom: '5%'}}
       textStyle={{textAlign: 'center', color: 'black'}}
       title={`Test question page`}
       onPress={() => navigate('QuestionPage')}

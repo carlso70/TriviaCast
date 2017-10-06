@@ -20,10 +20,12 @@ import ProfilePage from './ProfilePage.js'
 const styles = StyleSheet.create({
    inputText: {
       marginLeft: '20%',
+      marginTop: '5%',
       width: '60%'
    },
    buttonArrange: {
-     alignItems: 'center'
+     alignItems: 'center',
+     paddingBottom: 4
    }
 });
 
@@ -86,8 +88,8 @@ class Login extends React.Component {
         <View style={styles.buttonArrange}>
           <Button
           raised
-            icon={{name: 'account-circle', color: 'black'}}
-            buttonStyle={{backgroundColor: 'white', borderRadius: 10, width: 200}}
+            icon={{name: 'input', color: 'black'}}
+            buttonStyle={{backgroundColor: 'white', borderRadius: 10, width: 200, marginTop: '5%', marginBottom: '25%'}}
             textStyle={{textAlign: 'center', color: 'black'}}
             title={`Login`}
             onPress={() => navigate('ProfilePage')}
@@ -96,8 +98,10 @@ class Login extends React.Component {
           raised
             buttonStyle={{backgroundColor: 'white', borderRadius: 10, width: 200}}
             textStyle={{textAlign: 'center', color: 'black'}}
+            icon={{name: 'help', color: 'black'}}
             title={`Forgot password`}
             onPress={() => navigate('ForgotPage')}
+
           />
         </View>
       </Image>

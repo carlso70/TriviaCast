@@ -77,6 +77,11 @@ const styles = StyleSheet.create({
    }
 });
 
+function getInitialState() {
+   return {liked:false};
+}
+
+
 class Question extends Component {
 
   constructor(props) {
@@ -115,6 +120,7 @@ class Question extends Component {
 	</View>
 	<View style={styles.content}>
 	  <View style={styles.buttonArrange}>
+	  
             <Button
               raised
               buttonStyle={{backgroundColor: 'white', borderRadius: 10, width: 200}}
