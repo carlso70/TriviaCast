@@ -2,12 +2,13 @@ package gameserver
 
 // Code retaining to TCP management for the gameserver
 import (
+	"bufio"
 	"fmt"
 	"net"
 )
 
 const (
-	CONN_HOST = "localhost"
+	CONN_HOST = "0.0.0.0"
 	CONN_PORT = "3333"
 	CONN_TYPE = "tcp"
 )
@@ -21,9 +22,7 @@ type RequestObj struct {
 // Listener referneced in main.go set to close when main method ends
 var Listener net.Listener
 
-// List of connections
-var activeConn []net.Conn
-var deadConn []net.Conn
+var clients []Client
 
 // InitSocketServer , clients inserted into Game object as users
 func InitSocketServer() {
@@ -32,16 +31,32 @@ func InitSocketServer() {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println("Listening on " + CONN_HOST + ":" + CONN_PORT)
+
+	clients := make([]Client, 0)
+
 	for {
 		// Listen for incoming connections
 		conn, err := Listener.Accept()
 		fmt.Println(conn.RemoteAddr())
+		client := Client{
+
+			Writer: bufio.NewWriter(conn),
+			Reader: bufio.NewReader(conn),
+		}
+		clients = append(clients, client)
+
 		if err != nil {
 			panic(err)
 		}
 		// Handle connections in a new goroutine
 		go handleRequest(conn)
+	}
+}
+
+func Broadcast() {
+	for _, client := range clients {
+		client.Writer.WriteString("Testing client")
+		client.Writer.Flush()
 	}
 }
 

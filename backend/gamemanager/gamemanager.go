@@ -36,6 +36,7 @@ func GetInstance() *GameManager {
 
 // CreateGame adds a game to the GameServer
 func (g *GameManager) CreateGame() (int, error) {
+
 	// Create game instance
 	newGame := game.Init()
 
