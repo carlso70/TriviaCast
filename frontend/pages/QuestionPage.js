@@ -79,6 +79,7 @@ class Question extends Component {
   }
 
   render() {
+    const { navigate } = this.props.navigation;
     return (
         <Image
           style={{
@@ -96,7 +97,7 @@ class Question extends Component {
 	  <Text style={styles.toolbarTitle}>TriviaCast</Text>
 	  <Text style={styles.toolbarButton}>Cast</Text>
 	</View>*/}
-	
+
 	<View style={styles.content}>
 	  <View style={styles.messageBox}>
             <View>
@@ -136,7 +137,7 @@ class Question extends Component {
 	      buttonStyle={{backgroundColor: 'white', borderRadius: 10, width: 200}}
 	      textStyle={{textAlign: 'center', color: 'black'}}
 	      title={`Submit response`}
-	      // onPress={() => navigate('AnswerPage')}
+	      onPress={() => navigate('AnswerPage')}
 	    />
 	  </View>
 	</View>
@@ -146,9 +147,9 @@ class Question extends Component {
 }
 
 class Answer extends React.Component{
-  static navigationOptions = {
-    header: {visible: false}
-  };
+  // static navigationOptions = {
+  //   header: {visible: false}
+  // };
   render() {
     return <AnswerPage />;
   }
@@ -156,14 +157,14 @@ class Answer extends React.Component{
 
 const QuestionNav = StackNavigator({
   Question: {screen: Question},
-  AnswerPage: {screen: AnswerPage}
+  AnswerPage: {screen: Answer}
 },
 );
 
 export default class QuestionPage extends React.Component {
   constructor(props) {
     super(props)
-    this.page = 1;
+    this.page = 2;
   }
   render() {
     return <QuestionNav/>;

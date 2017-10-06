@@ -69,8 +69,10 @@ const styles = StyleSheet.create({
    }
 });
 
-export default class AnswerPage extends Component {
-
+export default class AnswerPage extends React.Component {
+  constructor(props) {
+    super(props);
+  }
   render() {
     return (
         <Image
@@ -89,7 +91,7 @@ export default class AnswerPage extends Component {
 	  <Text style={styles.toolbarTitle}>TriviaCast</Text>
 	  <Text style={styles.toolbarButton}>Cast</Text>
 	</View>*/}
-	
+
 	<View style={styles.content}>
 	  <View style={styles.messageBox}>
             <View>
@@ -106,7 +108,7 @@ export default class AnswerPage extends Component {
 	      <Text style={styles.messageBoxTitleText}>Question 1 Answer</Text>
 	    </View>
 	    <View>
-	      <Text style={styles.messageBoxBodyText}>There are 8 planets. (Pluto doesn't count!)</Text>
+	      <Text style={styles.messageBoxBodyText}>There are 8 planets. (Pluto does not count!)</Text>
 	    </View>
 	  </View>
 	</View>
