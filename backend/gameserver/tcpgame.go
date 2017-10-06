@@ -39,9 +39,11 @@ func InitSocketServer() {
 		conn, err := Listener.Accept()
 		fmt.Println(conn.RemoteAddr())
 		client := Client{
-			Reader: bufio.NewReader(conn),
+
 			Writer: bufio.NewWriter(conn),
+			Reader: bufio.NewReader(conn),
 		}
+		clients = append(clients, client)
 
 		if err != nil {
 			panic(err)
@@ -52,7 +54,7 @@ func InitSocketServer() {
 }
 
 func Broadcast() {
-	for client := range clients {
+	for _, client := range clients {
 		client.Writer.WriteString("Testing client")
 		client.Writer.Flush()
 	}

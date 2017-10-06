@@ -2,7 +2,6 @@ package gameserver
 
 import (
 	"bufio"
-	"net"
 )
 
 // TCP client info
