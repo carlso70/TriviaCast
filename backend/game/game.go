@@ -11,12 +11,17 @@ import (
 )
 
 type Game struct {
-	Id           int         `json:"id"`
-	Users        []user.User `json:"users"`
-	QuestionDeck []question.Question
-	Scoreboard   map[string]int `json:"scoreboard"`
-	Winner       string
+	Id              int                 `json:"id"`
+	Users           []user.User         `json:"users"`
+	QuestionDeck    []question.Question `json:"deck"`
+	CurrentQuestion question.Question   `json:"question"`
+	Scoreboard      map[string]int      `json:"scoreboard"`
+	Winner          string
 }
+
+const (
+	QUESTION_LENGTH = 30 * time.Second // In Seconds
+)
 
 func Init() Game {
 	id := utils.GenerateId()
@@ -38,11 +43,34 @@ func (g *Game) runGame() {
 	fmt.Println("Running game:", g.Id)
 	totalScore := 0
 	g.Winner = g.Users[0].Username
+	// Index to current question being display
+	questionCt := 0
 	for {
 		totalScore = totalScore + 1
 		time.Sleep(time.Millisecond * 1600)
-		if totalScore > 100 {
+		// Question Display, listen on tcp server for 30 seconds for answer then timeout and return response
+		g.startQuestion(g.QuestionDeck[questionCt])
+
+		// Max score
+		if totalScore > 100 || questionCt > len(g.QuestionDeck)-1 {
 			g.EndGame()
+			break
+		}
+	}
+}
+
+func (g *Game) startQuestion(q question.Question) error {
+	g.CurrentQuestion = q
+	// broadcast to tcp server current question
+
+	// start timer
+	timerChan := time.NewTimer(QUESTION_LENGTH).C
+	fmt.Printf("Starting question %s...\n", q.Question)
+	for {
+		// Game Logic
+
+		if <-timerChan {
+			fmt.Println("Timer Expired")
 			break
 		}
 	}
@@ -56,7 +84,7 @@ func (g *Game) EndGame() {
 			g.Users[i].WinCt += 1
 		}
 	}
-
+	// TODO update user in DB
 }
 
 // AddUserToGame checks if the user is in the game, if it is then append to game slice
