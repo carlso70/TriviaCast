@@ -28,6 +28,7 @@ var deadConn []net.Conn
 // InitSocketServer , clients inserted into Game object as users
 func InitSocketServer() {
 	Listener, err := net.Listen(CONN_TYPE, CONN_HOST+":"+CONN_PORT)
+	fmt.Println("Listening on ", Listener.Addr().String())
 	if err != nil {
 		panic(err)
 	}
