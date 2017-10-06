@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/carlso70/triviacast/backend/gameserver"
+	"github.com/carlso70/triviacast/backend/gamemanager"
 	"github.com/carlso70/triviacast/backend/repo"
 	"github.com/carlso70/triviacast/backend/user"
 )
@@ -48,7 +48,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 // RequestUsers gets a list of all the users
 func ListUsers(w http.ResponseWriter, r *http.Request) {
 	// Get the gamemanager instance, get all users
-	gamemanager := gameserver.GetInstance()
+	gamemanager := gamemanager.GetInstance()
 	users, err := gamemanager.GetUsers()
 	if err != nil {
 		panic(err)

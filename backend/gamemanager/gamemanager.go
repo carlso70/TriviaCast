@@ -2,6 +2,8 @@ package gamemanager
 
 import (
 	"errors"
+	"fmt"
+	"sync"
 
 	"github.com/carlso70/triviacast/backend/game"
 	"github.com/carlso70/triviacast/backend/repo"
@@ -17,6 +19,19 @@ type Manager interface {
 
 type GameManager struct {
 	Games []game.Game
+}
+
+var instance *GameManager
+var once sync.Once
+
+// GetInstance gets the current singleton instance if it exists, if not returns an empty instance
+func GetInstance() *GameManager {
+	once.Do(func() {
+		games := make([]game.Game, 0)
+		fmt.Println("Get Instance: once.DO")
+		instance = &GameManager{Games: games}
+	})
+	return instance
 }
 
 // CreateGame adds a game to the GameServer
