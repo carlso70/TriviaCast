@@ -25,6 +25,12 @@ var styles = StyleSheet.create({
     width: null,
     height: null,
   },
+  containertwo: {
+    //flex: 1,
+    //justifyContent: 'flex-start',
+    //alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0)'
+  },
   buttonArrange: {
     alignItems: 'center'
   },
@@ -44,8 +50,14 @@ class Home extends React.Component{
         source={{uri: 'https://i.imgur.com/vqTkUz8.png'}}
         style={styles.container}
         >
-         <View style={styles.textbox}>
-            <Text style={{fontSize: 30, color: 'white', marginTop: '40%', marginBottom: '5%'}}>TriviaCast</Text>
+         <View  style={{
+    justifyContent: 'center',
+    alignItems: 'center', marginTop: '10%', marginBottom: '20%'
+  }}>
+    
+                     <Image
+          source={require('./logotranssmall.png')}
+         />
          </View>
          <View style={styles.buttonArrange}>
   			    <Button
