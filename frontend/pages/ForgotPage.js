@@ -22,9 +22,42 @@ const styles = StyleSheet.create({
 });
 
 export default class ForgotPage extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { answer: ''};
+  }
   render() {
     return (
-      <Text>Hello</Text>
+      <Image
+        style={{
+          backgroundColor: '#ccc',
+          flex: 1,
+          resizeMode: 'cover',
+          position: 'absolute',
+          width: '100%',
+          height: '100%',
+          justifyContent: 'center',
+        }}
+        source={{ uri: remotebackg }}
+      >
+
+      <Text>Security Question?</Text>
+      <TextInput
+        placeholder='Answer'
+        style={styles.inputText}
+        onChangeText={ (text) => this.setState({ answer: text })}
+        value={this.state.answer}
+      />
+      <View>
+        <Button
+        raised
+          icon={{name: 'account-circle', color: 'black'}}
+          buttonStyle={{backgroundColor: 'white', borderRadius: 10}}
+          textStyle={{textAlign: 'center', color: 'black'}}
+          title={`Submit`}
+        />
+      </View>
+    </Image>
     );
   }
 }
