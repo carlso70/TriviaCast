@@ -67,7 +67,6 @@ func (g *Game) runGame() {
 // startQuestion TODO starts a timer, and broadcasts the question while listening for responses
 func (g *Game) startQuestion(q question.Question) error {
 	g.CurrentQuestion = q
-
 	// broadcast to tcp server current question
 
 	gameserver.Broadcast()
