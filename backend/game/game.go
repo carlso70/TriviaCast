@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/carlso70/triviacast/backend/gameserver"
 	"github.com/carlso70/triviacast/backend/question"
 	"github.com/carlso70/triviacast/backend/user"
 	"github.com/carlso70/triviacast/backend/utils"
@@ -66,9 +67,9 @@ func (g *Game) runGame() {
 // startQuestion TODO starts a timer, and broadcasts the question while listening for responses
 func (g *Game) startQuestion(q question.Question) error {
 	g.CurrentQuestion = q
-
 	// broadcast to tcp server current question
 
+	gameserver.Broadcast()
 	// start timer
 	timerChan := time.NewTimer(QUESTION_LENGTH).C
 	fmt.Printf("Starting question %s...\n", q.Question)
