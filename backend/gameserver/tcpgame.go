@@ -2,7 +2,6 @@ package gameserver
 
 // Code retaining to TCP management for the gameserver
 import (
-	"bufio"
 	"fmt"
 	"net"
 )
@@ -22,7 +21,7 @@ type RequestObj struct {
 // Listener referneced in main.go set to close when main method ends
 var Listener net.Listener
 
-var clients []Client
+var clients []net.Conn
 
 // InitSocketServer , clients inserted into Game object as users
 func InitSocketServer() {
@@ -32,17 +31,15 @@ func InitSocketServer() {
 		panic(err)
 	}
 
-	clients := make([]Client, 0)
+	clients = make([]net.Conn, 0)
 
 	for {
 		// Listen for incoming connections
 		conn, err := Listener.Accept()
 		fmt.Println(conn.RemoteAddr())
-		client := Client{
-			Reader: bufio.NewReader(conn),
-			Writer: bufio.NewWriter(conn),
-		}
-
+		clients = append(clients, conn)
+		fmt.Println(clients)
+		Broadcast()
 		if err != nil {
 			panic(err)
 		}
@@ -52,9 +49,11 @@ func InitSocketServer() {
 }
 
 func Broadcast() {
-	for client := range clients {
-		client.Writer.WriteString("Testing client")
-		client.Writer.Flush()
+	fmt.Println("Broadcast", len(clients))
+	for _, client := range clients {
+		if _, err := client.Write([]byte("Testing")); err != nil {
+			panic(err)
+		}
 	}
 }
 
@@ -62,6 +61,7 @@ func Broadcast() {
 func handleRequest(conn net.Conn) {
 	// Make a buffer to hold the incoming data
 	buf := make([]byte, 2048)
+
 	// Read the incoming connection into the buffer
 	reqLen, err := conn.Read(buf)
 	fmt.Println("Message Recieved of len:", reqLen)
@@ -71,6 +71,6 @@ func handleRequest(conn net.Conn) {
 		panic(err)
 	}
 	// send a response back to person contacting us
-	conn.Write([]byte("Message Receieved"))
-	conn.Close()
+	//conn.Write([]byte("Message Receieved"))
+	//conn.Close()
 }

@@ -18,6 +18,7 @@ const styles = StyleSheet.create({
 
    inputText: {
       marginLeft: '20%',
+      marginTop: '5%',
       width: '60%'
    },
    buttonArrange: {
@@ -53,7 +54,7 @@ export default class SignupPage extends Component {
         <Button
           raised
           icon={{name: 'account-circle', color: 'black'}}
-          buttonStyle={{backgroundColor: 'white', borderRadius: 10, width: 200}}
+          buttonStyle={{backgroundColor: 'white', borderRadius: 10, width: 200, marginTop: '5%'}}
           textStyle={{textAlign: 'center', color: 'black'}}
           title={`Create`}
         />

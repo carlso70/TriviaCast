@@ -47,6 +47,7 @@ func (g *Game) runGame() {
 	g.Winner = g.Users[0].Username
 	// Index to current question being display
 	questionCt := 0
+	//gameserver.Broadcast()
 	for {
 		totalScore = totalScore + 1
 		time.Sleep(time.Millisecond * 1600)
@@ -67,8 +68,8 @@ func (g *Game) runGame() {
 func (g *Game) startQuestion(q question.Question) error {
 	g.CurrentQuestion = q
 	// broadcast to tcp server current question
-	gameserver.Broadcast()
 
+	gameserver.Broadcast()
 	// start timer
 	timerChan := time.NewTimer(QUESTION_LENGTH).C
 	fmt.Printf("Starting question %s...\n", q.Question)
@@ -79,7 +80,6 @@ func (g *Game) startQuestion(q question.Question) error {
 		select {
 		case <-timerChan:
 			fmt.Println("Timer Expired")
-			gameserver.Broadcast()
 			return nil
 		}
 		return nil
