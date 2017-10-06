@@ -20,7 +20,9 @@ const styles = StyleSheet.create({
       marginLeft: '20%',
       width: '60%'
    },
-
+   buttonArrange: {
+     alignItems: 'center'
+   }
 });
 
 export default class SignupPage extends Component {
@@ -47,13 +49,15 @@ export default class SignupPage extends Component {
           style={styles.inputText}
           keyboardType='email-address'
         />
+        <View style={styles.buttonArrange}>
         <Button
           raised
           icon={{name: 'account-circle', color: 'black'}}
-          buttonStyle={{backgroundColor: 'white', borderRadius: 10}}
+          buttonStyle={{backgroundColor: 'white', borderRadius: 10, width: 200}}
           textStyle={{textAlign: 'center', color: 'black'}}
           title={`Create`}
         />
+        </View>
       </Image>
     );
   }

@@ -23,31 +23,42 @@ var styles = StyleSheet.create({
     width: null,
     height: null,
   },
+  buttonArrange: {
+    alignItems: 'center'
+  },
+  textbox: {
+    backgroundColor: 'rgba(0,0,0,0)',
+    alignItems: 'center'
+  }
 });
 
 class Home extends React.Component{
-  static navigationOptions = {
-    title: 'Welcome',
-  };
+  static navigationOptions: { header:{ visible:false }};
   render() {
     const { navigate } = this.props.navigation;
     return (
 
-    	 <Image source={{uri: 'https://i.imgur.com/vqTkUz8.png'}} style={styles.container}>
-  <View>
-  			<Button
-      raised
-      icon={{name: 'account-circle', color: 'black'}}
-      buttonStyle={{backgroundColor: 'white', borderRadius: 10}}
-      textStyle={{textAlign: 'center', color: 'black'}}
-      title={`Login`}
-      onPress={() => navigate('LoginPage')}
-    />
+    	 <Image
+        source={{uri: 'https://i.imgur.com/vqTkUz8.png'}}
+        style={styles.container}
+        >
+         <View style={styles.textbox}>
+            <Text style={{fontSize: 30}}>TriviaCast</Text>
+         </View>
+         <View style={styles.buttonArrange}>
+  			    <Button
+              raised
+              icon={{name: 'account-circle', color: 'black'}}
+              buttonStyle={{backgroundColor: 'white', borderRadius: 10, width: 200}}
+              textStyle={{textAlign: 'center', color: 'black'}}
+              title={`Login`}
+              onPress={() => navigate('LoginPage')}
+            />
 
     	<Button
       raised
       icon={{name: 'account-circle', color: 'black'}}
-      buttonStyle={{backgroundColor: 'white', borderRadius: 10}}
+      buttonStyle={{backgroundColor: 'white', borderRadius: 10, width: 200}}
       textStyle={{textAlign: 'center', color: 'black'}}
       title={`Create an account`}
       onPress={() => navigate('SignupPage')}
@@ -62,28 +73,28 @@ class Home extends React.Component{
 }
 
 class SignUp extends React.Component{
-  static navigationOptions = {
-    title: 'Sign Up',
-  };
+  static navigationOptions: { header:{ visible:false }};
   render() {
     return <SignupPage />;
   }
 }
 
 class LogIn extends React.Component{
-  static navigationOptions = {
-    title: 'Log In',
-  };
+  static navigationOptions: { header:{ visible:false }};
   render() {
     return <LoginPage />;
   }
 }
 
-const TriviaCast = StackNavigator({
-  MainPage: {screen: Home},
-  SignupPage: {screen: SignUp},
-  LoginPage: {screen: LogIn}
-});
+const TriviaCast = StackNavigator(
+  {
+    MainPage: {screen: Home},
+    SignupPage: {screen: SignUp},
+    LoginPage: {screen: LogIn}
+  },
+  {headerMode: 'screen'}
+
+);
 
 
 

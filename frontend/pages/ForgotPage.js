@@ -19,6 +19,12 @@ const styles = StyleSheet.create({
       marginLeft: '20%',
       width: '60%'
    },
+   textbox: {
+     backgroundColor: 'rgba(0,0,0,0)'
+   },
+   buttonArrange: {
+     alignItems: 'center'
+   }
 });
 
 export default class ForgotPage extends React.Component {
@@ -40,19 +46,20 @@ export default class ForgotPage extends React.Component {
         }}
         source={{ uri: remotebackg }}
       >
-
+      <View style={styles.textbox}>
       <Text>Security Question?</Text>
+      </View>
       <TextInput
         placeholder='Answer'
         style={styles.inputText}
         onChangeText={ (text) => this.setState({ answer: text })}
         value={this.state.answer}
       />
-      <View>
+      <View style={styles.buttonArrange}>
         <Button
         raised
           icon={{name: 'account-circle', color: 'black'}}
-          buttonStyle={{backgroundColor: 'white', borderRadius: 10}}
+          buttonStyle={{backgroundColor: 'white', borderRadius: 10, width: 100}}
           textStyle={{textAlign: 'center', color: 'black'}}
           title={`Submit`}
         />

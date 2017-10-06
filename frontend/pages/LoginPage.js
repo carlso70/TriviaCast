@@ -21,12 +21,15 @@ const styles = StyleSheet.create({
       marginLeft: '20%',
       width: '60%'
    },
+   buttonArrange: {
+     alignItems: 'center'
+   }
 });
 
 class ForgotPassword extends React.Component {
-  static navigationOptions = {
-    title: 'Recover Password',
-  };
+  // static navigationOptions = {
+  //   header: {visible: false}
+  // };
   render() {
     return <ForgotPage />
   }
@@ -70,17 +73,17 @@ class Login extends React.Component {
           onChangeText={ (text) => this.setState({ password: text })}
           value={this.state.password}
         />
-        <View>
+        <View style={styles.buttonArrange}>
           <Button
           raised
             icon={{name: 'account-circle', color: 'black'}}
-            buttonStyle={{backgroundColor: 'white', borderRadius: 10}}
+            buttonStyle={{backgroundColor: 'white', borderRadius: 10, width: 200}}
             textStyle={{textAlign: 'center', color: 'black'}}
             title={`Login`}
           />
           <Button
           raised
-            buttonStyle={{backgroundColor: 'white', borderRadius: 10}}
+            buttonStyle={{backgroundColor: 'white', borderRadius: 10, width: 200}}
             textStyle={{textAlign: 'center', color: 'black'}}
             title={`Forgot password`}
             onPress={() => navigate('ForgotPage')}
@@ -94,7 +97,9 @@ class Login extends React.Component {
 const LoginNav = StackNavigator({
   Login: {screen: Login},
   ForgotPage: {screen: ForgotPassword}
-});
+},
+// { headerMode: 'screen'}
+);
 
 export default class LoginPage extends React.Component {
   constructor(props) {
