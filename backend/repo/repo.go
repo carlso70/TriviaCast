@@ -64,7 +64,7 @@ func FindUser(userId int) (user.User, error) {
 	return result, err
 }
 
-func FindUser(username string) (user.User, error) {
+func FindUserByUsername(username string) (user.User, error) {
 	session, err := mgo.DialWithInfo(&mgo.DialInfo{
 		Addrs: Host,
 	})
@@ -95,7 +95,7 @@ func GetUsers() ([]user.User, error) {
 }
 
 // TODO test update user
-func UpdateUser(user.User) error {
+func UpdateUser(usr user.User) error {
 	session, err := mgo.DialWithInfo(&mgo.DialInfo{
 		Addrs: Host,
 	})
@@ -103,10 +103,9 @@ func UpdateUser(user.User) error {
 
 	// Collection
 	c := session.DB(Database).C(Collection)
-	result := []user.User{}
 	// Refer to the bson encodings in the user package for other properties
-	err = c.Update(bson.Marshal(user))
-	return result, err
+	err = c.Update(bson.Marshal(&usr))
+	return err
 
 }
 

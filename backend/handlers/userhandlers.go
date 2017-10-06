@@ -5,7 +5,6 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
-	"strconv"
 
 	"github.com/carlso70/triviacast/backend/gameserver"
 	"github.com/carlso70/triviacast/backend/repo"
@@ -56,7 +55,7 @@ func ListUsers(w http.ResponseWriter, r *http.Request) {
 	}
 
 	for _, user := range users {
-		byteSlice, err := json.Marshal(&usr)
+		byteSlice, err := json.Marshal(&user)
 		if err != nil {
 			panic(err)
 		}
