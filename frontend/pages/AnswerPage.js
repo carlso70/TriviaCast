@@ -10,12 +10,9 @@ import {
   TouchableOpacity
 } from 'react-native';
 
-import { StackNavigator } from 'react-navigation';
-
 import ButtonDemo from '../components/ButtonDemo'
 import { Button } from 'react-native-elements';
 const remotebackg = 'https://i.imgur.com/vqTkUz8.png';
-import AnswerPage from './AnswerPage.js';
 
 const styles = StyleSheet.create({
 
@@ -72,11 +69,7 @@ const styles = StyleSheet.create({
    }
 });
 
-class Question extends Component {
-
-  constructor(props) {
-    super(props);
-  }
+export default class AnswerPage extends Component {
 
   render() {
     return (
@@ -108,26 +101,14 @@ class Question extends Component {
 	  </View>
 	</View>
 	<View style={styles.content}>
-	  <View style={styles.buttonArrange}>
-            <Button
-              raised
-              buttonStyle={{backgroundColor: 'white', borderRadius: 10, width: 200}}
-              textStyle={{textAlign: 'center', color: 'black'}}
-              title={`10 planets`}
-            />
-	    <Button
-              raised
-              buttonStyle={{backgroundColor: 'white', borderRadius: 10, width: 200}}
-              textStyle={{textAlign: 'center', color: 'black'}}
-              title={`8 planets`}
-            />
-	    <Button
-              raised
-              buttonStyle={{backgroundColor: 'white', borderRadius: 10, width: 200}}
-              textStyle={{textAlign: 'center', color: 'black'}}
-              title={`9 planets`}
-            />
-          </View>
+	  <View style={styles.messageBox}>
+	    <View>
+	      <Text style={styles.messageBoxTitleText}>Question 1 Answer</Text>
+	    </View>
+	    <View>
+	      <Text style={styles.messageBoxBodyText}>There are 8 planets. (Pluto doesn't count!)</Text>
+	    </View>
+	  </View>
 	</View>
 	<View style={styles.content}>
 	  <View style={styles.buttonArrange}>
@@ -135,37 +116,11 @@ class Question extends Component {
 	      raised
 	      buttonStyle={{backgroundColor: 'white', borderRadius: 10, width: 200}}
 	      textStyle={{textAlign: 'center', color: 'black'}}
-	      title={`Submit response`}
-	      // onPress={() => navigate('AnswerPage')}
+	      title={`Next Question`}
 	    />
 	  </View>
 	</View>
       </Image>
     );
-  }
-}
-
-class Answer extends React.Component{
-  static navigationOptions = {
-    header: {visible: false}
-  };
-  render() {
-    return <AnswerPage />;
-  }
-}
-
-const QuestionNav = StackNavigator({
-  Question: {screen: Question},
-  AnswerPage: {screen: AnswerPage}
-},
-);
-
-export default class QuestionPage extends React.Component {
-  constructor(props) {
-    super(props)
-    this.page = 1;
-  }
-  render() {
-    return <QuestionNav/>;
   }
 }
