@@ -1,11 +1,12 @@
 package gameserver
 
 import (
-	"bufio"
+	"github.com/carlso70/triviacast/backend/user"
+	"net"
 )
 
-// TCP client info
+// TCP client info contians a connection and pointer to a user
 type Client struct {
-	Reader *bufio.Reader
-	Writer *bufio.Writer
+	Connection net.Conn
+	User       user.User
 }

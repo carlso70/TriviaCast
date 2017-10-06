@@ -46,4 +46,10 @@ var routes = Routes{
 		"/createuser",
 		handlers.CreateUser,
 	},
+	Route{
+		"LoginUser",
+		"POST",
+		"/loginuser",
+		handlers.LoginUser,
+	},
 }
