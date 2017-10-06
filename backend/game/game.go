@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/carlso70/triviacast/backend/gameserver"
 	"github.com/carlso70/triviacast/backend/question"
 	"github.com/carlso70/triviacast/backend/user"
 	"github.com/carlso70/triviacast/backend/utils"
@@ -66,6 +67,7 @@ func (g *Game) runGame() {
 func (g *Game) startQuestion(q question.Question) error {
 	g.CurrentQuestion = q
 	// broadcast to tcp server current question
+	gameserver.Broadcast()
 
 	// start timer
 	timerChan := time.NewTimer(QUESTION_LENGTH).C
@@ -77,6 +79,7 @@ func (g *Game) startQuestion(q question.Question) error {
 		select {
 		case <-timerChan:
 			fmt.Println("Timer Expired")
+			gameserver.Broadcast()
 			return nil
 		}
 		return nil
