@@ -9,9 +9,12 @@ import {
   Alert
 } from 'react-native';
 
+import { StackNavigator } from 'react-navigation';
+
 import ButtonDemo from '../components/ButtonDemo'
 import { Button, FormLabel, FormInput} from 'react-native-elements';
 const remotebackg = 'https://i.imgur.com/vqTkUz8.png';
+import ForgotPage from './ForgotPage.js';
 
 const styles = StyleSheet.create({
    inputText: {
@@ -20,14 +23,24 @@ const styles = StyleSheet.create({
    },
 });
 
-export default class LoginPage extends Component {
+class ForgotPassword extends React.Component {
+  static navigationOptions = {
+    title: 'Recover Password',
+  };
+}
+
+class Login extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = { username: '', password: '' };
   }
+  static navigationOptions = {
+    title: 'Login',
+  };
 
   render() {
+    const { navigate } = this.props.navigation;
     return (
 
         <Image
@@ -57,17 +70,42 @@ export default class LoginPage extends Component {
           onChangeText={ (text) => this.setState({ password: text })}
           value={this.state.password}
         />
-        <Button
-        raised
-          icon={{name: 'account-circle', color: 'black'}}
-          buttonStyle={{backgroundColor: 'white', borderRadius: 10}}
-          textStyle={{textAlign: 'center', color: 'black'}}
-          title={`Login`}
-        />
-        <Button
-          title="Forgot password"
-        />
+        <View>
+          <Button
+          raised
+            icon={{name: 'account-circle', color: 'black'}}
+            buttonStyle={{backgroundColor: 'white', borderRadius: 10}}
+            textStyle={{textAlign: 'center', color: 'black'}}
+            title={`Login`}
+          />
+          <Button
+          raised
+            buttonStyle={{backgroundColor: 'white', borderRadius: 10}}
+            textStyle={{textAlign: 'center', color: 'black'}}
+            title={`Forgot password`}
+            onPress={() => navigate('ForgotPage')}
+          />
+        </View>
       </Image>
     );
   }
 }
+
+const LoginNav = StackNavigator({
+  Login: {screen: Login},
+  ForgotPage: {screen: ForgotPassword}
+});
+
+export default class LoginPage extends React.Component {
+  constructor(props) {
+    super(props)
+    this.page = 1;
+  }
+  render() {
+    return <LoginNav/>;
+  }
+}
+
+// class Forgot extends React.Component {
+//
+// }
