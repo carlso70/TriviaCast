@@ -45,22 +45,22 @@ export default class ProfilePage extends React.Component {
         source={{ uri: remotebackg }}
       >
       <View style={styles.container}>
-         <Text style={{fontSize: 30}}>My Profile</Text>
-         <Button
+         <Text style={{fontSize: 30, color: 'white', marginTop: '5%', marginBottom: '5%'}}>My Profile</Text>
+         <Image
+          source={require('../defaultav.png')}
+         />
+         <Text style={{fontSize: 20, color: 'white', marginTop: '5%', marginBottom: '5%'}}>Highest scoring game</Text>
+         <Text style={{fontSize: 20, color: 'white', marginBottom: '5%'}}>Total games won</Text>
+         <Text style={{fontSize: 20, color: 'white', marginBottom: '5%'}}>Total rounds won</Text>
+         <Text style={{fontSize: 20, color: 'white', marginBottom: '5%'}}>Global ranking</Text>
+         <Text style={{fontSize: 20, color: 'white', marginBottom: '5%'}}>Correct answer rate</Text>
+                  <Button
            raised
            buttonStyle={{backgroundColor: 'white', borderRadius: 10, width: 200}}
            textStyle={{textAlign: 'center', color: 'black'}}
-           title={`Upload my avatar`}
+           title={`Update avatar`}
            //onPress={() => navigate('LoginPage')}
          />
-         <Image
-          source={require('../dog.png')}
-         />
-         <Text style={{fontSize: 20}}>Highest scoring game</Text>
-         <Text style={{fontSize: 20}}>Total games won</Text>
-         <Text style={{fontSize: 20}}>Total rounds won</Text>
-         <Text style={{fontSize: 20}}>Global ranking</Text>
-         <Text style={{fontSize: 20}}>Correct answer rate</Text>
       </View>
     </Image>
     );
