@@ -118,4 +118,6 @@ android/logcat.txt
  ios/Pods
  .expo
 
+# Annoying frontend files
+frontend/.DS_Store
 frontend/react-native-package-cache*
