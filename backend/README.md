@@ -92,6 +92,8 @@ Request body:
 Response body:
 * The response body is a json containing the game details 
 
+
+
     {
         "id":499380,
         "users":null,
@@ -99,6 +101,7 @@ Response body:
         "scoreboard":{},
         "Winner":""
     }
+
 
 ### POST /joingame
 Request body: 
@@ -129,6 +132,7 @@ Request body:
     }  
     
 Response body: 
+    
     {
         "message": "success"
     }
