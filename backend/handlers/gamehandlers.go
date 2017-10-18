@@ -20,19 +20,28 @@ func CreateGame(w http.ResponseWriter, r *http.Request) {
 	decoder := json.NewDecoder(r.Body)
 	err := decoder.Decode(&request)
 	if err != nil {
-		panic(err)
+		http.Error(w, "Invalid Request", 400)
+		return
 	}
 	defer r.Body.Close()
 
 	// Get the gamemanager instance, create new game, and add user to the game
 	gamemanager := gamemanager.GetInstance()
-	gameId, err := gamemanager.CreateGame()
-	gamemanager.AddUserToGame(gameId, request.UserId)
+	game, err := gamemanager.CreateGame()
+	gamemanager.AddUserToGame(game.Id, request.UserId)
 	if err != nil {
-		panic(err)
+		http.Error(w, err.Error(), 500)
+		return
 	}
 
-	fmt.Fprintf(w, "Added user to game %d\n", gameId)
+	jsonGame, err := json.Marshal(game)
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+
+	// Return the json of the game the user was added to
+	fmt.Fprintf(w, string(jsonGame))
 }
 
 // TODO Refactor methods to increase speed
@@ -43,7 +52,8 @@ func StartGame(w http.ResponseWriter, r *http.Request) {
 	decoder := json.NewDecoder(r.Body)
 	err := decoder.Decode(&request)
 	if err != nil {
-		panic(err)
+		http.Error(w, "Invalid Request", 400)
+		return
 	}
 
 	defer r.Body.Close()
@@ -53,9 +63,10 @@ func StartGame(w http.ResponseWriter, r *http.Request) {
 	gamemanager := gamemanager.GetInstance()
 	err = gamemanager.StartGame(request.GameId)
 	if err != nil {
-		panic(err)
+		http.Error(w, "Invalid Request", 400)
+		return
 	}
-	fmt.Fprint(w, "Success")
+	fmt.Fprint(w, "{ \"message\": \"success\" }")
 }
 
 // JoinGame adds a user to a game with a specific id
@@ -71,11 +82,19 @@ func JoinGame(w http.ResponseWriter, r *http.Request) {
 
 	// Get the gamemanager instance, start new game
 	gamemanager := gamemanager.GetInstance()
-	gamemanager.AddUserToGame(request.GameId, request.UserId)
+	game, err := gamemanager.AddUserToGame(request.GameId, request.UserId)
 	if err != nil {
-		panic(err)
+		http.Error(w, "Could not add user to game", 400)
+		return
 	}
-	fmt.Fprint(w, "Success")
+
+	jsonGame, err := json.Marshal(game)
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+
+	fmt.Fprint(w, string(jsonGame))
 }
 
 // ListGames responds with a list of all the active games

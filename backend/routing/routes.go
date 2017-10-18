@@ -41,6 +41,12 @@ var routes = Routes{
 		handlers.ListGames,
 	},
 	Route{
+		"JoinGame",
+		"POST",
+		"/joingame",
+		handlers.JoinGame,
+	},
+	Route{
 		"CreateUser",
 		"POST",
 		"/createuser",
