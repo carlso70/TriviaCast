@@ -11,7 +11,7 @@ import (
 )
 
 type Manager interface {
-	CreateGame() (int, error)
+	CreateGame() (game.Game, error)
 	DeleteGame(gameId int) error
 	AddUserToGame(gameId int, userId int) error
 	GetUsers() ([]user.User, error)
@@ -35,13 +35,13 @@ func GetInstance() *GameManager {
 }
 
 // CreateGame adds a game to the GameServer
-func (g *GameManager) CreateGame() (int, error) {
+func (g *GameManager) CreateGame() (game.Game, error) {
 	// Create game instance
 	newGame := game.Init()
 	// Add game to list of games
 	g.Games = append(g.Games, newGame)
 	// Return the games Id, and error if it exists
-	return newGame.Id, nil
+	return newGame, nil
 }
 
 func (g *GameManager) StartGame(id int) error {
@@ -68,7 +68,7 @@ func (g *GameManager) GetGames() []game.Game {
 
 // AddUserToGame searchs to see if game exists, then finds the user with the id
 // and adds them to the game
-func (g *GameManager) AddUserToGame(gameId, userId int) error {
+func (g *GameManager) AddUserToGame(gameId, userId int) (game.Game, error) {
 	// Search for game instance
 	index, err := findGame(g.Games, gameId)
 	if err != nil {
@@ -83,7 +83,7 @@ func (g *GameManager) AddUserToGame(gameId, userId int) error {
 	g.Games[index].Users = append(g.Games[index].Users, user)
 
 	// Join Game instance
-	return nil
+	return g.Games[index], nil
 }
 
 func (g *GameManager) DeleteGame(gameId int) error {
