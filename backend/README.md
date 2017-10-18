@@ -40,21 +40,20 @@ Request Body:
     }
 
 Response body:
- * Save the userId on the device while the user is logged in
+*Save the userId on the device while the user is logged in
  
-
+ 
     {
-            "id":499380,
-            "username":"test",
-            "password":"$2a$10$LqaeVglllnCy/3q5deFkJu8L/bBOLs0upvfscrD2cV0b4GVvV9Q8e",
-            "gameID":0,
-            "score":0,
-            "active":true,
-            "wins":0
+        "id":499380,
+        "username":"createTest",
+        "password":"$2a$10$LqaeVglllnCy/3q5deFkJu8L/bBOLs0upvfscrD2cV0b4GVvV9Q8e",
+        "gameID":0,
+        "score":0,
+        "active":true,
+        "wins":0
     }
 
-
-  
+ 
           
 
 ### POST /createuser
@@ -70,6 +69,7 @@ Request body:
 
 Response body:
 
+
     {
         "id":499380,
         "username":"createTest",
@@ -84,13 +84,16 @@ Response body:
 ### POST /creategame 
 Request body: 
 
+
     {
         "userId": 123412,
         "gameId": 123434
     }  
+    
+    
 
 Response body:
-* The response body is a json containing the game details 
+*The response body is a json containing the game details 
 
 
 
@@ -106,15 +109,18 @@ Response body:
 ### POST /joingame
 Request body: 
 
+
     {
         "userId": 123412,
         "gameId": 123434
     }  
+      
 
 Response body:
-* The response body is a json containing the game details 
+*The response body is a json containing the game details
 
 
+    
     {
         "id":499380,
         "users":null,
@@ -123,6 +129,9 @@ Response body:
         "Winner":""
     }
 
+   
+   
+   
 ### POST /startgame 
 Request body: 
 
