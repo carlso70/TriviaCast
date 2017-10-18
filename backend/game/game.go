@@ -32,8 +32,11 @@ func Init() Game {
 }
 
 func (g *Game) StartGame() error {
+	fmt.Println("USERS ")
+	fmt.Println(g.Users)
 	// do initial testing
 	if len(g.Users) <= 0 {
+		fmt.Println("0 USERS IN GAME ", g.Id)
 		return errors.New("No user exception, can't start game")
 	}
 	go g.runGame()
@@ -47,17 +50,18 @@ func (g *Game) runGame() {
 	g.Winner = g.Users[0].Username
 	// Index to current question being display
 	questionCt := 0
-	//gameserver.Broadcast()
+	gameserver.Broadcast()
 	for {
 		totalScore = totalScore + 1
 		time.Sleep(time.Millisecond * 900)
-		// Question Display, listen on tcp server for 30 seconds for answer then timeout and return response
+
+		// Start a question, which delays for 30 seconds while listening for answers
 		if err := g.startQuestion(g.QuestionDeck[questionCt]); err != nil {
-			// TODO handle quesiton errors. To cancel game? Broadcast to users? Or kill game session?
 			panic(err)
 		}
+		questionCt += 1
 
-		// Max score
+		// Criteria to end game
 		if totalScore > 100 || questionCt > len(g.QuestionDeck)-1 {
 			g.EndGame()
 			break
@@ -69,7 +73,6 @@ func (g *Game) runGame() {
 func (g *Game) startQuestion(q question.Question) error {
 	g.CurrentQuestion = q
 	// broadcast to tcp server current question
-
 	gameserver.Broadcast()
 	// start timer
 	timerChan := time.NewTimer(QUESTION_LENGTH).C
@@ -99,6 +102,7 @@ func (g *Game) EndGame() {
 		}
 	}
 	// TODO update user in DB
+
 }
 
 // AddUserToGame checks if the user is in the game, if it is then append to game slice

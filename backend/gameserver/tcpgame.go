@@ -39,7 +39,6 @@ func InitSocketServer() {
 		fmt.Println(conn.RemoteAddr())
 		clients = append(clients, conn)
 		fmt.Println(clients)
-		Broadcast()
 		if err != nil {
 			panic(err)
 		}
@@ -49,10 +48,10 @@ func InitSocketServer() {
 }
 
 func Broadcast() {
-	fmt.Println("Broadcast", len(clients))
-	for _, client := range clients {
-		if _, err := client.Write([]byte("Testing")); err != nil {
-			panic(err)
+	fmt.Println("Broadcasting to: ", len(clients))
+	for client := range clients {
+		if _, err := client.Write([]byte("Testing Broadcast")); err != nil {
+			// TODO if there is an error remove client from game
 		}
 	}
 }
@@ -70,7 +69,4 @@ func handleRequest(conn net.Conn) {
 	if err != nil {
 		panic(err)
 	}
-	// send a response back to person contacting us
-	//conn.Write([]byte("Message Receieved"))
-	//conn.Close()
 }

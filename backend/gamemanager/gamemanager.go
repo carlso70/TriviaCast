@@ -36,23 +36,20 @@ func GetInstance() *GameManager {
 
 // CreateGame adds a game to the GameServer
 func (g *GameManager) CreateGame() (int, error) {
-
 	// Create game instance
 	newGame := game.Init()
-
 	// Add game to list of games
 	g.Games = append(g.Games, newGame)
-
 	// Return the games Id, and error if it exists
 	return newGame.Id, nil
 }
 
 func (g *GameManager) StartGame(id int) error {
-	game, err := findGame(g.Games, id)
+	index, err := findGame(g.Games, id)
 	if err != nil {
 		return err
 	}
-	game.StartGame()
+	g.Games[index].StartGame()
 	return nil
 }
 
@@ -73,7 +70,7 @@ func (g *GameManager) GetGames() []game.Game {
 // and adds them to the game
 func (g *GameManager) AddUserToGame(gameId, userId int) error {
 	// Search for game instance
-	game, err := findGame(g.Games, gameId)
+	index, err := findGame(g.Games, gameId)
 	if err != nil {
 		panic(err)
 	}
@@ -81,7 +78,10 @@ func (g *GameManager) AddUserToGame(gameId, userId int) error {
 	if err != nil {
 		panic(err)
 	}
-	game.Users = append(game.Users, user)
+	fmt.Println("USER BEFORE: ", user)
+	fmt.Println("GAMES USERS BEFORE:", g.Games[index].Users)
+	g.Games[index].Users = append(g.Games[index].Users, user)
+
 	// Join Game instance
 	return nil
 }
@@ -93,13 +93,13 @@ func (g *GameManager) DeleteGame(gameId int) error {
 	return nil
 }
 
-// findGame searchs existing games, and returns a pointer to the game if it exists
-func findGame(games []game.Game, gameId int) (game.Game, error) {
-	for _, game := range games {
+// findGame searchs existing games, and returns the index of to the game if it exists
+func findGame(games []game.Game, gameId int) (int, error) {
+	for i, game := range games {
 		if game.Id == gameId {
-			return game, nil
+			return i, nil
 		}
 	}
 
-	return game.Game{}, errors.New("Game not found error")
+	return -1, errors.New("Game not found error")
 }
