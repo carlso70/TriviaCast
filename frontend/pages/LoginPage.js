@@ -17,6 +17,7 @@ const remotebackg = 'https://i.imgur.com/vqTkUz8.png';
 import ForgotPage from './ForgotPage.js';
 import ProfilePage from './ProfilePage.js'
 import MainMenu from './MainMenu.js'
+import validate from '../components/Validate.js'
 
 const styles = StyleSheet.create({
    inputText: {
@@ -61,7 +62,26 @@ class Login extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { username: '', password: '' };
+    this.state = {
+      username: '',
+      usernameError: '',
+      password: '',
+      passwordError: ''
+    }
+  }
+
+  register() {
+    const usernameError = validate('username', this.state.username)
+    const passwordError = validate('password', this.state.password)
+
+    this.setState({
+      usernameError: usernameError,
+      passwordError: passwordError
+    })
+
+    if (!usernameError && !passwordError) {
+      navigate('MainMenu')
+    }
   }
 
   render() {
@@ -86,6 +106,11 @@ class Login extends React.Component {
           placeholder='Username'
           style={styles.inputText}
           onChangeText={ (text) => this.setState({ username: text })}
+          onBlur={() => {
+            this.setState({
+              usernameError: validate('username', this.state.username)
+            })
+          }}
           value={this.state.username}
         />
         <TextInput
@@ -93,6 +118,11 @@ class Login extends React.Component {
           style={styles.inputText}
           secureTextEntry={true}
           onChangeText={ (text) => this.setState({ password: text })}
+          onBlur={() => {
+            this.setState({
+              passwordError: validate('password', this.state.password)
+            })
+          }}
           value={this.state.password}
         />
         <View style={styles.buttonArrange}>
