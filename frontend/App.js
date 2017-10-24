@@ -1,4 +1,3 @@
-
 import React from 'react';
 import {
   AppRegistry,
@@ -9,11 +8,6 @@ import {
 } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import { Button } from 'react-native-elements';
-
-
-
-
-
 import MainPage from './pages/MainPage.js'
 import LoginPage from './pages/LoginPage.js'
 import SignupPage from './pages/SignupPage.js'
@@ -46,6 +40,16 @@ class Home extends React.Component{
     const { navigate } = this.props.navigation;
     return (
 
+    	 <Image source={{uri: 'https://i.imgur.com/vqTkUz8.png'}} style={styles.container}>
+  <View>
+  			<Button
+      raised
+      icon={{name: 'account-circle', color: 'black'}}
+      buttonStyle={{backgroundColor: 'white', borderRadius: 10}}
+      textStyle={{textAlign: 'center', color: 'black'}}
+      title={`Login`}
+      onPress={() => navigate('LoginPage')}
+    />
     	 <Image
         source={{uri: 'https://i.imgur.com/vqTkUz8.png'}}
         style={styles.container}
@@ -76,13 +80,6 @@ class Home extends React.Component{
       textStyle={{textAlign: 'center', color: 'black'}}
       title={`Create an account`}
       onPress={() => navigate('SignupPage')}
-    />
-	<Button
-      raised
-      buttonStyle={{backgroundColor: 'white', borderRadius: 10, width: 200, marginBottom: '5%'}}
-      textStyle={{textAlign: 'center', color: 'black'}}
-      title={`Test question page`}
-      onPress={() => navigate('QuestionPage')}
     />
 
   </View>
@@ -124,14 +121,6 @@ const TriviaCast = StackNavigator(
 
 );
 
-
-
-// export default class App extends Component {
-//   render() {
-//     return <TriviaCast />;
-//   }
-// }
-
 export default class App extends React.Component {
 
   constructor(props) {
@@ -140,10 +129,6 @@ export default class App extends React.Component {
   }
   render() {
         return <TriviaCast/>;
-    // return (
-    //     <LoginPage/>
-    // );
   }
 }
 
-// AppRegistry.registerComponent('TriviaCast', () => TriviaCast);
