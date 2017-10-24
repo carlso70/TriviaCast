@@ -2,33 +2,41 @@ package gameserver
 
 // Code retaining to TCP management for the gameserver
 import (
+	"encoding/json"
 	"fmt"
 	"net"
+
+	"github.com/carlso70/triviacast/backend/repo"
 )
 
 const (
-	CONN_HOST = "localhost"
+	CONN_HOST = "0.0.0.0"
 	CONN_PORT = "3333"
 	CONN_TYPE = "tcp"
 )
 
 // TCP request objects, these are for in game
-type RequestObj struct {
-	UserId int `json:"userId"`
-	GameId int `json:"gameId"`
+// InGame is a flag set to false if users are requesting to join the TCP client list
+type GameRequest struct {
+	UserId int  `json:"userId"`
+	GameId int  `json:"gameId"`
+	InGame bool `json:"inGame"`
 }
 
 // Listener referneced in main.go set to close when main method ends
 var Listener net.Listener
 
+var clients []Client
+
 // InitSocketServer , clients inserted into Game object as users
 func InitSocketServer() {
-	var err error
-	Listener, err = net.Listen(CONN_TYPE, CONN_HOST+":"+CONN_PORT)
+	Listener, err := net.Listen(CONN_TYPE, CONN_HOST+":"+CONN_PORT)
+	fmt.Println("Listening on ", Listener.Addr().String())
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println("Listening on " + CONN_HOST + ":" + CONN_PORT)
+
+	clients = make([]Client, 0)
 	for {
 		// Listen for incoming connections
 		conn, err := Listener.Accept()
@@ -40,19 +48,48 @@ func InitSocketServer() {
 	}
 }
 
+func Broadcast() {
+	fmt.Println("Broadcasting to: ", len(clients))
+	for _, client := range clients {
+		if _, err := client.Connection.Write([]byte("Testing Broadcast")); err != nil {
+			// If there is an error remove client from client list
+			// clients = append(clients[:index], clients[index+1]...)
+		}
+	}
+}
+
 // HandleRequest handles incoming tcp requests
 func handleRequest(conn net.Conn) {
 	// Make a buffer to hold the incoming data
-	buf := make([]byte, 2048)
-	// Read the incoming connection into the buffer
-	reqLen, err := conn.Read(buf)
-	fmt.Println("Message Recieved of len:", reqLen)
-	fmt.Println(string(buf))
+	buf := make([]byte, 6000)
 
+	// Read the incoming connection into the buffer
+	_, err := conn.Read(buf)
 	if err != nil {
 		panic(err)
 	}
-	// send a response back to person contacting us
-	conn.Write([]byte("Message Receieved"))
-	conn.Close()
+
+	// Parse the request, which should have the userId
+	var request GameRequest
+	if err := json.Unmarshal(buf, &request); err != nil {
+		panic(err)
+	}
+
+	if request.InGame {
+		// Parse inGame request
+
+	} else {
+		// Add the user to the client list
+		// Get add the client to the list of clients
+		usr, err := repo.FindUser(request.UserId)
+		if err != nil {
+			conn.Write([]byte("{ \"success\": false }"))
+			panic(err)
+		}
+
+		client := Client{Connection: conn, User: usr}
+		clients = append(clients, client)
+		conn.Write([]byte("{ \"success\": true }"))
+		fmt.Println(string(buf))
+	}
 }

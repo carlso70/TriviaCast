@@ -64,6 +64,22 @@ func FindUser(userId int) (user.User, error) {
 	return result, err
 }
 
+func FindUserByUsername(username string) (user.User, error) {
+	session, err := mgo.DialWithInfo(&mgo.DialInfo{
+		Addrs: Host,
+	})
+	if err != nil {
+		return user.User{}, err
+	}
+	defer session.Close()
+	// Collection
+	c := session.DB(Database).C(Collection)
+	result := user.User{}
+	// Refer to the bson encodings in the user package for other properties
+	err = c.Find(bson.M{"username": username}).One(&result)
+	return result, err
+}
+
 func GetUsers() ([]user.User, error) {
 	session, err := mgo.DialWithInfo(&mgo.DialInfo{
 		Addrs: Host,
@@ -76,6 +92,21 @@ func GetUsers() ([]user.User, error) {
 	// Refer to the bson encodings in the user package for other properties
 	err = c.Find(bson.M{}).All(&result)
 	return result, err
+}
+
+// TODO test update user
+func UpdateUser(usr user.User) error {
+	session, err := mgo.DialWithInfo(&mgo.DialInfo{
+		Addrs: Host,
+	})
+	defer session.Close()
+
+	// Collection
+	c := session.DB(Database).C(Collection)
+	// Refer to the bson encodings in the user package for other properties
+	err = c.Update(bson.Marshal(&usr))
+	return err
+
 }
 
 func DeleteUser(userId int) error {

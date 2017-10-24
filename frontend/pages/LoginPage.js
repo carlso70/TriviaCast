@@ -9,18 +9,55 @@ import {
   Alert
 } from 'react-native';
 
+import { StackNavigator } from 'react-navigation';
+
 import ButtonDemo from '../components/ButtonDemo'
 import { Button, FormLabel, FormInput} from 'react-native-elements';
 const remotebackg = 'https://i.imgur.com/vqTkUz8.png';
+import ForgotPage from './ForgotPage.js';
+import ProfilePage from './ProfilePage.js'
+import MainMenu from './MainMenu.js'
 
 const styles = StyleSheet.create({
    inputText: {
       marginLeft: '20%',
+      marginTop: '5%',
       width: '60%'
    },
+   buttonArrange: {
+     alignItems: 'center',
+     paddingBottom: 4
+   }
 });
 
-export default class LoginPage extends Component {
+class Main extends React.Component {
+  // static navigationOptions = {
+  //   header: {visible: false}
+  // };
+  render() {
+    return <MainMenu />
+  }
+}
+
+class ForgotPassword extends React.Component {
+  // static navigationOptions = {
+  //   header: {visible: false}
+  // };
+  render() {
+    return <ForgotPage />
+  }
+}
+
+class Profile extends React.Component {
+  // static navigationOptions = {
+  //   header: {visible: false}
+  // };
+  render() {
+    return <ProfilePage />
+  }
+}
+
+class Login extends React.Component {
 
   constructor(props) {
     super(props);
@@ -28,6 +65,7 @@ export default class LoginPage extends Component {
   }
 
   render() {
+    const { navigate } = this.props.navigation;
     return (
 
         <Image
@@ -57,15 +95,48 @@ export default class LoginPage extends Component {
           onChangeText={ (text) => this.setState({ password: text })}
           value={this.state.password}
         />
-        <Button
-        raised
-          icon={{name: 'account-circle', color: 'black'}}
-          buttonStyle={{backgroundColor: 'white', borderRadius: 10}}
-          textStyle={{textAlign: 'center', color: 'black'}}
-          title={`Login`}
-        />
+        <View style={styles.buttonArrange}>
+          <Button
+          raised
+            icon={{name: 'input', color: 'black'}}
+            buttonStyle={{backgroundColor: 'white', borderRadius: 10, width: 200, marginTop: '5%', marginBottom: '25%'}}
+            textStyle={{textAlign: 'center', color: 'black'}}
+            title={`Login`}
+            onPress={() => navigate('MainMenu')}
+          />
+          <Button
+          raised
+            buttonStyle={{backgroundColor: 'white', borderRadius: 10, width: 200}}
+            textStyle={{textAlign: 'center', color: 'black'}}
+            icon={{name: 'help', color: 'black'}}
+            title={`Forgot password`}
+            onPress={() => navigate('ForgotPage')}
 
+          />
+        </View>
       </Image>
     );
   }
 }
+
+const LoginNav = StackNavigator({
+  Login: {screen: Login},
+  ForgotPage: {screen: ForgotPassword},
+  MainMenu: {screen: MainMenu}
+},
+// { headerMode: 'screen'}
+);
+
+export default class LoginPage extends React.Component {
+  constructor(props) {
+    super(props)
+    this.page = 1;
+  }
+  render() {
+    return <LoginNav/>;
+  }
+}
+
+// class Forgot extends React.Component {
+//
+// }

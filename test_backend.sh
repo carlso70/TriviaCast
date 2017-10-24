@@ -11,3 +11,9 @@ go test $1
 cd ../game/
 echo "===== Running User Package Unit Tests ======"
 go test $1
+
+cd ../utils
+echo "===== Running Utils Package Unit Tests ======"
+go test $1
+
+
