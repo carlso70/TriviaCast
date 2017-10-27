@@ -16,7 +16,7 @@ func main() {
 	// GetInstance inits the gamemanager singleton, and the TCP socket server
 	gamemanager.GetInstance()
 
+	go gameserver.InitWebSocket()
 	router := routing.NewRouter()
-	go gameserver.InitSocketServer()
 	log.Fatal(http.ListenAndServe(":8080", router))
 }

@@ -1,5 +1,6 @@
 package gameserver
 
+/*
 // Code retaining to TCP management for the gameserver
 import (
 	"encoding/json"
@@ -7,6 +8,7 @@ import (
 	"net"
 
 	"github.com/carlso70/triviacast/backend/repo"
+	"github.com/carlso70/triviacast/backend/user"
 )
 
 const (
@@ -21,6 +23,11 @@ type GameRequest struct {
 	UserId int  `json:"userId"`
 	GameId int  `json:"gameId"`
 	InGame bool `json:"inGame"`
+}
+
+type Client struct {
+	User       user.User
+	Connection net.Conn
 }
 
 // Listener referneced in main.go set to close when main method ends
@@ -93,3 +100,5 @@ func handleRequest(conn net.Conn) {
 		fmt.Println(string(buf))
 	}
 }
+
+*/

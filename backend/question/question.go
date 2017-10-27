@@ -8,6 +8,7 @@ type Question struct {
 	Answer        string `bson:"answer"`
 	Difficulty    string `bson:"difficulty"`
 	Category      string `bson:"category"`
+	Value         int    `bson:"value"`
 }
 
 func GetDefaultQuestions() []Question {
@@ -18,6 +19,7 @@ func GetDefaultQuestions() []Question {
 		Answer:     "Yes",
 		Difficulty: "Easy",
 		Category:   "Default",
+		Value:      5,
 	}
 	ques2 := Question{
 		Question:   "Do you like Purdue",
@@ -25,6 +27,7 @@ func GetDefaultQuestions() []Question {
 		Answer:     "Yes",
 		Difficulty: "Easy",
 		Category:   "Default",
+		Value:      5,
 	}
 	deck = append(deck, ques1, ques2)
 	return deck
