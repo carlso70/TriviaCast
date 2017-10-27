@@ -55,6 +55,7 @@ func (g *GameManager) StartGame(id int) error {
 
 // GetUsers gets all the users in the DB and returns them
 func (g *GameManager) GetUsers() ([]user.User, error) {
+
 	userlist, err := repo.GetUsers()
 	if err != nil {
 		panic(err)

@@ -13,10 +13,10 @@ import (
 func main() {
 	fmt.Println("Launching Server")
 
-	// GetInstance inits the gamemanager singleton, and the TCP socket server
+	// GetInstance inits the gamemanager singleton
 	gamemanager.GetInstance()
+	router := routing.NewRouter()
 
 	go gameserver.InitWebSocket()
-	router := routing.NewRouter()
 	log.Fatal(http.ListenAndServe(":8080", router))
 }
