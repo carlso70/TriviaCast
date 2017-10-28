@@ -10,13 +10,6 @@ import (
 	"github.com/carlso70/triviacast/backend/user"
 )
 
-type Manager interface {
-	CreateGame() (game.Game, error)
-	DeleteGame(gameId int) error
-	AddUserToGame(gameId int, userId int) error
-	GetUsers() ([]user.User, error)
-}
-
 type GameManager struct {
 	Games []game.Game
 }
@@ -28,7 +21,6 @@ var once sync.Once
 func GetInstance() *GameManager {
 	once.Do(func() {
 		games := make([]game.Game, 0)
-		fmt.Println("Get Instance: once.DO")
 		instance = &GameManager{Games: games}
 	})
 	return instance
@@ -38,6 +30,9 @@ func GetInstance() *GameManager {
 func (g *GameManager) CreateGame() (game.Game, error) {
 	// Create game instance
 	newGame := game.Init()
+	// Start open the websocket to connect to the game
+
+	newGame.InitGameSocket()
 	// Add game to list of games
 	g.Games = append(g.Games, newGame)
 	// Return the games Id, and error if it exists

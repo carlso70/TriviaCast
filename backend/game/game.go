@@ -6,26 +6,25 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/carlso70/triviacast/backend/gameserver"
 	"github.com/carlso70/triviacast/backend/question"
 	"github.com/carlso70/triviacast/backend/user"
 	"github.com/carlso70/triviacast/backend/utils"
 )
 
-type QuestionResponses struct {
+type QuestionResponse struct {
 	User   user.User
 	Answer string
 }
 
 type Game struct {
-	Id              int                    `json:"id"`
-	Users           []user.User            `json:"users"`
-	QuestionDeck    []question.Question    `json:"-"`
-	CurrentQuestion question.Question      `json:"question"`
-	AskingQuestion  bool                   `json:"askingQuestion"`
-	Scoreboard      map[string]int         `json:"scoreboard"`
-	Winner          string                 `json:"-"`
-	QuestionChannel chan QuestionResponses `json:"-"`
+	Id              int                 `json:"id"`
+	Users           []user.User         `json:"users"`
+	QuestionDeck    []question.Question `json:"-"`
+	CurrentQuestion question.Question   `json:"question"`
+	AskingQuestion  bool                `json:"askingQuestion"`
+	Scoreboard      map[string]int      `json:"scoreboard"`
+	Winner          string              `json:"-"`
+	responses       chan string         `json:"-"`
 }
 
 const (
@@ -35,8 +34,15 @@ const (
 func Init() Game {
 	id := utils.GenerateId()
 	scoreboard := make(map[string]int)
+	responses := make(chan string)
 	deck := question.GetDefaultQuestions()
-	return Game{Id: id, Users: nil, QuestionDeck: deck, Scoreboard: scoreboard}
+	return Game{
+		Id:           id,
+		Users:        nil,
+		QuestionDeck: deck,
+		Scoreboard:   scoreboard,
+		responses:    responses,
+	}
 }
 
 func (g *Game) StartGame() error {
@@ -62,7 +68,7 @@ func (g *Game) runGame() {
 
 	// Send a message of the current game
 	gameJson, _ := json.Marshal(g)
-	gameserver.SendMsg(string(gameJson))
+	SendMsg(string(gameJson))
 
 	for {
 		// Start a question, which delays for 30 seconds while listening for answers
@@ -86,37 +92,31 @@ func (g *Game) startQuestion(q question.Question) error {
 
 	// Send a message of the current game
 	gameJson, _ := json.Marshal(g)
-	gameserver.SendMsg(string(gameJson))
+	SendMsg(string(gameJson))
 
-	// start timer, and Question Channel
-	timerChan := time.NewTimer(QUESTION_LENGTH).C
-	g.QuestionChannel = make(chan QuestionResponses, len(g.Users))
+	// start timer, and tick chan
 
 	fmt.Printf("Starting question %s...\n", q.Question)
-	for g.AskingQuestion {
-		select {
-		case <-timerChan:
-			g.AskingQuestion = false
-			fmt.Printf("GameID %d: Question Timer Expired\n", g.Id)
-		}
 
-		if len(g.QuestionChannel) == cap(g.QuestionChannel) {
-			g.AskingQuestion = false
-			fmt.Printf("GameID %d: All Users Answered Question\n")
+	timerChan := time.NewTimer(QUESTION_LENGTH).C
+	done := make(chan bool)
+	go func() {
+		for g.AskingQuestion {
+			select {
+			case c := <-g.responses:
+				fmt.Println("RECIEVED RESPONSE:", c)
+			case <-timerChan:
+				fmt.Println("TIMER EXPIRED")
+				g.AskingQuestion = false
+			default:
+			}
 		}
-	}
+		done <- true
+	}()
+
+	// wait for goroutine to finish
+	<-done
 	fmt.Println("Finishing Question")
-	// loop through the channel seeing which user got the answer correct
-	close(g.QuestionChannel)
-	for response := range g.QuestionChannel {
-		if response.Answer == g.CurrentQuestion.Answer {
-			g.Scoreboard[response.User.Username] += g.CurrentQuestion.Value
-		}
-	}
-
-	if len(g.QuestionChannel) > 0 {
-		fmt.Println("CHANNEL NOT EMPTY")
-	}
 	return nil
 }
 
