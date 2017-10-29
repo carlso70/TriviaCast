@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"log"
 	"time"
 
 	"github.com/carlso70/triviacast/backend/question"
@@ -12,8 +13,8 @@ import (
 )
 
 type QuestionResponse struct {
-	User   user.User
-	Answer string
+	Username string `json:"username"`
+	Answer   string `json:"answer"`
 }
 
 type Game struct {
@@ -66,23 +67,20 @@ func (g *Game) runGame() {
 	// Index to current question being display
 	questionCt := 0
 
-	// Send a message of the current game
+	// Send a snapshot message of the current game
 	gameJson, _ := json.Marshal(g)
 	SendMsg(string(gameJson))
 
-	for {
+	// Keep ask
+	for totalScore < 100 || questionCt < len(g.QuestionDeck) {
 		// Start a question, which delays for 30 seconds while listening for answers
 		if err := g.startQuestion(g.QuestionDeck[questionCt]); err != nil {
-			panic(err)
+			log.Panic(err)
 		}
 		questionCt += 1
-
-		// Criteria to end game
-		if totalScore > 100 || questionCt > len(g.QuestionDeck)-1 {
-			g.EndGame()
-			break
-		}
 	}
+
+	g.EndGame()
 }
 
 // startQuestion starts a timer, and broadcasts the question while waiting for the game channel to fill or timer to expire
@@ -98,13 +96,24 @@ func (g *Game) startQuestion(q question.Question) error {
 
 	fmt.Printf("Starting question %s...\n", q.Question)
 
+	answers := make([]QuestionResponse, 0)
+
 	timerChan := time.NewTimer(QUESTION_LENGTH).C
 	done := make(chan bool)
 	go func() {
 		for g.AskingQuestion {
 			select {
 			case c := <-g.responses:
+				var answer QuestionResponse
 				fmt.Println("RECIEVED RESPONSE:", c)
+				err := json.Unmarshal([]byte(c), answer)
+				if err == nil {
+					// if there is no err with the response add it to the current answer array
+					answers = append(answers, answer)
+					if len(answers) == len(g.Users) {
+						g.AskingQuestion = false
+					}
+				}
 			case <-timerChan:
 				fmt.Println("TIMER EXPIRED")
 				g.AskingQuestion = false
@@ -116,7 +125,14 @@ func (g *Game) startQuestion(q question.Question) error {
 
 	// wait for goroutine to finish
 	<-done
+
 	fmt.Println("Finishing Question")
+	// Check if the question responses match the answer
+	for _, resp := range answers {
+		if resp.Answer == g.CurrentQuestion.Answer {
+			g.Scoreboard[resp.Username] += q.Value
+		}
+	}
 	return nil
 }
 

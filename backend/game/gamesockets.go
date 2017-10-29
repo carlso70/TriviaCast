@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"time"
 
 	"github.com/carlso70/triviacast/backend/repo"
 	"github.com/carlso70/triviacast/backend/user"
@@ -19,13 +18,14 @@ var upgrader = websocket.Upgrader{
 	},
 }
 
-// TODO change the question db, to change Answer an int
+// Typical Socket response to a question
 type SocketResponse struct {
 	UserId int    `json:"userId"`
 	GameId int    `json:"gameId"`
 	Answer string `json:"answer"`
 }
 
+// Client represents a single websocket connection between a user and game
 type Client struct {
 	Connection  *websocket.Conn
 	User        user.User
@@ -91,6 +91,7 @@ func SendMsg(msg string) {
 	}
 }
 
+// Creates a socket server for each game that users can connect to
 func (g *Game) InitGameSocket() {
 	clients = make([]Client, 0)
 

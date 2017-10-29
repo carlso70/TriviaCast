@@ -9,12 +9,10 @@ import (
 
 func GenerateId() int {
 	max := 1000000
-	min := 1
-	return rand.Intn(max-min) + min
+	return rand.Intn(max)
 }
 
 func EncryptPass(password string) string {
-
 	// Hashing the password with the default cost of 10
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {

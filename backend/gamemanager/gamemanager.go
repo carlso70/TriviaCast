@@ -74,9 +74,8 @@ func (g *GameManager) AddUserToGame(gameId, userId int) (game.Game, error) {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println("USER BEFORE: ", user)
-	fmt.Println("GAMES USERS BEFORE:", g.Games[index].Users)
 	g.Games[index].Users = append(g.Games[index].Users, user)
+	fmt.Printf("GAME %d USERS: %#v\n", g.Games[index].Id, g.Games[index].Users)
 
 	// Join Game instance
 	return g.Games[index], nil
