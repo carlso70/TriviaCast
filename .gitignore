@@ -121,3 +121,6 @@ android/logcat.txt
 # Annoying frontend files
 frontend/.DS_Store
 frontend/react-native-package-cache*
+
+# Webapp ignore
+webapp/node_module*
