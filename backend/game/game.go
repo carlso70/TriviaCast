@@ -147,7 +147,10 @@ func (g *Game) EndGame() {
 			g.Users[i].WinCt += 1
 		}
 	}
-	// TODO update user in DB
+
+	// Send a message of the current game
+	gameJson, _ := json.Marshal(g)
+	SendMsg(string(gameJson))
 
 }
 
