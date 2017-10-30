@@ -56,7 +56,7 @@ MongoClient.connect(url, function(err, db) {
 { question: 'What is Agent Orange?', choices: ['A character in a cartoon', 'A math problem', 'A nickname for an element', 'A herbicide'], answer: 'A herbicide', difficulty: 'Medium', category: 'Science'},
 { question: 'Which of these inventions dates back to about 1500 BC?', choices: ['Paintbrush', 'Comb', 'Glass', 'Paper'], answer: 'Glass', difficulty: 'Easy', category: 'Science'}
 ];
-  db.collection("questions_new").insertMany(myobj, function(err, res) {
+  db.collection("questions").insertMany(myobj, function(err, res) {
     if (err) throw err;
     console.log("Number of documents inserted: " + res.insertedCount);
     db.close();
