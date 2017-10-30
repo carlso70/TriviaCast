@@ -94,7 +94,6 @@ func GetUsers() ([]user.User, error) {
 	return result, err
 }
 
-// TODO test update user
 func UpdateUser(usr user.User) error {
 	session, err := mgo.DialWithInfo(&mgo.DialInfo{
 		Addrs: Host,
@@ -103,10 +102,13 @@ func UpdateUser(usr user.User) error {
 
 	// Collection
 	c := session.DB(Database).C(Collection)
-	// Refer to the bson encodings in the user package for other properties
-	err = c.Update(bson.Marshal(&usr))
+	// Remove old user
+	err = c.Remove(bson.M{"id": usr.Id})
+	if err != nil {
+		return err
+	}
+	err = c.Insert(usr)
 	return err
-
 }
 
 func DeleteUser(userId int) error {
