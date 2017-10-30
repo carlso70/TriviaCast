@@ -38,11 +38,30 @@ func TestGetAllUser(t *testing.T) {
 	}
 }
 
+func TestUpdateUser(t *testing.T) {
+	t.Run("Add Test User", TestAddUserToDB)
+	user, err := FindUser(testId)
+	if err != nil {
+		t.Error("Error Recieved:", err)
+	}
+	user.Username = "testing"
+	err = UpdateUser(user)
+	if err != nil {
+		t.Error("Error Recieved:", err)
+	}
+	user2, err := FindUser(user.Id)
+	if err != nil {
+		t.Error("Error Recieved:", err)
+	}
+	if user2.Username != user.Username {
+		t.Error("Update failed")
+	}
+}
+
 func TestDeleteUser(t *testing.T) {
 	t.Run("Add Test User", TestAddUserToDB)
 	err := DeleteUser(testId)
 	if err != nil {
 		t.Errorf("Error Recieved: ", err)
 	}
-
 }
