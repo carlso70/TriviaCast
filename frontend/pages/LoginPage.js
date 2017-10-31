@@ -26,7 +26,7 @@ export default class LoginPage extends React.Component {
 
     authenticate() {
         // TODO make post request to server, if successful run the nav code below, and pass isLogin param
-        this.props.navigation.goBack();
+        this.props.navigation.navigate('GameMenu');
     }
     createAccount() {
         this.props.navigation.goBack();
