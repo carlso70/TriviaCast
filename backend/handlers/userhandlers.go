@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/carlso70/triviacast/backend/gamemanager"
@@ -20,12 +21,14 @@ type AccountRequest struct {
 func CreateUser(w http.ResponseWriter, r *http.Request) {
 	var request AccountRequest
 
+	fmt.Println("CREATE USER")
 	decoder := json.NewDecoder(r.Body)
 	err := decoder.Decode(&request)
 	if err != nil {
 		panic(err)
 	}
 	defer r.Body.Close()
+
 	fmt.Println("username: ", request.Username)
 
 	// password encrypting check user is valid
@@ -58,6 +61,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 func LoginUser(w http.ResponseWriter, r *http.Request) {
 	var request AccountRequest
 
+	fmt.Println("LOGIN USER")
 	decoder := json.NewDecoder(r.Body)
 	err := decoder.Decode(&request)
 	if err != nil {
@@ -91,14 +95,19 @@ func ListUsers(w http.ResponseWriter, r *http.Request) {
 	gamemanager := gamemanager.GetInstance()
 	users, err := gamemanager.GetUsers()
 	if err != nil {
-		panic(err)
+		log.Panic(err)
 	}
 
 	for _, user := range users {
 		byteSlice, err := json.Marshal(&user)
 		if err != nil {
-			panic(err)
+			log.Panic(err)
 		}
+
+		fmt.Println("USER string = ", string(byteSlice))
 		fmt.Fprintf(w, "%s\n", string(byteSlice))
+	}
+	if len(users) == 0 {
+		http.Error(w, "No Users Found", 500)
 	}
 }

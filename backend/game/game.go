@@ -1,23 +1,31 @@
 package game
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
+	"log"
 	"time"
 
-	"github.com/carlso70/triviacast/backend/gameserver"
 	"github.com/carlso70/triviacast/backend/question"
 	"github.com/carlso70/triviacast/backend/user"
 	"github.com/carlso70/triviacast/backend/utils"
 )
 
+type QuestionResponse struct {
+	Username string `json:"username"`
+	Answer   string `json:"answer"`
+}
+
 type Game struct {
 	Id              int                 `json:"id"`
 	Users           []user.User         `json:"users"`
-	QuestionDeck    []question.Question `json:"deck"`
+	QuestionDeck    []question.Question `json:"-"`
 	CurrentQuestion question.Question   `json:"question"`
+	AskingQuestion  bool                `json:"askingQuestion"`
 	Scoreboard      map[string]int      `json:"scoreboard"`
-	Winner          string
+	Winner          string              `json:"-"`
+	responses       chan string         `json:"-"`
 }
 
 const (
@@ -27,13 +35,21 @@ const (
 func Init() Game {
 	id := utils.GenerateId()
 	scoreboard := make(map[string]int)
+	responses := make(chan string)
 	deck := question.GetDefaultQuestions()
-	return Game{Id: id, Users: nil, QuestionDeck: deck, Scoreboard: scoreboard}
+	return Game{
+		Id:           id,
+		Users:        nil,
+		QuestionDeck: deck,
+		Scoreboard:   scoreboard,
+		responses:    responses,
+	}
 }
 
 func (g *Game) StartGame() error {
 	fmt.Println("USERS ")
 	fmt.Println(g.Users)
+
 	// do initial testing
 	if len(g.Users) <= 0 {
 		fmt.Println("0 USERS IN GAME ", g.Id)
@@ -43,51 +59,81 @@ func (g *Game) StartGame() error {
 	return nil
 }
 
-// TODO runGame
+// Runs a game instance, which contains the basic game logic
 func (g *Game) runGame() {
 	fmt.Println("Running game:", g.Id)
 	totalScore := 0
-	g.Winner = g.Users[0].Username
+
 	// Index to current question being display
 	questionCt := 0
-	gameserver.Broadcast()
-	for {
-		totalScore = totalScore + 1
-		time.Sleep(time.Millisecond * 900)
 
+	// Send a snapshot message of the current game
+	gameJson, _ := json.Marshal(g)
+	SendMsg(string(gameJson))
+
+	// Keep ask
+	for totalScore < 100 || questionCt < len(g.QuestionDeck) {
 		// Start a question, which delays for 30 seconds while listening for answers
 		if err := g.startQuestion(g.QuestionDeck[questionCt]); err != nil {
-			panic(err)
+			log.Panic(err)
 		}
 		questionCt += 1
-
-		// Criteria to end game
-		if totalScore > 100 || questionCt > len(g.QuestionDeck)-1 {
-			g.EndGame()
-			break
-		}
 	}
+
+	g.EndGame()
 }
 
-// startQuestion TODO starts a timer, and broadcasts the question while listening for responses
+// startQuestion starts a timer, and broadcasts the question while waiting for the game channel to fill or timer to expire
 func (g *Game) startQuestion(q question.Question) error {
 	g.CurrentQuestion = q
-	// broadcast to tcp server current question
-	gameserver.Broadcast()
-	// start timer
-	timerChan := time.NewTimer(QUESTION_LENGTH).C
-	fmt.Printf("Starting question %s...\n", q.Question)
-	for {
-		// TODO implement question logic
+	g.AskingQuestion = true
 
-		// TODO  other channels not just timer
-		select {
-		case <-timerChan:
-			fmt.Println("Timer Expired")
-			return nil
+	// Send a message of the current game
+	gameJson, _ := json.Marshal(g)
+	SendMsg(string(gameJson))
+
+	// start timer, and tick chan
+
+	fmt.Printf("Starting question %s...\n", q.Question)
+
+	answers := make([]QuestionResponse, 0)
+
+	timerChan := time.NewTimer(QUESTION_LENGTH).C
+	done := make(chan bool)
+	go func() {
+		for g.AskingQuestion {
+			select {
+			case c := <-g.responses:
+				var answer QuestionResponse
+				fmt.Println("RECIEVED RESPONSE:", c)
+				err := json.Unmarshal([]byte(c), answer)
+				if err == nil {
+					// if there is no err with the response add it to the current answer array
+					answers = append(answers, answer)
+					if len(answers) == len(g.Users) {
+						g.AskingQuestion = false
+					}
+				}
+			case <-timerChan:
+				fmt.Println("TIMER EXPIRED")
+				g.AskingQuestion = false
+			default:
+			}
 		}
-		return nil
+		done <- true
+	}()
+
+	// wait for goroutine to finish
+	<-done
+
+	fmt.Println("Finishing Question")
+	// Check if the question responses match the answer
+	for _, resp := range answers {
+		if resp.Answer == g.CurrentQuestion.Answer {
+			g.Scoreboard[resp.Username] += q.Value
+		}
 	}
+	return nil
 }
 
 // EndGame updates players all time score at the end of the game
@@ -101,7 +147,10 @@ func (g *Game) EndGame() {
 			g.Users[i].WinCt += 1
 		}
 	}
-	// TODO update user in DB
+
+	// Send a message of the current game
+	gameJson, _ := json.Marshal(g)
+	SendMsg(string(gameJson))
 
 }
 
