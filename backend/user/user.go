@@ -13,6 +13,7 @@ type User struct {
 	Score    int    `json:"score" bson:"score"`
 	Active   bool   `json:"active" bson:"active"`
 	WinCt    int    `json:"wins" bson:"wins"`
+	SecurityAns string `json:"answer" bson:"answer"`
 }
 
 func Init() User {

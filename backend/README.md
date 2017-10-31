@@ -13,7 +13,7 @@ This document provides guidelines and examples for Triviacast HTTP API, and Triv
 # GAME START/JOIN/CREATE REQUESTS
 
 All requests to create or join a game should contain a Json Object following this format. UserId is a unique integer that identifies a user. It is a returned whenever a user is signed in, or a user is created.
-    
+
     {
         "userId": 1000,
         "gameId": 1234,
@@ -32,7 +32,7 @@ All requests to create or login to a user should contain a Json Object following
 ### POST /loginuser
 
 Example:/loginuser
-Request Body: 
+Request Body:
 
     {
         "username": "testusername",
@@ -41,8 +41,8 @@ Request Body:
 
 Response body:
 *Save the userId on the device while the user is logged in
- 
- 
+
+
     {
         "id":499380,
         "username":"createTest",
@@ -50,21 +50,23 @@ Response body:
         "gameID":0,
         "score":0,
         "active":true,
-        "wins":0
+        "wins":0,
+        "answer":"answerTest"
     }
 
- 
-          
+
+
 
 ### POST /createuser
 
 Example: http://localhost:8080/createuser
 
-Request body: 
+Request body:
 
     {
         "username": "createTest",
-        "password": "createTestPass"
+        "password": "createTestPass",
+        "answer": "createTestAnswer"
     }  
 
 Response body:
@@ -77,23 +79,24 @@ Response body:
         "gameID":0,
         "score":0,
         "active":true,
-        "wins":0
+        "wins":0,
+        "answer": "createTestAnswer"
     }
 
 
-### POST /creategame 
-Request body: 
+### POST /creategame
+Request body:
 
 
     {
         "userId": 123412,
         "gameId": 123434
     }  
-    
-    
+
+
 
 Response body:
-*The response body is a json containing the game details 
+*The response body is a json containing the game details
 
 
 
@@ -107,20 +110,20 @@ Response body:
 
 
 ### POST /joingame
-Request body: 
+Request body:
 
 
     {
         "userId": 123412,
         "gameId": 123434
     }  
-      
+
 
 Response body:
 *The response body is a json containing the game details
 
 
-    
+
     {
         "id":499380,
         "users":null,
@@ -129,19 +132,19 @@ Response body:
         "Winner":""
     }
 
-   
-   
-   
-### POST /startgame 
-Request body: 
+
+
+
+### POST /startgame
+Request body:
 
     {
         "userId": 123412,
         "gameId": 123434
     }  
-    
-Response body: 
-    
+
+Response body:
+
     {
         "message": "success"
     }
@@ -168,4 +171,3 @@ Use three simple, common response codes indicating (1) success, (2) failure due 
 * 200 - OK
 * 400 - Bad Request
 * 500 - Internal Server Error
-

@@ -16,6 +16,7 @@ import ButtonDemo from '../components/ButtonDemo'
 import { Button } from 'react-native-elements';
 const remotebackg = 'https://i.imgur.com/vqTkUz8.png';
 import AnswerPage from './AnswerPage.js';
+import ButtonQuit from '../components/ButtonQuit';
 
 const styles = StyleSheet.create({
 
@@ -120,7 +121,7 @@ class Question extends Component {
 	</View>
 	<View style={styles.content}>
 	  <View style={styles.buttonArrange}>
-	  
+
             <Button
               raised
               buttonStyle={{backgroundColor: 'white', borderRadius: 10, width: 200}}
@@ -156,7 +157,7 @@ class Question extends Component {
 	<View>
 	      <Text style={styles.gameContextText}>Question 1/10 | 1 point</Text>
 	    </View>
-
+      <ButtonQuit/>
       </Image>
     );
   }

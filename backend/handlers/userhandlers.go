@@ -45,6 +45,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 	usr := user.Init()
 	usr.Username = request.Username
 	usr.Password = utils.EncryptPass(request.Password)
+	usr.SecurityAns = request.SecurityAns
 
 	if err := repo.AddUserToDB(usr); err != nil {
 		panic(err)
