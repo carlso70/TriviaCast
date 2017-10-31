@@ -39,8 +39,26 @@ export default class HighScorePage extends React.Component {
           >
             {'High Scores'}
             
-            </Text>
-            </Image>
+          </Text>
+
+
+          <Button 
+              raised
+              title={'Go Back'} 
+              buttonStyle={styles.buttons} 
+              textStyle={{textAlign: 'center', color: 'black', backgroundColor: 'transparent'}}
+              onPress={() => this.props.navigation.goBack()} /> 
+            
+          </Image>
         )
     }
 }
+
+const styles = StyleSheet.create({
+  buttons: {
+    alignItems: 'center',
+    padding: 20,
+    backgroundColor: 'white',
+    borderRadius: 100
+  }
+})

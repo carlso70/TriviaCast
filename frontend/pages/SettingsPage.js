@@ -91,16 +91,16 @@ export default class SettingsPage extends React.Component {
                 step={1}
                 onSlidingComplete={(value) => this.numberOfQuestionsChanged(value)} 
                 style={{padding: 10}}              
-              />
+            />
         
-        <View style={styles.buttonArrange}>
+        
         <Button 
             raised
             title={'Go Back'} 
             buttonStyle={styles.buttons} 
             textStyle={{textAlign: 'center', color: 'black', backgroundColor: 'transparent'}}
             onPress={() => this.props.navigation.goBack()} /> 
-        </View>
+        
         </Image>
         )
     }
@@ -108,10 +108,9 @@ export default class SettingsPage extends React.Component {
 
 const styles = StyleSheet.create({
   buttons: {
-     alignItems: 'center',
-     padding: 20,
+    alignItems: 'center',
+    padding: 20,
     backgroundColor: 'white',
     borderRadius: 100
-
   }
 })
