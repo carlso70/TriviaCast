@@ -7,8 +7,37 @@ const remotebackg = 'https://i.imgur.com/vqTkUz8.png';
 
 export default class MainMenu extends Component {
 
-  createGame() {
-    
+//TODO get create game working and passing user id and game id to the lobby screen properties
+  createGame(userId) {
+    fetch('http://ec2-18-221-200-72.us-east-2.compute.amazonaws.com:8080/createGame', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        userId: userId,
+      })
+    }).then(function(response) {
+      console.log(response.status);
+      if (response.status === 200) {
+        return response.json();
+      } else if (response.status === 500) {
+        Alert.alert(
+          'Game could not be created'
+        );
+        return null;
+      } else {
+        Alert.alert(
+          'Fix network'
+        );
+        return null;
+      }
+    }).then((responseJson) => {
+      if (responseJson) {
+        this.props.navigation.navigate('Lobby');
+      }
+    })
   }
 
   render() {
@@ -25,7 +54,6 @@ export default class MainMenu extends Component {
           }}
           source={{ uri: remotebackg }}
         >
-
         <Text
           style={{
             backgroundColor: 'transparent',
@@ -42,6 +70,7 @@ export default class MainMenu extends Component {
           buttonStyle={styles.buttons}
           textStyle={{textAlign: 'center', color: 'black'}}
           title={`Create Game`}
+          onPress={() => this.props.navigation.navigate('Lobby')}
           />
         <Button
           raised

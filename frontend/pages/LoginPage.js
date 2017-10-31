@@ -78,7 +78,8 @@ export default class LoginPage extends React.Component {
         }).then((response) => response.json())
             .then((responseJson) => {
                 if (responseJson.username !== NULL) {
-                    this.props.navigation.navigate('GameMenu');
+                  //TODO want to pass user id to game menu from json response
+                    this.props.navigation.navigate('GameMenu', { userId: response.id });
                 }
             })
     }
@@ -131,4 +132,3 @@ const styles = StyleSheet.create({
         paddingBottom: 4
     }
 });
-
