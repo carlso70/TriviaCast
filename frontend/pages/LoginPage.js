@@ -15,7 +15,6 @@ import { Button, FormLabel, FormInput} from 'react-native-elements';
 const remotebackg = 'https://i.imgur.com/vqTkUz8.png';
 import ForgotPage from './ForgotPage';
 
-
 export default class LoginPage extends React.Component {
     constructor(props) {
         super(props);
