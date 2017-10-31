@@ -26,21 +26,22 @@ export default class LoginPage extends React.Component {
 
     authenticate() {
         // TODO make post request to server, if successful run the nav code below, and pass isLogin param
-        fetch('ec2-18-221-200-72.us-east-2.compute.amazonaws.com:8080/loginuser',{
-              method: 'POST',
-              headers: {
-                  'Accept': 'application/json',
-                  'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({
-                  username: this.state.username,
-                  password: this.state.password,
-              })
-        }).then((response) => response.json())
-            .then((responseJson) => {
-                console.log(responseJson);
-                this.props.navigation.navigate('GameMenu');
-            })
+        // fetch('ec2-18-221-200-72.us-east-2.compute.amazonaws.com:8080/loginuser',{
+        //       method: 'POST',
+        //       headers: {
+        //           'Accept': 'application/json',
+        //           'Content-Type': 'application/json',
+        //       },
+        //       body: JSON.stringify({
+        //           username: this.state.username,
+        //           password: this.state.password,
+        //       })
+        // }).then((response) => response.json())
+        //     .then((responseJson) => {
+        //         console.log(responseJson);
+        //         this.props.navigation.navigate('GameMenu');
+        //     })
+        this.props.navigation.navigate('GameMenu');
     }
     createAccount() {
         this.props.navigation.goBack();
