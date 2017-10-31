@@ -7,6 +7,10 @@ const remotebackg = 'https://i.imgur.com/vqTkUz8.png';
 
 export default class MainMenu extends Component {
 
+  createGame() {
+    
+  }
+
   render() {
     return (
         <Image
