@@ -1,17 +1,10 @@
 import React, { Component } from 'react';
-import {
-  AppRegistry,
-  Image,
-  Text,
-  View,
-  Button
-} from 'react-native';
+import {Image,Text,Button} from 'react-native';
 
 import ButtonPlay from '../components/ButtonPlay'
-import ButtonUserSettings from '../components/ButtonUserSettings'
 import ButtonGameSettings from '../components/ButtonGameSettings'
 import ButtonHScores from '../components/ButtonHScores'
-
+import ButtonLogout from '../components/ButtonLogout'
 import { StackNavigator } from 'react-navigation';
 const remotebackg = 'https://i.imgur.com/vqTkUz8.png';
 
@@ -45,8 +38,8 @@ export default class MainMenu extends Component {
         </Text>
         <ButtonPlay/>
         <ButtonHScores/>
-        <ButtonUserSettings/>
         <ButtonGameSettings/>
+        <ButtonLogout/>
       </Image>
     );
   }
