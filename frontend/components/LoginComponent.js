@@ -2,12 +2,14 @@ import React from 'react'
 import {View, Text} from 'react-native'
 import { Button } from 'react-native-elements'
 
+import { StackNavigator, NavigationActions } from 'react-navigation';
 export default class LoginComponent extends React.Component {
     constructor(props){
         super(props)
     }
     render() {
         return (
+            
                 <View>
                 <Text
             style={{
@@ -20,7 +22,7 @@ export default class LoginComponent extends React.Component {
                 >
                 {'TriviaCast'}
             </Text>
-                <Button title="Login"  onPress={() => this.props.navigation.navigate('Login')}/>
+                <Button title="Login" onPress={() => this.props.navigation.navigate('Login')}/>
                 </View>
         )
     }

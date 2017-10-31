@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 import {Image,Text,Button} from 'react-native';
 
 import ButtonPlay from '../components/ButtonPlay'
-import ButtonGameSettings from '../components/ButtonGameSettings'
 import ButtonHScores from '../components/ButtonHScores'
-import ButtonLogout from '../components/ButtonLogout'
 import { StackNavigator } from 'react-navigation';
 const remotebackg = 'https://i.imgur.com/vqTkUz8.png';
 
@@ -38,8 +36,22 @@ export default class MainMenu extends Component {
         </Text>
         <ButtonPlay/>
         <ButtonHScores/>
-        <ButtonGameSettings/>
-        <ButtonLogout/>
+        <Button
+            raised
+            //icon={{name: 'account-circle', color: 'black'}}
+            buttonStyle={{backgroundColor: 'white', borderRadius: 10, padding: 20}}
+            textStyle={{textAlign: 'center', color: 'black'}}
+            title={`Game Settings`}
+            onPress={() => this.props.navigation.navigate('Settings')}
+        />
+        <Button
+          raised
+          //icon={{name: 'account-circle', color: 'black'}}
+          buttonStyle={{backgroundColor: 'white', borderRadius: 10, padding: 20}}
+          textStyle={{textAlign: 'center', color: 'black'}}
+          title={`Log Out`}
+          onPress={() => this.props.navigation.goBack()}
+        />
       </Image>
     );
   }

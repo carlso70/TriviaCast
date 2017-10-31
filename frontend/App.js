@@ -4,11 +4,13 @@ import { StackNavigator } from 'react-navigation';
 import MainPage from './pages/MainPage'
 import LoginPage from './pages/LoginPage'
 import MainMenu from './pages/MainMenu'
+import SettingsPage from './pages/SettingsPage'
 
 const TriviaCast = StackNavigator({
     Main: {screen: MainPage},
     Login: {screen: LoginPage},
-    GameMenu: {screen: MainMenu}
+    GameMenu: {screen: MainMenu},
+    Settings: {screen: SettingsPage}
   },
   {headerMode: 'none'}
 
