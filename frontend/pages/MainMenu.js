@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import {Image,Text,Button} from 'react-native';
+import {Image,Text, StyleSheet} from 'react-native';
+import {Button} from 'react-native-elements';
 
-import ButtonPlay from '../components/ButtonPlay'
-import ButtonHScores from '../components/ButtonHScores'
 import { StackNavigator } from 'react-navigation';
 const remotebackg = 'https://i.imgur.com/vqTkUz8.png';
 
@@ -34,20 +33,34 @@ export default class MainMenu extends Component {
         >
           {'Main Menu'}
         </Text>
-        <ButtonPlay/>
-        <ButtonHScores/>
+        <Button
+          raised
+          buttonStyle={styles.buttons}
+          textStyle={{textAlign: 'center', color: 'black'}}
+          title={`Create Game`}
+          />
+        <Button
+          raised
+          buttonStyle={styles.buttons}
+          textStyle={{textAlign: 'center', color: 'black'}}
+          title={`Join Game`}
+         />
+         <Button
+            raised
+            buttonStyle={styles.buttons}
+            textStyle={{textAlign: 'center', color: 'black'}}
+           title={`High Scores`}
+        />
         <Button
             raised
-            //icon={{name: 'account-circle', color: 'black'}}
-            buttonStyle={{backgroundColor: 'white', borderRadius: 10, padding: 20}}
+            buttonStyle={styles.buttons}
             textStyle={{textAlign: 'center', color: 'black'}}
             title={`Game Settings`}
             onPress={() => this.props.navigation.navigate('Settings')}
         />
         <Button
           raised
-          //icon={{name: 'account-circle', color: 'black'}}
-          buttonStyle={{backgroundColor: 'white', borderRadius: 10, padding: 20}}
+          buttonStyle={styles.buttons}
           textStyle={{textAlign: 'center', color: 'black'}}
           title={`Log Out`}
           onPress={() => this.props.navigation.goBack()}
@@ -56,3 +69,13 @@ export default class MainMenu extends Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  buttons: {
+     alignItems: 'center',
+     padding: 20,
+      backgroundColor: 'white',
+      borderRadius: 10
+
+  }
+})

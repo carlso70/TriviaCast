@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {View, Text, StyleSheet, Image} from 'react-native'
-import { Button } from 'react-native-elements'
+import {Button} from 'react-native-elements';
 
 const remotebackg = 'https://i.imgur.com/vqTkUz8.png';
 import { StackNavigator, NavigationActions } from 'react-navigation';
@@ -13,6 +13,8 @@ export default class SettingsPage extends React.Component {
     }
 
     difficultyChanged(rating) {
+      if(rating == 0)
+        rating =1
       console.log("Difficulty is: " + rating)
     }
 
@@ -92,7 +94,12 @@ export default class SettingsPage extends React.Component {
               />
         
         <View style={styles.buttonArrange}>
-        <Button title="Go Back" onPress={() => this.props.navigation.goBack()} /> 
+        <Button 
+            raised
+            title={'Go Back'} 
+            buttonStyle={styles.buttons} 
+            textStyle={{textAlign: 'center', color: 'black', backgroundColor: 'transparent'}}
+            onPress={() => this.props.navigation.goBack()} /> 
         </View>
         </Image>
         )
@@ -100,8 +107,11 @@ export default class SettingsPage extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  buttonArrange: {
-      alignItems: 'center',
-      paddingBottom: 4
+  buttons: {
+     alignItems: 'center',
+     padding: 20,
+    backgroundColor: 'white',
+    borderRadius: 100
+
   }
-});
+})
