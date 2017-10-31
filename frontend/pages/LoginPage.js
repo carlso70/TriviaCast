@@ -75,9 +75,28 @@ export default class LoginPage extends React.Component {
                 username: username,
                 password: password,
             })
-        }).then((response) => response.json())
+        }).then(function(response) {
+            console.log(response.status);
+            if (response.status === 200) {
+                return response.json();
+            } else if (response.status === 500){
+                // There was an error with username or password
+                Alert.alert(
+                    'Invalid Password',
+                    'Try another password'
+                );
+                return null;
+            } else {
+                // 404 error or something else
+                Alert.alert(
+                    'Please fix your network',
+                    'Try again'
+                );
+                return null;
+            }
+        })
             .then((responseJson) => {
-                if (responseJson.username !== NULL) {
+                if (responseJson) {
                     this.props.navigation.navigate('GameMenu');
                 }
             })
@@ -112,7 +131,7 @@ export default class LoginPage extends React.Component {
                 />
                 <View style={styles.buttonArrange}>
                 <Button title="Login" onPress={() => this.authenticate(this.state.username, this.state.password) } />
-                <Button title="Create Account" onPress={() => this.createAccount() }/>
+                <Button title="Create Account" onPress={() => this.createAccount(this.state.username, this.state.password) }/>
                 <Button title="Go Back" onPress={() => this.props.navigation.goBack()} />
                 </View>
                 </Image>
