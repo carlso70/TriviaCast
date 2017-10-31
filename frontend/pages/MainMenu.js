@@ -1,16 +1,6 @@
 import React, { Component } from 'react';
-import {
-  AppRegistry,
-  Image,
-  Text,
-  View,
-  Button
-} from 'react-native';
-
-import ButtonPlay from '../components/ButtonPlay'
-import ButtonUserSettings from '../components/ButtonUserSettings'
-import ButtonGameSettings from '../components/ButtonGameSettings'
-import ButtonHScores from '../components/ButtonHScores'
+import {Image,Text, StyleSheet} from 'react-native';
+import {Button} from 'react-native-elements';
 
 import { StackNavigator } from 'react-navigation';
 const remotebackg = 'https://i.imgur.com/vqTkUz8.png';
@@ -43,11 +33,49 @@ export default class MainMenu extends Component {
         >
           {'Main Menu'}
         </Text>
-        <ButtonPlay/>
-        <ButtonHScores/>
-        <ButtonUserSettings/>
-        <ButtonGameSettings/>
+        <Button
+          raised
+          buttonStyle={styles.buttons}
+          textStyle={{textAlign: 'center', color: 'black'}}
+          title={`Create Game`}
+          />
+        <Button
+          raised
+          buttonStyle={styles.buttons}
+          textStyle={{textAlign: 'center', color: 'black'}}
+          title={`Join Game`}
+         />
+         <Button
+            raised
+            buttonStyle={styles.buttons}
+            textStyle={{textAlign: 'center', color: 'black'}}
+           title={`High Scores`}
+        />
+        <Button
+            raised
+            buttonStyle={styles.buttons}
+            textStyle={{textAlign: 'center', color: 'black'}}
+            title={`Game Settings`}
+            onPress={() => this.props.navigation.navigate('Settings')}
+        />
+        <Button
+          raised
+          buttonStyle={styles.buttons}
+          textStyle={{textAlign: 'center', color: 'black'}}
+          title={`Log Out`}
+          onPress={() => this.props.navigation.goBack()}
+        />
       </Image>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  buttons: {
+     alignItems: 'center',
+     padding: 20,
+      backgroundColor: 'white',
+      borderRadius: 10
+
+  }
+})

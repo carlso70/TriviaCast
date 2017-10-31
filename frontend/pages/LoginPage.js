@@ -39,7 +39,7 @@ export default class LoginPage extends React.Component {
         }).then((response) => response.json())
             .then((responseJson) => {
                 console.log(responseJson);
-                this.props.navigation.goBack();
+                this.props.navigation.navigate('GameMenu');
             })
     }
     createAccount() {
