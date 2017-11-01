@@ -113,11 +113,9 @@ func ListUsers(w http.ResponseWriter, r *http.Request) {
 
 func GetHighScores(w http.ResponseWriter, r *http.Request) {
 	users := repo.QueryHighScores()
-	for _, user := range users {
-		byteSlice, err := json.Marshal(&user)
-		if err != nil {
-			log.Panic(err)
-		}
-		fmt.Fprintf(w, "%s\n", string(byteSlice))
+	byteSlice, err := json.Marshal(&users)
+	if err != nil {
+		log.Panic(err)
 	}
+	fmt.Fprintf(w, "%s\n", string(byteSlice))
 }
