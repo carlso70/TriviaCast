@@ -110,3 +110,14 @@ func ListUsers(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "No Users Found", 500)
 	}
 }
+
+func GetHighScores(w http.ResponseWriter, r *http.Request) {
+	users := repo.QueryHighScores()
+	for _, user := range users {
+		byteSlice, err := json.Marshal(&user)
+		if err != nil {
+			log.Panic(err)
+		}
+		fmt.Fprintf(w, "%s\n", string(byteSlice))
+	}
+}
