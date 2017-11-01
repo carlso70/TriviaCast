@@ -25,7 +25,9 @@ export default class LoginPage extends React.Component {
         };
     }
 
+
     authenticate(username, password) {
+
         // TODO make post request to server, if successful run the nav code below, and pass isLogin param
         fetch('http://ec2-18-221-200-72.us-east-2.compute.amazonaws.com:8080/loginuser',{
             method: 'POST',
@@ -59,7 +61,7 @@ export default class LoginPage extends React.Component {
         })
             .then((responseJson) => {
                 if (responseJson) {
-                    this.props.navigation.navigate('GameMenu');
+                    this.props.navigation.navigate('GameMenu', { userId: responseJson.id });
                 }
             })
     }

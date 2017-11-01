@@ -7,6 +7,16 @@ const remotebackg = 'https://i.imgur.com/vqTkUz8.png';
 
 export default class MainMenu extends Component {
 
+  //not sure if this is right
+  constructor(props) {
+    super(props);
+    this.state = {
+      //do not know if this is correct usage of this.props.navigation
+      userId: this.props.navigation.state.params.userId,
+    }
+  }
+
+
 //TODO get create game working and passing user id and game id to the lobby screen properties
   createGame(userId) {
     fetch('http://ec2-18-221-200-72.us-east-2.compute.amazonaws.com:8080/createGame', {
@@ -17,6 +27,7 @@ export default class MainMenu extends Component {
       },
       body: JSON.stringify({
         userId: userId,
+        gameId: 0,
       })
     }).then(function(response) {
       console.log(response.status);
@@ -34,9 +45,10 @@ export default class MainMenu extends Component {
         return null;
       }
     }).then((responseJson) => {
-      if (responseJson) {
-        this.props.navigation.navigate('Lobby');
-      }
+      // if (responseJson) {
+        Alert.alert({responseJson});
+        return null;
+      // }
     })
   }
 
@@ -70,7 +82,7 @@ export default class MainMenu extends Component {
           buttonStyle={styles.buttons}
           textStyle={{textAlign: 'center', color: 'black'}}
           title={`Create Game`}
-          onPress={() => this.props.navigation.navigate('Lobby')}
+          onPress={() => this.createGame(this.state.userId)}
           />
         <Button
           raised
