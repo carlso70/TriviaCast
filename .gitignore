@@ -118,4 +118,5 @@ android/logcat.txt
  ios/Pods
  .expo
 
+frontend/.DS_Store
 frontend/react-native-package-cache*
