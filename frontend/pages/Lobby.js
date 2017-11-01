@@ -6,13 +6,13 @@ import { StackNavigator } from 'react-navigation';
 const remotebackg = 'https://i.imgur.com/vqTkUz8.png';
 
 export default class Lobby extends Component {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     // hostUserId: this.props.navigation.state.params.userId,
-  //     gameId: this.props.navigation.state.params.gameId,
-  //   };
-  // }
+  constructor(props) {
+    super(props);
+    this.state = {
+      // hostUserId: this.props.navigation.state.params.userId,
+      gameId: this.props.navigation.state.params.gameId,
+    };
+  }
 
 
   render() {
