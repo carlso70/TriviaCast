@@ -69,17 +69,6 @@ export default class MainMenu extends Component {
             }}
             source={{ uri: remotebackg }}
                 >
-                <Text
-            style={{
-                backgroundColor: 'transparent',
-                textAlign: 'center',
-                fontSize: 45,
-                color: 'white',
-                padding: 40,
-            }}
-                >
-                {'Main Menu'}
-            </Text>
                 <Button
             raised
             buttonStyle={styles.buttons}
@@ -123,6 +112,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         padding: 20,
         backgroundColor: 'white',
+        marginTop: 20,
         borderRadius: 10
 
     }
