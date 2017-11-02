@@ -9,8 +9,10 @@ import (
 )
 
 type GameSessionRequest struct {
-	UserId int `json:"userId"`
-	GameId int `json:"gameId"`
+	UserId     int `json:"userId"`
+	GameId     int `json:"gameId"`
+	Difficulty int `json:"difficulty"`
+	QuestionCt int `json:"questionCt"`
 }
 
 // CreateGame generates a new game, and adds the user to the game, responds back with game id token
@@ -25,9 +27,15 @@ func CreateGame(w http.ResponseWriter, r *http.Request) {
 	}
 	defer r.Body.Close()
 
+	if request.Difficulty == 0 || request.QuestionCt == 0 {
+		fmt.Println("Invalid Request Either GameDifficulty or QuestionCt")
+		http.Error(w, "Invalid Request Either GameDifficulty or QuestionCt", 500)
+		return
+	}
+
 	// Get the gamemanager instance, create new game, and add user to the game
 	gamemanager := gamemanager.GetInstance()
-	game, err := gamemanager.CreateGame()
+	game, err := gamemanager.CreateGame(request.Difficulty, request.QuestionCt)
 	gamemanager.AddUserToGame(game.Id, request.UserId)
 	if err != nil {
 		http.Error(w, err.Error(), 500)
