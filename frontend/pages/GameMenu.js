@@ -33,7 +33,7 @@ export default class MainMenu extends Component {
                   else {
                     return 1;
                   }
-                });
+                }),
                 QuestionCt: AsyncStorage.getItem('QuestionCount', (err, result) => {
                   if (result) {
                     return result;
@@ -41,7 +41,7 @@ export default class MainMenu extends Component {
                   else {
                     return 10;
                   }
-                });
+                })
             })
         }).then(function(response) {
             console.log(response.status);
@@ -97,6 +97,7 @@ export default class MainMenu extends Component {
             buttonStyle={styles.buttons}
             textStyle={{textAlign: 'center', color: 'black'}}
             title={`Join Game`}
+            onPress={() => this.props.navigation.navigate('Game')}
                 />
                 <Button
             raised
