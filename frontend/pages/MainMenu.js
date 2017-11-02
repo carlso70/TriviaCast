@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Image,Text, StyleSheet} from 'react-native';
+import {Image,Text, StyleSheet, Alert} from 'react-native';
 import {Button} from 'react-native-elements';
 
 import { StackNavigator } from 'react-navigation';
@@ -25,9 +25,10 @@ export default class MainMenu extends Component {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
       },
+      //TODO fix request format to prevent 500 error
       body: JSON.stringify({
         userId: userId,
-        gameId: 0,
+        gameId: 1234,
       })
     }).then(function(response) {
       console.log(response.status);
@@ -40,15 +41,15 @@ export default class MainMenu extends Component {
         return null;
       } else {
         Alert.alert(
-          'Fix network'
+          'Fix network, bad request'
         );
         return null;
       }
     }).then((responseJson) => {
-      // if (responseJson) {
-        Alert.alert({responseJson});
-        return null;
-      // }
+      if (responseJson) {
+        this.props.navigation.navigate('Lobby', { userId: responseJson.userId,
+          gameId: responseJson.gameId })
+      }
     })
   }
 

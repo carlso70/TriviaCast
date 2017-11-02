@@ -9,7 +9,7 @@ export default class Lobby extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // hostUserId: this.props.navigation.state.params.userId,
+      hostUserId: this.props.navigation.state.params.userId,
       gameId: this.props.navigation.state.params.gameId,
     };
   }
@@ -41,7 +41,6 @@ export default class Lobby extends Component {
       {'Lobby'}
       </Text>
       <Text>Game: {this.state.gameId}</Text>
-      <Text> Host User: {this.state.hostUserId}</Text>
       <View style={styles.buttonArrange}>
       <Button title="Go Back" onPress={() => this.props.navigation.goBack()} />
       </View>
