@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Image,Text, StyleSheet, Alert} from 'react-native';
+import {Image,Text, StyleSheet, Alert, AsyncStorage} from 'react-native';
 import {Button} from 'react-native-elements';
 
 import { StackNavigator } from 'react-navigation';
@@ -24,24 +24,26 @@ export default class MainMenu extends Component {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                UserId: userId,
-                GameId: 9999,
-                Difficulty: AsyncStorage.getItem('Difficulty', (err, result) => {
-                  if (result) {
-                    return result;
-                  }
-                  else {
-                    return 1;
-                  }
-                });
-                QuestionCt: AsyncStorage.getItem('QuestionCount', (err, result) => {
-                  if (result) {
-                    return result;
-                  }
-                  else {
-                    return 10;
-                  }
-                });
+                userId: userId,
+                gameId: 9999,
+                difficulty: 1,
+                questionCt: 10
+                // difficulty: AsyncStorage.getItem('Difficulty', (err, result) => {
+                //   if (result !== null) {
+                //     return result;
+                //   }
+                //   else {
+                //     return 1;
+                //   }
+                // }),
+                // questionCt: AsyncStorage.getItem('QuestionCount', (err, result) => {
+                //   if (result !== null) {
+                //     return result;
+                //   }
+                //   else {
+                //     return 10;
+                //   }
+                // })
             })
         }).then(function(response) {
             console.log(response.status);
