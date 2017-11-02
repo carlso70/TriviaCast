@@ -24,6 +24,8 @@ type Game struct {
 	CurrentQuestion question.Question   `json:"question"`
 	AskingQuestion  bool                `json:"askingQuestion"`
 	Scoreboard      map[string]int      `json:"scoreboard"`
+	QuestionCt      int                 `json:"questionCt"`
+	GameDifficulty  int                 `json:"difficulty"`
 	Winner          string              `json:"-"`
 	responses       chan string         `json:"-"`
 }
@@ -37,12 +39,15 @@ func Init() Game {
 	scoreboard := make(map[string]int)
 	responses := make(chan string)
 	deck := question.GetDefaultQuestions()
+	// Default QuestionCt = 10, GameDif = 1
 	return Game{
-		Id:           id,
-		Users:        nil,
-		QuestionDeck: deck,
-		Scoreboard:   scoreboard,
-		responses:    responses,
+		Id:             id,
+		Users:          nil,
+		QuestionDeck:   deck,
+		Scoreboard:     scoreboard,
+		responses:      responses,
+		GameDifficulty: 1,
+		QuestionCt:     10,
 	}
 }
 
@@ -180,4 +185,8 @@ func (g *Game) RemoveUserFromGame(user user.User) error {
 	}
 
 	return errors.New("Error: Failure to delete, user not in game")
+}
+
+// TODO Build a question deck based off of these settings
+func (g *Game) CreateQuestionDeckFromSettings() {
 }
