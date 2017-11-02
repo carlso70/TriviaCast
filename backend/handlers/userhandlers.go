@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 	"log"
 	"net/http"
@@ -65,14 +64,14 @@ func LoginUser(w http.ResponseWriter, r *http.Request) {
 	decoder := json.NewDecoder(r.Body)
 	err := decoder.Decode(&request)
 	if err != nil {
-		panic(err)
+		http.Error(w, "Server Problem", 500)
 	}
 	defer r.Body.Close()
 	fmt.Println("username: ", request.Username)
 
-	// TODO password encrypting check user is valid
 	if request.Username == "" || request.Password == "" {
-		panic(errors.New("Empty username/password in CreateUser"))
+		http.Error(w, "Invalid Password", 500)
+		return
 	}
 
 	usr, err := repo.FindUserByUsername(request.Username)
@@ -110,4 +109,13 @@ func ListUsers(w http.ResponseWriter, r *http.Request) {
 	if len(users) == 0 {
 		http.Error(w, "No Users Found", 500)
 	}
+}
+
+func GetHighScores(w http.ResponseWriter, r *http.Request) {
+	users := repo.QueryHighScores()
+	byteSlice, err := json.Marshal(&users)
+	if err != nil {
+		log.Panic(err)
+	}
+	fmt.Fprintf(w, "%s\n", string(byteSlice))
 }

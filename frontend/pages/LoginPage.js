@@ -2,17 +2,18 @@ import React, { Component } from 'react';
 import {
     AppRegistry,
     Image,
+    Alert,
     Text,
+    TouchableHighlight,
     View,
     TextInput,
     StyleSheet,
-    Alert
 } from 'react-native';
 
+import {getAWSUrl} from '../utils/Urls'
 import { StackNavigator, NavigationActions } from 'react-navigation';
 import { Button, FormLabel, FormInput} from 'react-native-elements';
 const remotebackg = 'https://i.imgur.com/vqTkUz8.png';
-import ForgotPage from './ForgotPage';
 
 
 export default class LoginPage extends React.Component {
@@ -24,27 +25,80 @@ export default class LoginPage extends React.Component {
         };
     }
 
-    authenticate() {
-        // TODO make post request to server, if successful run the nav code below, and pass isLogin param
-        // fetch('ec2-18-221-200-72.us-east-2.compute.amazonaws.com:8080/loginuser',{
-        //       method: 'POST',
-        //       headers: {
-        //           'Accept': 'application/json',
-        //           'Content-Type': 'application/json',
-        //       },
-        //       body: JSON.stringify({
-        //           username: this.state.username,
-        //           password: this.state.password,
-        //       })
-        // }).then((response) => response.json())
-        //     .then((responseJson) => {
-        //         console.log(responseJson);
-        //         this.props.navigation.navigate('GameMenu');
-        //     })
-        this.props.navigation.navigate('GameMenu');
+    authenticate(username, password) {
+        fetch(getAWSUrl() + 'loginuser',{
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                username: username,
+                password: password,
+            })
+        }).then(function(response) {
+            console.log(response.status);
+            if (response.status === 200) {
+                return response.json();
+            } else if (response.status === 500){
+                // There was an error with username or password
+                Alert.alert(
+                    'Invalid Password',
+                    'Try another password'
+                );
+                return null;
+            } else {
+                // 404 error or something else
+                Alert.alert(
+                    'Please fix your network',
+                    'Try again'
+                );
+                return null;
+            }
+        })
+            .then((responseJson) => {
+                if (responseJson) {
+                    this.props.navigation.navigate('GameMenu', { userId: responseJson.id });
+                }
+            })
     }
-    createAccount() {
-        this.props.navigation.goBack();
+
+    createAccount(username, password) {
+        fetch(getAWSUrl() + 'createuser',{
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                username: username,
+                password: password,
+            })
+        }).then(function(response) {
+            console.log(response.status);
+            if (response.status === 200) {
+                return response.json();
+            } else if (response.status === 500){
+                // There was an error with username or password
+                Alert.alert(
+                    'Invalid Password',
+                    'Try another password'
+                );
+                return null;
+            } else {
+                // 404 error or something else
+                Alert.alert(
+                    'Please fix your network',
+                    'Try again'
+                );
+                return null;
+            }
+        })
+            .then((responseJson) => {
+                if (responseJson) {
+                    this.props.navigation.navigate('GameMenu', { userId: responseJson.id });
+                }
+            })
     }
 
     render() {
@@ -75,11 +129,11 @@ export default class LoginPage extends React.Component {
             value={this.state.password}
                 />
                 <View style={styles.buttonArrange}>
-                <Button title="Login" onPress={() => this.authenticate() } />
-                <Button title="Create Account" onPress={() => this.createAccount() }/>
+                <Button title="Login" onPress={() => this.authenticate(this.state.username, this.state.password) } />
+                <Button title="Create Account" onPress={() => this.createAccount(this.state.username, this.state.password) } />
                 <Button title="Go Back" onPress={() => this.props.navigation.goBack()} />
-            </View>
-      </Image>
+                </View>
+                </Image>
         );
     }
 }
@@ -95,4 +149,3 @@ const styles = StyleSheet.create({
         paddingBottom: 4
     }
 });
-

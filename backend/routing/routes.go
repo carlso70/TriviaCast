@@ -58,4 +58,10 @@ var routes = Routes{
 		"/loginuser",
 		handlers.LoginUser,
 	},
+	Route{
+		"HighScores",
+		"GET",
+		"/highscores",
+		handlers.GetHighScores,
+	},
 }
