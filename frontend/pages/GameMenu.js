@@ -13,11 +13,19 @@ export default class MainMenu extends Component {
         this.state = {
             //do not know if this is correct usage of this.props.navigation
             userId: this.props.navigation.state.params.userId,
+            difficulty: 1,
+            questionCt: 10,
         }
     }
 
     createGame(userId) {
-        fetch(getAWSUrl() + 'creategame', {
+      AsyncStorage.getItem('Difficulty', (err, result) => {
+        this.state.difficulty = result;
+      });
+      AsyncStorage.getItem('QuestionCount', (err, result) => {
+        this.state.QuestionCt = result;
+      });
+      fetch(getAWSUrl() + 'creategame', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -26,8 +34,8 @@ export default class MainMenu extends Component {
             body: JSON.stringify({
                 userId: userId,
                 gameId: 9999,
-                difficulty: 1,
-                questionCt: 10
+                difficulty: this.state.difficulty,
+                questionCt: this.state.questionCt
                 // difficulty: AsyncStorage.getItem('Difficulty', (err, result) => {
                 //   if (result !== null) {
                 //     return result;
