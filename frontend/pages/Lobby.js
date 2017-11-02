@@ -7,7 +7,6 @@ import { StackNavigator } from 'react-navigation';
 const remotebackg = 'https://i.imgur.com/vqTkUz8.png';
 
 export default class Lobby extends Component {
-    // On lobby join start a websocket connection
     constructor(props) {
         super(props);
         this.state = {
@@ -47,13 +46,7 @@ export default class Lobby extends Component {
             source={{ uri: remotebackg }}
                 >
                 <Text
-            style={{
-                backgroundColor: 'transparent',
-                textAlign: 'center',
-                fontSize: 45,
-                color: 'white',
-                padding: 40,
-            }}
+            style={styles.lobbyText}
                 >
                 {'Lobby'}
             </Text>
@@ -75,6 +68,11 @@ const styles = StyleSheet.create({
         padding: 20,
         backgroundColor: 'white',
         borderRadius: 10
-
+    },
+    lobbyText: {
+        backgroundColor: 'transparent', textAlign: 'center',
+        fontSize: 45,
+        color: 'white',
+        padding: 40,
     }
 })

@@ -26,6 +26,12 @@ export default class MainMenu extends Component {
             body: JSON.stringify({
                 userId: userId,
                 gameId: 9999,
+                difficulty: AsyncStorage.getItem('Difficulty', (err, result) => {
+                  (result);
+                });
+                questionCount: AsyncStorage.getItem('QuestionCount', (err, result) => {
+                  (result);
+                });
             })
         }).then(function(response) {
             console.log(response.status);

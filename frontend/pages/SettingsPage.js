@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {View, Text, StyleSheet, Image} from 'react-native'
+import {View, Text, StyleSheet, Image, AsyncStorage} from 'react-native'
 import {Button} from 'react-native-elements';
 
 const remotebackg = 'https://i.imgur.com/vqTkUz8.png';
@@ -9,22 +9,32 @@ import { Rating, Slider } from 'react-native-elements';
 export default class SettingsPage extends React.Component {
     constructor(props){
         super(props)
-        
+
     }
 
     difficultyChanged(rating) {
       if(rating == 0)
         rating =1
       console.log("Difficulty is: " + rating)
+      AsyncStorage.setItem('Difficulty', JSON.stringify(rating), () => {
+        AsyncStorage.getItem('Difficulty', (err, result) => {
+          console.log(result);
+        });
+      });
     }
 
     numberOfQuestionsChanged(scale){
       console.log("Number of questions is: " + scale)
+      AsyncStorage.setItem('QuestionCount', JSON.stringify(scale), () => {
+        AsyncStorage.getItem('QuestionCount', (err, result) => {
+          console.log(result);
+        });
+      });
     }
 
     render() {
         return (
-            
+
         <Image
             style={{
               backgroundColor: '#ccc',
@@ -37,7 +47,7 @@ export default class SettingsPage extends React.Component {
             }}
             source={{ uri: remotebackg }}
           >
-  
+
           <Text
             style={{
               backgroundColor: 'transparent',
@@ -48,7 +58,7 @@ export default class SettingsPage extends React.Component {
             }}
           >
             {'Settings'}
-            
+
             </Text>
 
             <Text
@@ -84,22 +94,22 @@ export default class SettingsPage extends React.Component {
             {'Number of Questions'}
             </Text>
 
-            <Slider 
+            <Slider
                 value={10}
                 minimumValue={1}
-                maximumValue={25}
+                maximumValue={15}
                 step={1}
-                onSlidingComplete={(value) => this.numberOfQuestionsChanged(value)} 
-                style={{padding: 10}}              
+                onSlidingComplete={(value) => this.numberOfQuestionsChanged(value)}
+                style={{padding: 10}}
               />
-        
+
         <View style={styles.buttonArrange}>
-        <Button 
+        <Button
             raised
-            title={'Go Back'} 
-            buttonStyle={styles.buttons} 
+            title={'Go Back'}
+            buttonStyle={styles.buttons}
             textStyle={{textAlign: 'center', color: 'black', backgroundColor: 'transparent'}}
-            onPress={() => this.props.navigation.goBack()} /> 
+            onPress={() => this.props.navigation.goBack()} />
         </View>
         </Image>
         )
