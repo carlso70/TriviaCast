@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import {
     AppRegistry,
-    Image, Alert,
+    Image,
+    Alert,
     Text,
     TouchableHighlight,
     View,
@@ -14,18 +15,18 @@ import { StackNavigator, NavigationActions } from 'react-navigation';
 import { Button, FormLabel, FormInput} from 'react-native-elements';
 const remotebackg = 'https://i.imgur.com/vqTkUz8.png';
 
-
-export default class LoginPage extends React.Component {
+export default class ChangePassPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             username: '',
-            password: '',
+            oldPassword: '',
+            newPassword: '',
         };
     }
 
-    authenticate(username, password) {
-        fetch(getAWSUrl() + 'loginuser',{
+    changePassword(username, oldPassword, newPassword) {
+        fetch(getAWSUrl() + 'changepassword',{
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -33,7 +34,8 @@ export default class LoginPage extends React.Component {
             },
             body: JSON.stringify({
                 username: username,
-                password: password,
+                oldPassword: oldPassword,
+                newPassword: newPassword
             })
         }).then(function(response) {
             console.log(response.status);
@@ -42,8 +44,7 @@ export default class LoginPage extends React.Component {
             } else if (response.status === 500){
                 // There was an error with username or password
                 Alert.alert(
-                    'Invalid Password',
-                    'Try another password'
+                    'Invalid Username or Password',
                 );
                 return null;
             } else {
@@ -57,47 +58,14 @@ export default class LoginPage extends React.Component {
         })
             .then((responseJson) => {
                 if (responseJson) {
-                    this.props.navigation.navigate('GameMenu', { userId: responseJson.id });
+                    Alert.alert(
+                        'Successful Password Change!',
+                        'Yay!',
+                        [{text: 'OK', onPress: () => this.props.navigation.navigate('LoginPage')},]
+                    );
                 }
             })
-    }
 
-    createAccount(username, password) {
-        fetch(getAWSUrl() + 'createuser',{
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                username: username,
-                password: password,
-            })
-        }).then(function(response) {
-            console.log(response.status);
-            if (response.status === 200) {
-                return response.json();
-            } else if (response.status === 500){
-                // There was an error with username or password
-                Alert.alert(
-                    'Invalid Password',
-                    'Try another password'
-                );
-                return null;
-            } else {
-                // 404 error or something else
-                Alert.alert(
-                    'Please fix your network',
-                    'Try again'
-                );
-                return null;
-            }
-        })
-            .then((responseJson) => {
-                if (responseJson) {
-                    this.props.navigation.navigate('GameMenu', { userId: responseJson.id });
-                }
-            })
     }
 
     render() {
@@ -121,17 +89,33 @@ export default class LoginPage extends React.Component {
             value={this.state.username}
                 />
                 <TextInput
-            placeholder='Password'
+            placeholder='Old Password'
             style={styles.inputText}
             secureTextEntry={true}
-            onChangeText={ (text) => this.setState({ password: text })}
-            value={this.state.password}
+            onChangeText={ (text) => this.setState({ oldPassword: text })}
+            value={this.state.oldPassword}
+                />
+
+                <TextInput
+            placeholder='New Password'
+            style={styles.inputText}
+            secureTextEntry={true}
+            onChangeText={ (text) => this.setState({ newPassword: text })}
+            value={this.state.newPassword}
                 />
                 <View style={styles.buttonArrange}>
-                <Button buttonStyle={styles.buttons} title="Login" color='black' marginTop='30' onPress={() => this.authenticate(this.state.username, this.state.password) } />
-                <Button buttonStyle={styles.buttons} title="Change Password" color='black' onPress={() => this.props.navigation.navigate('ChangePassword') } />
-                <Button buttonStyle={styles.buttons} title="Create Account" color='black' onPress={() => this.createAccount(this.state.username, this.state.password) } />
-                <Button buttonStyle={styles.buttons} title="Go Back" color='black' onPress={() => this.props.navigation.goBack()} />
+                <Button buttonStyle={styles.buttons}
+            title="Update Password"
+            color='black'
+            marginTop='30'
+            onPress={() => this.changePassword(this.state.username, this.state.oldPassword, this.state.newPassword)}
+                />
+                <Button
+            buttonStyle={styles.buttons}
+            title="Go Back"
+            color='black'
+            onPress={() => this.props.navigation.goBack()}
+                />
                 </View>
                 </Image>
         );
@@ -148,7 +132,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingBottom: 4
     },
-    buttons: {
+        buttons: {
         alignItems: 'center',
         padding: 20,
         backgroundColor: 'white',
