@@ -15,10 +15,7 @@ export default class Lobby extends Component {
             isConnected: false,
             data: 'Test',
         };
-    }
-
-    componentDidMount() {
-        var endpoint = getAWSUrl() + this.state.gameId;
+        var endpoint = getAWSUrl() + '/game_socket/'+ this.state.gameId;
         this.socket = new WebSocket(endpoint);
         this.socket.onopen = () => {
             this.setState({isConnected: true})
@@ -55,6 +52,7 @@ export default class Lobby extends Component {
                 <Text>Data: {this.state.data}</Text>
 
                 <View style={styles.buttonArrange}>
+                <Button title="Start" onPress={() => this.props.navigation.navigate('Game')} />
                 <Button title="Go Back" onPress={() => this.props.navigation.goBack()} />
                 </View>
                 </Image>
