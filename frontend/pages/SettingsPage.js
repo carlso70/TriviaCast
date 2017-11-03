@@ -118,10 +118,9 @@ export default class SettingsPage extends React.Component {
 
 const styles = StyleSheet.create({
   buttons: {
-     alignItems: 'center',
-     padding: 20,
+    alignItems: 'center',
+    padding: 20,
     backgroundColor: 'white',
     borderRadius: 100
-
   }
 })
