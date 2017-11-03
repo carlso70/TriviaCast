@@ -31,31 +31,10 @@ export default class MainMenu extends Component {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-<<<<<<< HEAD
-                UserId: userId,
-                GameId: 9999,
-                Difficulty: AsyncStorage.getItem('Difficulty', (err, result) => {
-                  if (result) {
-                    return result;
-                  }
-                  else {
-                    return 1;
-                  }
-                }),
-                QuestionCt: AsyncStorage.getItem('QuestionCount', (err, result) => {
-                  if (result) {
-                    return result;
-                  }
-                  else {
-                    return 10;
-                  }
-                })
-=======
                 userId: userId,
                 gameId: 9999,
                 difficulty: 1,
                 questionCt: 10
->>>>>>> 2c687b69e8dd7199d463ec531e8f8ddb9299465e
             })
         }).then(function(response) {
             console.log(response.status);

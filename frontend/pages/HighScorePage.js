@@ -6,15 +6,8 @@ const remotebackg = 'https://i.imgur.com/vqTkUz8.png';
 import { getAWSUrl } from '../utils/Urls'
 import { StackNavigator, NavigationActions } from 'react-navigation';
 
-var myscore = 0;
+//var myscore = 0;
 var topscores = new Array();
-var score1 = 0;
-var score2 = 0;
-var score3 = 0;
-
-var user1 = "";
-var user2 = "";
-var user3 = "";
 
 export default class HighScorePage extends React.Component { 
   constructor(props) {
@@ -22,6 +15,13 @@ export default class HighScorePage extends React.Component {
     this.state = {
       //do not know if this is correct usage of this.props.navigation
       userId: this.props.navigation.state.params.userId,
+      score1: 0,
+      user1: "",
+      score2: 0,
+      user2: "",
+      score3: 0,
+      user3: "",
+      myscore: ""
     }
 
     this.getScores(this.state.userId);
@@ -55,23 +55,30 @@ export default class HighScorePage extends React.Component {
           var obj = responseJson[i];
           topscores[i] = obj;
           if (obj.id == userId) {
-            myscore = obj.score;
-            console.log(myscore);
+            this.setState({
+              myscore: obj.score
+            });
+            //console.log(myscore);
           }
           //console.log(topscores[i])
           if(i == 0){
-            score1 = obj.score;
-            user1 = obj.username;
-            console.log(score1);
+            this.setState({
+              score1: obj.score,
+              user1: obj.username
+            });
           } else if(i == 1)
           {
-            score2 = obj.score;
-            user2 = obj.username;
-            console.log(score2);
+            this.setState({
+              score2 : obj.score,
+              user2 : obj.username
+          });
+            //console.log(score2);
           } else if(i == 2){
-            score3 = obj.score;
-            user3 = obj.username;
-            console.log(score3);
+            this.setState({
+              score3 : obj.score,
+              user3 : obj.username
+            })
+            //console.log(score3);
           }
           
         }
@@ -116,7 +123,7 @@ export default class HighScorePage extends React.Component {
             padding: 40,
           }}
         >
-        {'1 ' + this.score1}
+        {'#1 ' + this.state.score1 + ' User: ' + this.state.user1}
          {/* {'#1 ' + this.topscores[0]["score"] + ' ~ User: ' + this.topscores[0]["username"]}'} */} 
         </Text>
 
@@ -129,7 +136,7 @@ export default class HighScorePage extends React.Component {
             padding: 40,
           }}
         >
-          {'#2: '}
+          {'#2: ' + this.state.score2 + ' User: ' + this.state.user2}
         </Text>
 
         <Text
@@ -141,7 +148,7 @@ export default class HighScorePage extends React.Component {
             padding: 40,
           }}
         >
-          {'#3: '}
+          {'#3: '+ this.state.score3 + ' User: ' + this.state.user3}
           {/* + topscores[2].score + ' ~ User: ' + topscores[2].username} */}
         </Text>
 
@@ -154,7 +161,7 @@ export default class HighScorePage extends React.Component {
             padding: 40,
           }}
         >
-          {'My Score: '}
+          {'My Score: ' + this.state.myscore}
         </Text>
 
         <Button
