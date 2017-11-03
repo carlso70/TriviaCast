@@ -189,4 +189,6 @@ func (g *Game) RemoveUserFromGame(user user.User) error {
 
 // TODO Build a question deck based off of these settings
 func (g *Game) CreateQuestionDeckFromSettings() {
+	// g.QuestionDeck := make([qCount]question.Question)
+	// for key, ques := range
 }

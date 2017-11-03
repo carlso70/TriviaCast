@@ -12,7 +12,12 @@ export default class Lobby extends Component {
         this.state = {
             userId: this.props.navigation.state.params.userId,
             gameId: this.props.navigation.state.params.gameId,
+<<<<<<< HEAD
             gameStart: false,
+=======
+            difficulty: this.props.navigation.state.params.difficulty,
+            questionCt: this.props.navigation.state.params.questionCt,
+>>>>>>> settings_connect
             isConnected: false,
             data: 'Test',
         };
@@ -102,9 +107,9 @@ export default class Lobby extends Component {
                 >
                 {'Lobby'}
             </Text>
-                <Text>Game: {this.state.gameId}</Text>
-                <Text>isConnected: {this.state.isConnected}</Text>
-                <Text>Data: {this.state.data}</Text>
+                // <Text>Game: {this.state.gameId}</Text>
+                // <Text>isConnected: {this.state.isConnected}</Text>
+                // <Text>Data: {this.state.data}</Text>
 
                 <View style={styles.buttonArrange}>
                 <Button title="Start" onPress={() => this.emitTest()} />

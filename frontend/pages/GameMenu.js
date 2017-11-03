@@ -11,12 +11,14 @@ export default class MainMenu extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            //do not know if this is correct usage of this.props.navigation
             userId: this.props.navigation.state.params.userId,
+            difficulty: 1,
+            questionCt: 10,
         }
     }
 
     createGame(userId) {
+<<<<<<< HEAD
         var dif = AsyncStorage.getItem('Difficulty');
         if (dif == null)
             dif = 1;
@@ -25,6 +27,19 @@ export default class MainMenu extends Component {
             ct = 10;
 
         fetch(getAWSUrl() + 'creategame', {
+=======
+      AsyncStorage.getItem('Difficulty', (err, result) => {
+        this.state.difficulty = result;
+      });
+      AsyncStorage.getItem('QuestionCount', (err, result) => {
+        console.log('Q count before ' + this.state.questionCt);
+        this.setState(previous => {
+          return {questionCt: result};
+        });
+        console.log('Q count updated to ' + this.state.questionCt);
+      });
+      fetch(getAWSUrl() + 'creategame', {
+>>>>>>> settings_connect
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -33,8 +48,13 @@ export default class MainMenu extends Component {
             body: JSON.stringify({
                 userId: userId,
                 gameId: 9999,
+<<<<<<< HEAD
                 difficulty: 1,
                 questionCt: 10
+=======
+                difficulty: this.state.difficulty,
+                questionCt: this.state.questionCt
+>>>>>>> settings_connect
             })
         }).then(function(response) {
             console.log(response.status);
@@ -58,7 +78,9 @@ export default class MainMenu extends Component {
                 console.log("GameId: " + responseJson.id)
                 this.props.navigation.navigate('Lobby', {
                     userId: userId,
-                    gameId: responseJson.id
+                    gameId: responseJson.id,
+                    difficulty: this.state.difficulty,
+                    questionCt: this.state.questionCt
                 });
             }
         })
