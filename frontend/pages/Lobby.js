@@ -18,24 +18,24 @@ export default class Lobby extends Component {
             isConnected: false,
             data: 'Test',
         };
-        // Setup websocket
-        socketurl = 'ws://ec2-18-221-200-72.us-east-2.compute.amazonaws.com:3000/';
-        var endpoint = socketurl + 'game_socket/'+ this.state.gameId + '';
-        console.log("Connecting to websocket at " + endpoint);
-        this.socket = new WebSocket(endpoint);
-        this.socket.onopen = () => {
-            console.log("OPEN");
-            this.setState({connected: true});
-        };
-        this.socket.onmessage = (e) => {
-            this.setState({data: e.data});
-        };
-        this.socket.onclose = (e) => {
-            console.log("CLOSING SOCKET")
-            this.setState({connected: false});
-        }
-
-        this.emitTest = this.emitTest.bind(this)
+        // // Setup websocket
+        // socketurl = 'ws://ec2-18-221-200-72.us-east-2.compute.amazonaws.com:3000/';
+        // var endpoint = socketurl + 'game_socket/'+ this.state.gameId + '';
+        // console.log("Connecting to websocket at " + endpoint);
+        // this.socket = new WebSocket(endpoint);
+        // this.socket.onopen = () => {
+        //     console.log("OPEN");
+        //     this.setState({connected: true});
+        // };
+        // this.socket.onmessage = (e) => {
+        //     this.setState({data: e.data});
+        // };
+        // this.socket.onclose = (e) => {
+        //     console.log("CLOSING SOCKET")
+        //     this.setState({connected: false});
+        // }
+        //
+        // this.emitTest = this.emitTest.bind(this)
     }
 
 
@@ -104,7 +104,7 @@ export default class Lobby extends Component {
                 >
                 {'Lobby'}
             </Text>
-              
+
 
                 <View style={styles.buttonArrange}>
                 <Button title="Start" onPress={() => this.emitTest()} />
