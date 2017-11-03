@@ -87,6 +87,7 @@ export default class MainMenu extends Component {
             buttonStyle={styles.buttons}
             textStyle={{textAlign: 'center', color: 'black'}}
             title={`High Scores`}
+            onPress={() => this.props.navigation.navigate('HighScores')}
                 />
                 <Button
             raised
