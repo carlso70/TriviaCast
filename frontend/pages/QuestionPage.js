@@ -18,6 +18,8 @@ import { Button } from 'react-native-elements';
 const remotebackg = 'https://i.imgur.com/vqTkUz8.png';
 import AnswerPage from './AnswerPage.js';
 
+import { Constants, Audio } from 'expo';
+
 var radio_props = [
     {label: '10 planets', value: 0 },
     {label: '8 planets', value: 1 },
@@ -101,7 +103,13 @@ const styles = StyleSheet.create({
         color:'#fff',
         fontSize:30,
         textAlign:'center'
+    },
+    container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
     }
+
 });
 
 function getInitialState() {
@@ -174,6 +182,26 @@ class Question extends Component {
 	              <View>
 	              <Text style={styles.gameContextText}>Question 1/10 | 1 point</Text>
 	              </View>
+
+                <View style={styles.container}>
+         <Button
+           title="Play Music"
+              onPress={async () => {
+              const source = {
+              uri: "https://freemusicarchive.org/file/music/ccCommunity/Borrtex/Something_Special/Borrtex_-_01_-_Typical_Day.mp3"
+            };
+
+            try {
+              await Audio.setIsEnabledAsync(true);
+              const sound = new Audio.Sound();
+              await sound.loadAsync(source);
+              await sound.playAsync();
+            } catch(error) {
+              console.error(error);
+            }
+          }}
+        />
+        </View>
 
             </Image>
         );
