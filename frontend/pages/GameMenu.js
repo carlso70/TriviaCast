@@ -11,7 +11,6 @@ export default class MainMenu extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            //do not know if this is correct usage of this.props.navigation
             userId: this.props.navigation.state.params.userId,
             difficulty: 1,
             questionCt: 10,
@@ -23,7 +22,11 @@ export default class MainMenu extends Component {
         this.state.difficulty = result;
       });
       AsyncStorage.getItem('QuestionCount', (err, result) => {
-        this.state.QuestionCt = result;
+        console.console.log('Q count before ' + this.state.questionCt);
+        this.setState(previous => {
+          return {questionCt: result};
+        });
+        console.log('Q count updated to ' + this.state.questionCt);
       });
       fetch(getAWSUrl() + 'creategame', {
             method: 'POST',
@@ -36,22 +39,6 @@ export default class MainMenu extends Component {
                 gameId: 9999,
                 difficulty: this.state.difficulty,
                 questionCt: this.state.questionCt
-                // difficulty: AsyncStorage.getItem('Difficulty', (err, result) => {
-                //   if (result !== null) {
-                //     return result;
-                //   }
-                //   else {
-                //     return 1;
-                //   }
-                // }),
-                // questionCt: AsyncStorage.getItem('QuestionCount', (err, result) => {
-                //   if (result !== null) {
-                //     return result;
-                //   }
-                //   else {
-                //     return 10;
-                //   }
-                // })
             })
         }).then(function(response) {
             console.log(response.status);
@@ -75,7 +62,9 @@ export default class MainMenu extends Component {
                 console.log("GameId: " + responseJson.id)
                 this.props.navigation.navigate('Lobby', {
                     userId: userId,
-                    gameId: responseJson.id
+                    gameId: responseJson.id,
+                    difficulty: this.state.difficulty,
+                    questionCt: this.state.questionCt
                 });
             }
         })
