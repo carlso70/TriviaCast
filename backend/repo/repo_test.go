@@ -8,26 +8,19 @@ import (
 
 var testId = -1
 
+/*
 func TestAddHighScores(t *testing.T) {
-	if err := AddUserToDB(user.User{Id: 30, Username:"Hot Tuna", Score: 210}); err != nil {
+	if err := AddUserToDB(user.User{Id: 30, Username:"Waffles", Score: 700}); err != nil {
 		t.Error("Error AddUserToDB: ", err)
 	}
-	if err := AddUserToDB(user.User{Id: 25, Username:"Bob", Score: 200}); err != nil {
+	if err := AddUserToDB(user.User{Id: 25, Username:"Mouse", Score: 500}); err != nil {
 		t.Error("Error AddUserToDB: ", err)
 	}
-	if err := AddUserToDB(user.User{Id: 69, Username:"Shoe", Score: 190}); err != nil {
-		t.Error("Error AddUserToDB: ", err)
-	}
-	if err := AddUserToDB(user.User{Id: 11, Username:"suh", Score: 180}); err != nil {
-		t.Error("Error AddUserToDB: ", err)
-	}
-	if err := AddUserToDB(user.User{Id: 12, Username:"Love Skl69", Score: 10}); err != nil {
-		t.Error("Error AddUserToDB: ", err)
-	}
-	if err := AddUserToDB(user.User{Id: 44, Username:"YoloSwag", Score: 130}); err != nil {
+	if err := AddUserToDB(user.User{Id: 69, Username:"ShoeWearer", Score: 400}); err != nil {
 		t.Error("Error AddUserToDB: ", err)
 	}
 }
+*/
 
 func TestAddUserToDB(t *testing.T) {
 	// Create dummy user
