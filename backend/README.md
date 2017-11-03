@@ -17,6 +17,9 @@ All requests to create or join a game should contain a Json Object following thi
     {
         "userId": 1000,
         "gameId": 1234,
+        "difficulty": 1,
+        "questionCt": 20
+
     }
 
 
@@ -25,7 +28,7 @@ All requests to create or login to a user should contain a Json Object following
 
     {
         "username": "test",
-        "password": "test",
+        "password": "test"
     }
 
 

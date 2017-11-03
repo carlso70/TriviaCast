@@ -24,8 +24,24 @@ export default class MainMenu extends Component {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                userId: userId,
-                gameId: 9999,
+                UserId: userId,
+                GameId: 9999,
+                Difficulty: AsyncStorage.getItem('Difficulty', (err, result) => {
+                  if (result) {
+                    return result;
+                  }
+                  else {
+                    return 1;
+                  }
+                });
+                QuestionCt: AsyncStorage.getItem('QuestionCount', (err, result) => {
+                  if (result) {
+                    return result;
+                  }
+                  else {
+                    return 10;
+                  }
+                });
             })
         }).then(function(response) {
             console.log(response.status);

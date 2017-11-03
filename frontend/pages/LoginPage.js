@@ -129,9 +129,9 @@ export default class LoginPage extends React.Component {
             value={this.state.password}
                 />
                 <View style={styles.buttonArrange}>
-                <Button title="Login" onPress={() => this.authenticate(this.state.username, this.state.password) } />
-                <Button title="Create Account" onPress={() => this.createAccount(this.state.username, this.state.password) } />
-                <Button title="Go Back" onPress={() => this.props.navigation.goBack()} />
+                <Button buttonStyle={styles.buttons} title="Login" color='black' marginTop='30' onPress={() => this.authenticate(this.state.username, this.state.password) } />
+                <Button buttonStyle={styles.buttons} title="Create Account" color='black' onPress={() => this.createAccount(this.state.username, this.state.password) } />
+                <Button buttonStyle={styles.buttons} title="Go Back" color='black' onPress={() => this.props.navigation.goBack()} />
                 </View>
                 </Image>
         );
@@ -147,5 +147,13 @@ const styles = StyleSheet.create({
     buttonArrange: {
         alignItems: 'center',
         paddingBottom: 4
+    },
+        buttons: {
+        alignItems: 'center',
+        padding: 20,
+        backgroundColor: 'white',
+        marginTop: 20,
+        borderRadius: 10
+
     }
 });

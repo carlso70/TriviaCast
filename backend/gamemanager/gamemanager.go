@@ -27,11 +27,13 @@ func GetInstance() *GameManager {
 }
 
 // CreateGame adds a game to the GameServer
-func (g *GameManager) CreateGame() (game.Game, error) {
+func (g *GameManager) CreateGame(difficulty int, questionCt int) (game.Game, error) {
 	// Create game instance
 	newGame := game.Init()
-	// Start open the websocket to connect to the game
+	newGame.GameDifficulty = difficulty
+	newGame.QuestionCt = questionCt
 
+	// Start open the websocket to connect to the game
 	newGame.InitGameSocket()
 	// Add game to list of games
 	g.Games = append(g.Games, newGame)
