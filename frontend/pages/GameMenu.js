@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Image,Text, StyleSheet, Alert} from 'react-native';
+import {Image,Text, StyleSheet, Alert, AsyncStorage} from 'react-native';
 import {Button} from 'react-native-elements';
 
 import { StackNavigator } from 'react-navigation';
@@ -17,6 +17,13 @@ export default class MainMenu extends Component {
     }
 
     createGame(userId) {
+        var dif = AsyncStorage.getItem('Difficulty');
+        if (dif == null)
+            dif = 1;
+        var ct = AsyncStorage.getItem('QuestionCount');
+        if (ct == null)
+            ct = 10;
+
         fetch(getAWSUrl() + 'creategame', {
             method: 'POST',
             headers: {
@@ -24,6 +31,7 @@ export default class MainMenu extends Component {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
+<<<<<<< HEAD
                 UserId: userId,
                 GameId: 9999,
                 Difficulty: AsyncStorage.getItem('Difficulty', (err, result) => {
@@ -42,6 +50,12 @@ export default class MainMenu extends Component {
                     return 10;
                   }
                 })
+=======
+                userId: userId,
+                gameId: 9999,
+                difficulty: 1,
+                questionCt: 10
+>>>>>>> 2c687b69e8dd7199d463ec531e8f8ddb9299465e
             })
         }).then(function(response) {
             console.log(response.status);
@@ -97,6 +111,7 @@ export default class MainMenu extends Component {
             buttonStyle={styles.buttons}
             textStyle={{textAlign: 'center', color: 'black'}}
             title={`Join Game`}
+            onPress={() => this.props.navigation.navigate('Game')}
                 />
                 <Button
             raised
