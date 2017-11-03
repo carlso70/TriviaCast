@@ -104,9 +104,7 @@ export default class Lobby extends Component {
                 >
                 {'Lobby'}
             </Text>
-                // <Text>Game: {this.state.gameId}</Text>
-                // <Text>isConnected: {this.state.isConnected}</Text>
-                // <Text>Data: {this.state.data}</Text>
+              
 
                 <View style={styles.buttonArrange}>
                 <Button title="Start" onPress={() => this.emitTest()} />
