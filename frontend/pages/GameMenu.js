@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Image,Text, StyleSheet, Alert} from 'react-native';
+import {Image,Text, StyleSheet, Alert, AsyncStorage} from 'react-native';
 import {Button} from 'react-native-elements';
 
 import { StackNavigator } from 'react-navigation';
@@ -17,6 +17,13 @@ export default class MainMenu extends Component {
     }
 
     createGame(userId) {
+        var dif = AsyncStorage.getItem('Difficulty');
+        if (dif == null)
+            dif = 1;
+        var ct = AsyncStorage.getItem('QuestionCount');
+        if (ct == null)
+            ct = 10;
+
         fetch(getAWSUrl() + 'creategame', {
             method: 'POST',
             headers: {
@@ -24,24 +31,10 @@ export default class MainMenu extends Component {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                UserId: userId,
-                GameId: 9999,
-                Difficulty: AsyncStorage.getItem('Difficulty', (err, result) => {
-                  if (result) {
-                    return result;
-                  }
-                  else {
-                    return 1;
-                  }
-                }),
-                QuestionCt: AsyncStorage.getItem('QuestionCount', (err, result) => {
-                  if (result) {
-                    return result;
-                  }
-                  else {
-                    return 10;
-                  }
-                })
+                userId: userId,
+                gameId: 9999,
+                difficulty: 1,
+                questionCt: 10
             })
         }).then(function(response) {
             console.log(response.status);
