@@ -10,12 +10,38 @@ import {
   TouchableOpacity
 } from 'react-native';
 
+import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
 import { StackNavigator } from 'react-navigation';
 
 import ButtonDemo from '../components/ButtonDemo'
 import { Button } from 'react-native-elements';
 const remotebackg = 'https://i.imgur.com/vqTkUz8.png';
 import AnswerPage from './AnswerPage.js';
+
+var radio_props = [
+  {label: '10 planets', value: 0 },
+  {label: '8 planets', value: 1 },
+  {label: '9 planets', value: 2 }
+];
+
+var RadioButtonProject = React.createClass({
+  getInitialState: function() {
+    return {
+      value: 0,
+    }
+  },
+  render: function() {
+    return (
+      <View>
+        <RadioForm
+          radio_props={radio_props}
+          initial={0}
+          onPress={(value) => {this.setState({value:value})}}
+        />
+      </View>
+    );
+  }
+});
 
 const styles = StyleSheet.create({
 
@@ -57,7 +83,8 @@ const styles = StyleSheet.create({
      paddingBottom:20,
      paddingLeft:20,
      paddingRight:20,
-     borderRadius:10
+     borderRadius:10,
+     marginTop: 20,
    },
    messageBoxTitleText:{
      fontWeight:'bold',
@@ -72,7 +99,7 @@ const styles = StyleSheet.create({
    },
     gameContextText:{
      color:'#fff',
-     fontSize:18,
+     fontSize:30,
      textAlign:'center'
    }
 });
@@ -120,25 +147,16 @@ class Question extends Component {
 	</View>
 	<View style={styles.content}>
 	  <View style={styles.buttonArrange}>
-	  
-            <Button
-              raised
-              buttonStyle={{backgroundColor: 'white', borderRadius: 10, width: 200}}
-              textStyle={{textAlign: 'center', color: 'black'}}
-              title={`10 planets`}
-            />
-	    <Button
-              raised
-              buttonStyle={{backgroundColor: 'white', borderRadius: 10, width: 200}}
-              textStyle={{textAlign: 'center', color: 'black'}}
-              title={`8 planets`}
-            />
-	    <Button
-              raised
-              buttonStyle={{backgroundColor: 'white', borderRadius: 10, width: 200}}
-              textStyle={{textAlign: 'center', color: 'black'}}
-              title={`9 planets`}
-            />
+	         <RadioForm
+          radio_props={radio_props}
+          initial={0}
+          onPress={(value) => {this.setState({value:value})}}
+          buttonColor={'white'}
+          buttonInnerColor={'#e74c3c'}
+          labelStyle={{fontSize: 20, color: 'white'}}
+          labelWrapStyle={{}}
+          labelColor={'#50C900'}
+        />
           </View>
 	</View>
 	<View style={styles.content}>

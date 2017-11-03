@@ -1,0 +1,93 @@
+body {
+	
+    background-color: #3080c0;
+	
+	font-family:verdana;
+    color: white;
+	
+}
+
+ul {
+    list-style-type: none;
+	width:70%;
+    margin-left:15%; 
+    margin-right:15%;
+}
+
+li {
+	padding:20px;
+	font-size:150%;
+}
+
+table.leaderTable {
+	
+	width:80%; 
+    margin-left:10%; 
+    margin-right:10%;
+	
+	padding:0px;
+	border-collapse:collapse;
+}
+
+table.leaderTable td {
+	padding:4px;
+	margin:0px;
+	width:50%;
+	
+	border: 3px solid black;
+}
+
+table.lobbyTable {
+    
+    width:75%; 
+    margin-left:15%; 
+    margin-right:15%;
+    
+    padding:0px;
+}
+
+div.leaderboard	{
+	float:right;
+	width:33%;
+	max-width: 450px;
+    display: table;
+}
+
+div.game {
+	float:left;
+	width:66%;
+	
+    display: table;
+}
+
+.row:after {
+    content: "";
+    clear: both;
+}
+
+.center {
+	float:center;
+	padding:20px;
+	text-align:center;
+	
+	
+}
+
+.appTitle {
+	
+	font-size: 250%;
+	
+}
+
+.lobbyTitle {
+	
+	 font-size: 200%;
+	
+}
+
+.question {
+	
+	font-size: 200%;
+	
+}
+

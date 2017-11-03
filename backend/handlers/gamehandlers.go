@@ -23,6 +23,7 @@ func CreateGame(w http.ResponseWriter, r *http.Request) {
 	err := decoder.Decode(&request)
 	if err != nil {
 		http.Error(w, "Invalid Request", 400)
+		fmt.Println("ERROR:", err)
 		return
 	}
 	defer r.Body.Close()
