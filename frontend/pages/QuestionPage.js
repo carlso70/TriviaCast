@@ -158,7 +158,22 @@ class Question extends Component {
                 <RadioForm
             radio_props={radio_props}
             initial={0}
-            onPress={(value) => {this.setState({value:value})}}
+            onPress={async () => {
+              const source = {
+                uri: "https://www.soundjay.com/button/button-16.mp3"
+              };
+
+              try {
+                await Audio.setIsEnabledAsync(true);
+                const sound = new Audio.Sound();
+                await sound.loadAsync(source);
+                await sound.playAsync();
+              } catch(error) {
+                console.error(error);
+              }
+              (value) => {this.setState({value:value})}
+            }
+            }
             buttonColor={'white'}
             buttonInnerColor={'#e74c3c'}
             labelStyle={{fontSize: 20, color: 'white'}}
@@ -174,7 +189,23 @@ class Question extends Component {
             buttonStyle={{backgroundColor: 'white', borderRadius: 10, width: 200}}
             textStyle={{textAlign: 'center', color: 'black'}}
             title={`Submit response`}
-            onPress={() => navigate('AnswerPage')}
+            onPress={async () => {
+              const source = {
+                uri: "https://www.soundjay.com/button/button-6.mp3"
+              };
+
+              try {
+                await Audio.setIsEnabledAsync(true);
+                const sound = new Audio.Sound();
+                await sound.loadAsync(source);
+                await sound.playAsync();
+              } catch(error) {
+                console.error(error);
+              }
+              navigate('AnswerPage')
+            }
+          }
+
                 />
 	              </View>
 
