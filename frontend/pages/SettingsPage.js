@@ -99,32 +99,18 @@ export default class SettingsPage extends React.Component {
                 minimumValue={1}
                 maximumValue={15}
                 step={1}
-<<<<<<< HEAD
-                onSlidingComplete={(value) => this.numberOfQuestionsChanged(value)} 
-                style={{padding: 10}}              
-            />
-        
-        
-        <Button 
-=======
                 onSlidingComplete={(value) => this.numberOfQuestionsChanged(value)}
                 style={{padding: 10}}
               />
 
         <View style={styles.buttonArrange}>
         <Button
->>>>>>> 28c47ad7bd7e81b3894286c4009a3dd04fafa052
             raised
             title={'Go Back'}
             buttonStyle={styles.buttons}
             textStyle={{textAlign: 'center', color: 'black', backgroundColor: 'transparent'}}
-<<<<<<< HEAD
-            onPress={() => this.props.navigation.goBack()} /> 
-        
-=======
             onPress={() => this.props.navigation.goBack()} />
         </View>
->>>>>>> 28c47ad7bd7e81b3894286c4009a3dd04fafa052
         </Image>
         )
     }
