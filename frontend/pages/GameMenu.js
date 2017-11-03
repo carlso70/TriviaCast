@@ -18,28 +18,13 @@ export default class MainMenu extends Component {
     }
 
     createGame(userId) {
-//<<<<<<< HEAD
         var dif = AsyncStorage.getItem('Difficulty');
         if (dif == null)
             dif = 1;
         var ct = AsyncStorage.getItem('QuestionCount');
         if (ct == null)
             ct = 10;
-
-        fetch(getAWSUrl() + 'creategame', {
-//=======
-      AsyncStorage.getItem('Difficulty', (err, result) => {
-        this.state.difficulty = result;
-      });
-      AsyncStorage.getItem('QuestionCount', (err, result) => {
-        console.log('Q count before ' + this.state.questionCt);
-        this.setState(previous => {
-          return {questionCt: result};
-        });
-        console.log('Q count updated to ' + this.state.questionCt);
-      });
       fetch(getAWSUrl() + 'creategame', {
-//>>>>>>> settings_connect
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -48,10 +33,8 @@ export default class MainMenu extends Component {
             body: JSON.stringify({
                 userId: userId,
                 gameId: 9999,
-
                 difficulty: this.state.difficulty,
                 questionCt: this.state.questionCt
-//>>>>>>> settings_connect
             })
         }).then(function(response) {
             console.log(response.status);
