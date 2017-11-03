@@ -11,8 +11,6 @@ import {
 } from 'react-native';
 
 import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
-
-
 import { StackNavigator } from 'react-navigation';
 
 import ButtonDemo from '../components/ButtonDemo'
