@@ -10,6 +10,7 @@ import HighScorePage from './pages/HighScorePage'
 import ChangePassPage from './pages/ChangePassPage'
 import Lobby from './pages/Lobby'
 import Game from './pages/QuestionPage'
+import AnswerPage from './pages/AnswerPage';
 
 const TriviaCast = StackNavigator({
     Main: {screen: MainPage},
@@ -21,6 +22,7 @@ const TriviaCast = StackNavigator({
     Lobby: {screen: Lobby},
     Game: {screen: Game},
     ChangePassword: {screen: ChangePassPage},
+    Answer: { screen: AnswerPage},
   },
   {headerMode: 'none'}
 

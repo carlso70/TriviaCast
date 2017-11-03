@@ -119,6 +119,7 @@ export default class AnswerPage extends React.Component {
 	      buttonStyle={{backgroundColor: 'white', borderRadius: 10, width: 200}}
 	      textStyle={{textAlign: 'center', color: 'black'}}
 	      title={`Next Question`}
+        onPress={() => this.props.navigation.goBack()}
 	    />
 	  </View>
 	</View>

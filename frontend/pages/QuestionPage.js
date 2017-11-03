@@ -12,11 +12,9 @@ import {
 
 import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
 import { StackNavigator } from 'react-navigation';
-
 import ButtonDemo from '../components/ButtonDemo'
 import { Button } from 'react-native-elements';
 const remotebackg = 'https://i.imgur.com/vqTkUz8.png';
-import AnswerPage from './AnswerPage.js';
 
 import { Constants, Audio } from 'expo';
 
@@ -45,8 +43,157 @@ var RadioButtonProject = React.createClass({
     }
 });
 
-const styles = StyleSheet.create({
 
+export default class QuestionPage extends Component {
+    constructor(props) {
+        super(props);
+
+        this.page = 2;
+    }
+
+    playMusic() {
+        async () => {
+            const source = {
+                uri: "https://freemusicarchive.org/file/music/ccCommunity/Borrtex/Something_Special/Borrtex_-_01_-_Typical_Day.mp3"
+            };
+
+            try {
+                await Audio.setIsEnabledAsync(true);
+                const sound = new Audio.Sound();
+                await sound.loadAsync(source);
+                await sound.playAsync();
+            } catch(error) {
+                console.error(error);
+            }
+        };
+    }
+
+    render() {
+        const { navigate } = this.props.navigation;
+        return (
+                <Image
+            style={{
+                backgroundColor: '#ccc',
+                flex: 1,
+                resizeMode: 'cover',
+                position: 'absolute',
+                width: '100%',
+                height: '100%',
+                justifyContent: 'center',
+            }}
+            source={{ uri: remotebackg }}
+                >
+                <View style={styles.content}>
+                <View style={styles.messageBox}>
+                <View>
+                <Text style={styles.messageBoxTitleText}>Question 1</Text>
+                </View>
+                <View>
+                <Text style={styles.messageBoxBodyText}>How many planets are there?</Text>
+                </View>
+                </View>
+                </View>
+                <View style={styles.content}>
+                <View style={styles.buttonArrange}>
+                <RadioForm
+            radio_props={radio_props}
+            initial={0}
+            onPress={async () => {
+                const source = {
+                    uri: "https://www.soundjay.com/button/button-16.mp3"
+                };
+
+                try {
+                    await Audio.setIsEnabledAsync(true);
+                    const sound = new Audio.Sound();
+                    await sound.loadAsync(source);
+                    await sound.playAsync();
+                } catch(error) {
+                    console.error(error);
+                }
+                (value) => {this.setState({value:value})}
+            }
+                    }
+            buttonColor={'white'}
+            buttonInnerColor={'#e74c3c'}
+            labelStyle={{fontSize: 20, color: 'white'}}
+            labelWrapStyle={{}}
+            labelColor={'#50C900'}
+                />
+                </View>
+                </View>
+                <View style={styles.content}>
+                <View style={styles.buttonArrange}>
+                <Button
+            raised
+            buttonStyle={{backgroundColor: 'white', borderRadius: 10, width: 200}}
+            textStyle={{textAlign: 'center', color: 'black'}}
+            title={`Submit response`}
+            onPress={async () => {
+                const source = {
+                    uri: "https://www.soundjay.com/button/button-6.mp3"
+                };
+
+                try {
+                    await Audio.setIsEnabledAsync(true);
+                    const sound = new Audio.Sound();
+                    await sound.loadAsync(source);
+                    await sound.playAsync();
+                } catch(error) {
+                    console.error(error);
+                }
+                navigate('Answer')
+            }
+                    }
+
+                />
+                </View>
+
+            </View>
+                <View>
+                <Text style={styles.gameContextText}>Question 1/10 | 1 point</Text>
+                </View>
+
+                <View style={styles.container}>
+                <Button
+            raised
+            buttonStyle={{backgroundColor: 'white', borderRadius: 10, width: 200}}
+            textStyle={{textAlign: 'center', color: 'black'}}
+            title={`Play Music`}
+            onPress={
+                async () => {
+                    const source = {
+                        uri: "https://freemusicarchive.org/file/music/ccCommunity/Borrtex/Something_Special/Borrtex_-_01_-_Typical_Day.mp3"
+                    };
+
+                    try {
+                        await Audio.setIsEnabledAsync(true);
+                        const sound = new Audio.Sound();
+                        await sound.loadAsync(source);
+                        await sound.playAsync();
+                    } catch(error) {
+                        console.error(error);
+                    }
+                }
+            }/>
+                <Button
+            raised
+            buttonStyle={{backgroundColor: 'white', borderRadius: 10, width: 200}}
+            textStyle={{textAlign: 'center', color: 'black'}}
+            title={`Go Back`}
+            onPress={() => this.props.navigation.goBack()}/>
+                </View>
+
+            </Image>
+        );
+    }
+}
+
+function getInitialState() {
+    return {liked:false};
+}
+
+const styles = StyleSheet.create({
     buttonArrange: {
         alignItems:'center',
         alignContent:'center'
@@ -105,161 +252,10 @@ const styles = StyleSheet.create({
         textAlign:'center'
     },
     container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center'
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center'
     }
 
 });
 
-function getInitialState() {
-    return {liked:false};
-}
-
-
-class Question extends Component {
-
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        const { navigate } = this.props.navigation;
-        return (
-                <Image
-            style={{
-                backgroundColor: '#ccc',
-                flex: 1,
-                resizeMode: 'cover',
-                position: 'absolute',
-                width: '100%',
-                height: '100%',
-                justifyContent: 'center',
-            }}
-            source={{ uri: remotebackg }}
-                >
-                {/*<View style={styles.toolbar}>
-                   <Text style={styles.toolbarTitle}>TriviaCast</Text>
-                   <Text style={styles.toolbarButton}>Cast</Text>
-                   </View>*/}
-
-                <View style={styles.content}>
-                <View style={styles.messageBox}>
-                <View>
-                <Text style={styles.messageBoxTitleText}>Question 1</Text>
-                </View>
-                <View>
-                <Text style={styles.messageBoxBodyText}>How many planets are there?</Text>
-                </View>
-                </View>
-                </View>
-                <View style={styles.content}>
-                <View style={styles.buttonArrange}>
-                <RadioForm
-            radio_props={radio_props}
-            initial={0}
-            onPress={async () => {
-              const source = {
-                uri: "https://www.soundjay.com/button/button-16.mp3"
-              };
-
-              try {
-                await Audio.setIsEnabledAsync(true);
-                const sound = new Audio.Sound();
-                await sound.loadAsync(source);
-                await sound.playAsync();
-              } catch(error) {
-                console.error(error);
-              }
-              (value) => {this.setState({value:value})}
-            }
-            }
-            buttonColor={'white'}
-            buttonInnerColor={'#e74c3c'}
-            labelStyle={{fontSize: 20, color: 'white'}}
-            labelWrapStyle={{}}
-            labelColor={'#50C900'}
-                />
-                </View>
-                </View>
-                <View style={styles.content}>
-                <View style={styles.buttonArrange}>
-                <Button
-            raised
-            buttonStyle={{backgroundColor: 'white', borderRadius: 10, width: 200}}
-            textStyle={{textAlign: 'center', color: 'black'}}
-            title={`Submit response`}
-            onPress={async () => {
-              const source = {
-                uri: "https://www.soundjay.com/button/button-6.mp3"
-              };
-
-              try {
-                await Audio.setIsEnabledAsync(true);
-                const sound = new Audio.Sound();
-                await sound.loadAsync(source);
-                await sound.playAsync();
-              } catch(error) {
-                console.error(error);
-              }
-              navigate('AnswerPage')
-            }
-          }
-
-                />
-	              </View>
-
-	          </View>
-	              <View>
-	              <Text style={styles.gameContextText}>Question 1/10 | 1 point</Text>
-	              </View>
-
-                <View style={styles.container}>
-         <Button
-           title="Play Music"
-              onPress={async () => {
-              const source = {
-              uri: "https://freemusicarchive.org/file/music/ccCommunity/Borrtex/Something_Special/Borrtex_-_01_-_Typical_Day.mp3"
-            };
-
-            try {
-              await Audio.setIsEnabledAsync(true);
-              const sound = new Audio.Sound();
-              await sound.loadAsync(source);
-              await sound.playAsync();
-            } catch(error) {
-              console.error(error);
-            }
-          }}
-        />
-        </View>
-
-            </Image>
-        );
-    }
-}
-
-class Answer extends React.Component{
-    // static navigationOptions = {
-    //   header: {visible: false}
-    // };
-    render() {
-        return <AnswerPage />;
-    }
-}
-
-const QuestionNav = StackNavigator({
-    Question: {screen: Question},
-    AnswerPage: {screen: Answer}
-},
-                                  );
-
-export default class QuestionPage extends React.Component {
-    constructor(props) {
-        super(props)
-        this.page = 2;
-    }
-    render() {
-        return <QuestionNav/>;
-    }
-}
