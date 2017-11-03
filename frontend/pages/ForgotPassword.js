@@ -15,12 +15,13 @@ import { StackNavigator, NavigationActions } from 'react-navigation';
 import { Button, FormLabel, FormInput} from 'react-native-elements';
 const remotebackg = 'https://i.imgur.com/vqTkUz8.png';
 
-export default class LoginPage extends React.Component {
+export default class ForgotPassPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             username: '',
-            password: '',
+            oldPassword: '',
+            newPassword: '',
         };
     }
 
@@ -41,23 +42,23 @@ export default class LoginPage extends React.Component {
                 <TextInput
             placeholder='Username'
             style={styles.inputText}
-            //onChangeText={ (text) => this.setState({ username: text })}
+            onChangeText={ (text) => this.setState({ username: text })}
             value={this.state.username}
                 />
                 <TextInput
             placeholder='Old Password'
             style={styles.inputText}
             secureTextEntry={true}
-            //onChangeText={ (text) => this.setState({ password: text })}
-            value={this.state.password}
+            onChangeText={ (text) => this.setState({ password: text })}
+            value={this.state.oldPassword}
                 />
 
                 <TextInput
             placeholder='New Password'
             style={styles.inputText}
             secureTextEntry={true}
-            //onChangeText={ (text) => this.setState({ password: text })}
-            value={this.state.password}
+            onChangeText={ (text) => this.setState({ password: text })}
+            value={this.state.newPassword}
                 />
                 <View style={styles.buttonArrange}>
                 <Button buttonStyle={styles.buttons} title="Login" color='black' marginTop='30' onPress={() => this.authenticate(this.state.username, this.state.password) } />
