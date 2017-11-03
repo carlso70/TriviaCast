@@ -64,4 +64,10 @@ var routes = Routes{
 		"/highscores",
 		handlers.GetHighScores,
 	},
+	Route{
+		"ChangePassword",
+		"POST",
+		"/changepassword",
+		handlers.ChangePassword,
+	},
 }

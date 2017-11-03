@@ -57,11 +57,16 @@ func (g *Game) AcceptGameSockets(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(err)
 		return
 	}
+
 	// Get a pointer to the game in progress
 	client := Client{Connection: conn, User: usr, currentGame: g}
 	clients = append(clients, client)
 
 	fmt.Println("Client Subscribed")
+	err = client.Connection.WriteMessage(websocket.TextMessage, []byte("Connected to game"))
+	if err != nil {
+		fmt.Println("ERROR Writing to websocket connection:", err)
+	}
 	go Listen(client)
 }
 

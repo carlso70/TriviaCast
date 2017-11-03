@@ -17,6 +17,12 @@ type AccountRequest struct {
 	Password string `json:"password"`
 }
 
+type PasswordChangeRequest struct {
+	Username    string `json:"username"`
+	OldPassword string `json:"oldPassword"`
+	NewPassword string `json:"newPassword"`
+}
+
 func CreateUser(w http.ResponseWriter, r *http.Request) {
 	var request AccountRequest
 
@@ -86,6 +92,42 @@ func LoginUser(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 	fmt.Fprintf(w, "%s\n", string(byteSlice))
+}
+
+func ChangePassword(w http.ResponseWriter, r *http.Request) {
+	var request PasswordChangeRequest
+
+	fmt.Println("CHANGING PASSWORD")
+	decoder := json.NewDecoder(r.Body)
+	err := decoder.Decode(&request)
+	if err != nil {
+		http.Error(w, "Server Problem", 500)
+	}
+	defer r.Body.Close()
+	fmt.Println("username: ", request.Username)
+
+	if request.Username == "" || request.OldPassword == "" || request.NewPassword == "" {
+		fmt.Println("Empty password change request")
+		http.Error(w, "Invalid Password", 500)
+		return
+	}
+
+	usr, err := repo.FindUserByUsername(request.Username)
+	if err = utils.DecryptPass(request.OldPassword, usr.Password); err != nil {
+		// send error response if login failed
+		fmt.Println("Old Password does not match")
+		http.Error(w, "Invalid Password", 500)
+		return
+	}
+	// Encrypt New Password
+	usr.Password = utils.EncryptPass(request.NewPassword)
+	// Update user password
+	err = repo.UpdateUserPassword(usr)
+	if err != nil {
+		fmt.Println("ERROR CHANGING PASSWORD:", err)
+		return
+	}
+	fmt.Fprintf(w, "{ \"message\": \"success\" }\n")
 }
 
 // RequestUsers gets a list of all the users
