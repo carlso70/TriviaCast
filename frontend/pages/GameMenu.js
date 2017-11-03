@@ -22,7 +22,7 @@ export default class MainMenu extends Component {
         this.state.difficulty = result;
       });
       AsyncStorage.getItem('QuestionCount', (err, result) => {
-        console.console.log('Q count before ' + this.state.questionCt);
+        console.log('Q count before ' + this.state.questionCt);
         this.setState(previous => {
           return {questionCt: result};
         });

@@ -55,8 +55,6 @@ export default class Lobby extends Component {
                 // <Text>Game: {this.state.gameId}</Text>
                 // <Text>isConnected: {this.state.isConnected}</Text>
                 // <Text>Data: {this.state.data}</Text>
-                // <Text>Difficulty: {this.state.difficulty}</Text>
-                // <Text>questionCt: {this.state.questionCt}</Text>
 
                 <View style={styles.buttonArrange}>
                 <Button title="Go Back" onPress={() => this.props.navigation.goBack()} />
