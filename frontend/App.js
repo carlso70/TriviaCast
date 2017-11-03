@@ -6,6 +6,7 @@ import LoginPage from './pages/LoginPage'
 import GameMenu from './pages/GameMenu'
 import SettingsPage from './pages/SettingsPage'
 import HighScorePage from './pages/HighScorePage'
+import ForgotPassPage from './pages/ForgotPassword.js'
 import Lobby from './pages/Lobby'
 
 const TriviaCast = StackNavigator({
@@ -15,7 +16,9 @@ const TriviaCast = StackNavigator({
     HighScores: {screen: HighScorePage},
     GameMenu: {screen: GameMenu},
     Settings: {screen: SettingsPage},
-    Lobby: {screen: Lobby}
+    ForgotPassword: {screen: ForgotPassPage},
+    //Lobby: {screen: Lobby}.screen,
+    
   },
   {headerMode: 'none'}
 
