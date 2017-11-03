@@ -38,6 +38,27 @@ func TestGetAllUser(t *testing.T) {
 	}
 }
 
+func TestUpdateUserPassword(t *testing.T) {
+	user := user.Init()
+	user.Id = 15
+	user.Password = "OldPassword"
+	err := AddUserToDB(user)
+	if err != nil {
+		t.Errorf("Error in AddUserToDB: %s", err)
+	}
+	testUsr, err := FindUser(user.Id)
+	if testUsr.Password != user.Password {
+		t.Errorf("Error finding user, not matching passwords")
+	}
+	user.Password = "NewPassword"
+	UpdateUserPassword(user)
+	testUsr, err = FindUser(user.Id)
+	if testUsr.Password != user.Password {
+		t.Errorf("Error not matching passwords after update on find")
+	}
+}
+
+/*
 func TestUpdateUser(t *testing.T) {
 	t.Run("Add Test User", TestAddUserToDB)
 	user, err := FindUser(testId)
@@ -57,7 +78,7 @@ func TestUpdateUser(t *testing.T) {
 		t.Error("Update failed")
 	}
 }
-
+*/
 func TestDeleteUser(t *testing.T) {
 	t.Run("Add Test User", TestAddUserToDB)
 	err := DeleteUser(testId)
