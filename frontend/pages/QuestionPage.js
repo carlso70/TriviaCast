@@ -19,9 +19,10 @@ const remotebackg = 'https://i.imgur.com/vqTkUz8.png';
 import { Constants, Audio } from 'expo';
 
 var radio_props = [
-    {label: '10 planets', value: 0 },
-    {label: '8 planets', value: 1 },
-    {label: '9 planets', value: 2 }
+    {label: 'New England Patriots', value: 0 },
+    {label: 'Dallas Cowboys', value: 1 },
+    {label: 'Los Angeles Chargers', value: 2 },
+    {label: 'Atlanta Falcons', value: 3 }
 ];
 
 var RadioButtonProject = React.createClass({
@@ -89,7 +90,7 @@ export default class QuestionPage extends Component {
                 <Text style={styles.messageBoxTitleText}>Question 1</Text>
                 </View>
                 <View>
-                <Text style={styles.messageBoxBodyText}>How many planets are there?</Text>
+                <Text style={styles.messageBoxBodyText}>What NFL team won Superbowl 51 in overtime on February 5, 2017?</Text>
                 </View>
                 </View>
                 </View>
@@ -118,7 +119,7 @@ export default class QuestionPage extends Component {
             buttonInnerColor={'#e74c3c'}
             labelStyle={{fontSize: 20, color: 'white'}}
             labelWrapStyle={{}}
-            labelColor={'#50C900'}
+            labelColor={'#FFFFFF'}
                 />
                 </View>
                 </View>

@@ -48,6 +48,7 @@ const styles = StyleSheet.create({
      justifyContent:'center'
    },
    messageBox: {
+     alignItems: 'center',
      backgroundColor:'#0c306b',
      width:300,
      paddingTop:10,
@@ -98,7 +99,7 @@ export default class AnswerPage extends React.Component {
 	      <Text style={styles.messageBoxTitleText}>Question 1</Text>
 	    </View>
             <View>
-	      <Text style={styles.messageBoxBodyText}>How many planets are there?</Text>
+	      <Text style={styles.messageBoxBodyText}>What NFL team won Superbowl 51 in overtime on February 5, 2017?</Text>
 	    </View>
 	  </View>
 	</View>
@@ -108,7 +109,7 @@ export default class AnswerPage extends React.Component {
 	      <Text style={styles.messageBoxTitleText}>Question 1 Answer</Text>
 	    </View>
 	    <View>
-	      <Text style={styles.messageBoxBodyText}>There are 8 planets. (Pluto does not count!)</Text>
+	      <Text style={styles.messageBoxBodyText}>New England Patriots</Text>
 	    </View>
 	  </View>
 	</View>
