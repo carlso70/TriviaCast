@@ -7,7 +7,7 @@ import LoginPage from './pages/LoginPage'
 import GameMenu from './pages/GameMenu'
 import SettingsPage from './pages/SettingsPage'
 import HighScorePage from './pages/HighScorePage'
-import ForgotPassPage from './pages/ForgotPassword.js'
+import ChangePassPage from './pages/ChangePassPage'
 import Lobby from './pages/Lobby'
 import Game from './pages/QuestionPage'
 
@@ -20,7 +20,7 @@ const TriviaCast = StackNavigator({
     Settings: {screen: SettingsPage},
     Lobby: {screen: Lobby},
     Game: {screen: Game},
-    ForgotPassword: {screen: ForgotPassPage},
+    ChangePassword: {screen: ChangePassPage},
   },
   {headerMode: 'none'}
 
