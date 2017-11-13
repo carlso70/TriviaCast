@@ -68,3 +68,23 @@ export default class ForgotPage extends React.Component {
     );
   }
 }
+
+const btnstyles = StyleSheet.create({
+  inputText: {
+      marginLeft: '20%',
+      marginTop: '5%',
+      width: '60%'
+  },
+  buttonArrange: {
+      alignItems: 'center',
+      paddingBottom: 4
+  },
+  buttons: {
+      alignItems: 'center',
+      padding: 20,
+      backgroundColor: 'white',
+      marginTop: 20,
+      borderRadius: 10
+
+  }
+});
