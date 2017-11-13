@@ -28,7 +28,7 @@ type Game struct {
 	GameDifficulty  int                 `json:"difficulty"`
 	Winner          string              `json:"-"`
 	responses       chan string         `json:"-"`
-	hub             Hub                 `json:"-"`
+	hub             *Hub                `json:"-"`
 }
 
 const (
@@ -75,7 +75,7 @@ func (g *Game) runGame() {
 
 	// Send a snapshot message of the current game
 	gameJson, _ := json.Marshal(g)
-	sendMsg(string(gameJson))
+	g.hub.broadcast <- []byte(gameJson)
 
 	// Keep ask
 	for totalScore < 100 || questionCt < len(g.QuestionDeck) {
@@ -96,7 +96,7 @@ func (g *Game) startQuestion(q question.Question) error {
 
 	// Send a message of the current game
 	gameJson, _ := json.Marshal(g)
-	SendMsg(string(gameJson))
+	g.hub.broadcast <- []byte(gameJson)
 
 	// start timer, and tick chan
 
@@ -155,8 +155,7 @@ func (g *Game) endGame() {
 
 	// Send a message of the current game
 	gameJson, _ := json.Marshal(g)
-	sendMsg(string(gameJson))
-
+	g.hub.broadcast <- []byte(gameJson)
 }
 
 // AddUserToGame checks if the user is in the game, if it is then append to game slice

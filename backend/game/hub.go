@@ -2,7 +2,14 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package main
+package game
+
+// Typical Socket response to a question
+type SocketResponse struct {
+	UserId int    `json:"userId"`
+	GameId int    `json:"gameId"`
+	Answer string `json:"answer"`
+}
 
 // hub maintains the set of active clients and broadcasts messages to the
 // clients.
@@ -18,6 +25,9 @@ type Hub struct {
 
 	// Unregister requests from clients.
 	unregister chan *Client
+
+	// Current Game
+	currentGame *Game
 }
 
 func newHub() *Hub {
