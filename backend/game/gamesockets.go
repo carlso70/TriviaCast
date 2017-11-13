@@ -25,16 +25,30 @@ type SocketResponse struct {
 	Answer string `json:"answer"`
 }
 
-// Client represents a single websocket connection between a user and game
-type Client struct {
-	Connection  *websocket.Conn
-	User        user.User
-	currentGame *Game
+type Hub struct {
+	// Registered clients
+	clients map[*Client]bool
+
+	// Inbound messages from the client
+	broadcast chan []byte
+
+	// Register requests from the clients
+	register chan *Client
+
+	// Unregister requests from the clients.
+	unregister chan *Client
 }
 
-var clients []Client
+func newHub() *Hub {
+	return &Hub{
+		broadcast:  make(chan []byte),
+		register:   make(chan *Client),
+		unregister: make(chan *Client),
+		clients:    make(map[*Client]bool),
+	}
+}
 
-func (g *Game) AcceptGameSockets(w http.ResponseWriter, r *http.Request) {
+func (g *Game) acceptGameSockets(w http.ResponseWriter, r *http.Request) {
 	var socketRep SocketResponse
 
 	conn, err := upgrader.Upgrade(w, r, nil)
@@ -67,10 +81,10 @@ func (g *Game) AcceptGameSockets(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Println("ERROR Writing to websocket connection:", err)
 	}
-	go Listen(client)
+	go listen(client)
 }
 
-func Listen(client Client) {
+func listen(client Client) {
 	defer client.Connection.Close()
 	for {
 		_, message, err := client.Connection.ReadMessage()
@@ -85,7 +99,7 @@ func Listen(client Client) {
 	}
 }
 
-func SendMsg(msg string) {
+func sendMsg(msg string) {
 	fmt.Println("Broadcasting to: ", len(clients))
 	for i := len(clients) - 1; i >= 0; i-- {
 		if err := clients[i].Connection.WriteMessage(websocket.TextMessage, []byte(msg)); err != nil {
@@ -96,12 +110,38 @@ func SendMsg(msg string) {
 	}
 }
 
+func (h *Hub) run() {
+	for {
+		select {
+		case client := <-h.register:
+			h.clients[client] = true
+		case client := <-h.unregister:
+			if _, ok := h.clients[client]; ok {
+				delete(h.clients, client)
+				close(client.send)
+			}
+		case message := <-h.broadcast:
+			for client := range h.clients {
+				select {
+				case client.send <- message:
+				default:
+					close(client.send)
+					delete(h.clients, client)
+				}
+			}
+		}
+	}
+}
+
 // Creates a socket server for each game that users can connect to
 func (g *Game) InitGameSocket() {
-	clients = make([]Client, 0)
+	//clients = make([]Client, 0)
+
+	hub := newHub()
+	go hub.run()
 
 	handle := fmt.Sprintf("/game_socket/%d", g.Id)
-	http.HandleFunc(handle, g.AcceptGameSockets)
+	http.HandleFunc(handle, g.acceptGameSockets)
 	fmt.Println("Serving on:", handle)
 	go http.ListenAndServe(":3000", nil)
 }

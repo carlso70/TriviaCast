@@ -28,19 +28,20 @@ type Game struct {
 	GameDifficulty  int                 `json:"difficulty"`
 	Winner          string              `json:"-"`
 	responses       chan string         `json:"-"`
+	hub             Hub                 `json:"-"`
 }
 
 const (
 	QUESTION_LENGTH = 30 * time.Second // In Seconds
 )
 
-func Init() Game {
+func Init() *Game {
 	id := utils.GenerateId()
 	scoreboard := make(map[string]int)
 	responses := make(chan string)
 	deck := question.GetDefaultQuestions()
 	// Default QuestionCt = 10, GameDif = 1
-	return Game{
+	return &Game{
 		Id:             id,
 		Users:          nil,
 		QuestionDeck:   deck,
@@ -74,7 +75,7 @@ func (g *Game) runGame() {
 
 	// Send a snapshot message of the current game
 	gameJson, _ := json.Marshal(g)
-	SendMsg(string(gameJson))
+	sendMsg(string(gameJson))
 
 	// Keep ask
 	for totalScore < 100 || questionCt < len(g.QuestionDeck) {
@@ -85,7 +86,7 @@ func (g *Game) runGame() {
 		questionCt += 1
 	}
 
-	g.EndGame()
+	g.endGame()
 }
 
 // startQuestion starts a timer, and broadcasts the question while waiting for the game channel to fill or timer to expire
@@ -142,8 +143,7 @@ func (g *Game) startQuestion(q question.Question) error {
 }
 
 // EndGame updates players all time score at the end of the game
-func (g *Game) EndGame() {
-	// TODO broadcast to in game users that the game is over
+func (g *Game) endGame() {
 	fmt.Println("Ending game....")
 
 	for i := 0; i < len(g.Users); i++ {
@@ -155,7 +155,7 @@ func (g *Game) EndGame() {
 
 	// Send a message of the current game
 	gameJson, _ := json.Marshal(g)
-	SendMsg(string(gameJson))
+	sendMsg(string(gameJson))
 
 }
 
@@ -188,7 +188,7 @@ func (g *Game) RemoveUserFromGame(user user.User) error {
 }
 
 // TODO Build a question deck based off of these settings
-func (g *Game) CreateQuestionDeckFromSettings() {
+func (g *Game) buildQuestionDeck(difficulty int, questionCt int) {
 	// g.QuestionDeck := make([qCount]question.Question)
 	// for key, ques := range
 }
