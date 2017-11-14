@@ -8,6 +8,7 @@ import {
   View,
   TextInput,
   StyleSheet,
+  Picker,
 } from 'react-native';
 
 import {getAWSUrl} from '../utils/Urls'
@@ -19,6 +20,7 @@ export default class SecuriQuestionPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      id: this.props.navigation.state.params.userId,
       question: '',
       answer: '',
     };
@@ -38,6 +40,14 @@ export default class SecuriQuestionPage extends React.Component {
       }}
       source={{ uri: remotebackg }}
       >
+      <Picker
+      selectedValue={this.state.question}
+      onValueChange={(itemValue, itemIndex) =>
+        this.setState({question: itemValue})}>
+        <Picker.Item label="Your favorite color" value="color" />
+        <Picker.Item label="Your favorite vacation spot" value="destination" />
+        <Picker.Item label="Name of your elementary school" value="elementarySchool" />
+      </Picker>
       <TextInput
       placeholder='Answer'
       style={styles.inputText}

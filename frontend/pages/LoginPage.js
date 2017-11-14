@@ -63,6 +63,8 @@ export default class LoginPage extends React.Component {
     }
 
     createAccount(username, password) {
+
+      // this.props.navigation.navigate('SecurityQuestionPage', { userId: username });
         fetch(getAWSUrl() + 'createuser',{
             method: 'POST',
             headers: {
@@ -95,7 +97,7 @@ export default class LoginPage extends React.Component {
         })
             .then((responseJson) => {
                 if (responseJson) {
-                    this.props.navigation.navigate('GameMenu', { userId: responseJson.id });
+                    this.props.navigation.navigate('SecurityQuestionPage', { userId: responseJson.id });
                 }
             })
     }
