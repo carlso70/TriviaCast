@@ -32,6 +32,7 @@ func (g *GameManager) CreateGame(difficulty int, questionCt int) (*game.Game, er
 	newGame := game.Init()
 	newGame.GameDifficulty = difficulty
 	newGame.QuestionCt = questionCt
+	newGame.BuildQuestionDeck()
 
 	// Start open the websocket to connect to the game
 	newGame.InitGameSocket()
@@ -41,6 +42,7 @@ func (g *GameManager) CreateGame(difficulty int, questionCt int) (*game.Game, er
 	return newGame, nil
 }
 
+// StartGame launches a game that was created
 func (g *GameManager) StartGame(id int) error {
 	gm, err := findGame(g.Games, id)
 	if err != nil {

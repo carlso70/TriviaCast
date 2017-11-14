@@ -112,7 +112,7 @@ func (g *Game) startQuestion(q question.Question) error {
 			case c := <-g.responses:
 				var answer QuestionResponse
 				fmt.Println("RECIEVED RESPONSE:", c)
-				err := json.Unmarshal([]byte(c), answer)
+				err := json.Unmarshal([]byte(c), &answer)
 				if err == nil {
 					// if there is no err with the response add it to the current answer array
 					answers = append(answers, answer)
@@ -188,7 +188,7 @@ func (g *Game) RemoveUserFromGame(user user.User) error {
 	return errors.New("Error: Failure to delete, user not in game")
 }
 
-func (g *Game) buildQuestionDeck(difficulty int, questionCt int) {
-	dif := question.ConvertDifficulty(difficulty) // convert the int value to a difficulty string
-	g.QuestionDeck = repo.GenerateQuestionDeck(dif, questionCt)
+func (g *Game) BuildQuestionDeck() {
+	dif := question.ConvertDifficulty(g.GameDifficulty) // convert the int value to a difficulty string
+	g.QuestionDeck = repo.GenerateQuestionDeck(dif, g.QuestionCt)
 }
