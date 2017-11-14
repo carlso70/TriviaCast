@@ -34,6 +34,24 @@ export default class GameSelect extends Component {
       >
       {'Available Games'}
       </Text>
+      <Text style={styles.gameCard}>
+      {'Game 1'}
+      </Text>
+      <View style={styles.buttonArrange}>
+      <Button title="Select"/>
+      </View>
+      <Text style={styles.gameCard}>
+      {'Game 2'}
+      </Text>
+      <View style={styles.buttonArrange}>
+      <Button title="Select"/>
+      </View>
+      <Text style={styles.gameCard}>
+      {'Game 3'}
+      </Text>
+      <View style={styles.buttonArrange}>
+      <Button title="Select"/>
+      </View>
       <View style={styles.buttonArrange}>
       <Button title="Go Back" onPress={() => this.props.navigation.goBack()} />
       </View>
@@ -55,5 +73,11 @@ const styles = StyleSheet.create({
         color: 'white',
         padding: 40,
         justifyContent: 'top',
+    },
+    gameCard: {
+      backgroundColor: 'transparent', textAlign: 'left',
+      fontSize: 25,
+      color: 'white',
+      padding: 20,
     }
 })
