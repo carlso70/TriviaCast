@@ -6,6 +6,7 @@ package game
 
 import (
 	"bytes"
+	"fmt"
 	"log"
 	"net/http"
 	"time"
@@ -25,7 +26,7 @@ const (
 	pingPeriod = (pongWait * 9) / 10
 
 	// Maximum message size allowed from peer.
-	maxMessageSize = 512
+	maxMessageSize = 2024
 )
 
 var (
@@ -50,9 +51,6 @@ type Client struct {
 
 	// user associated with the client
 	user *user.User
-
-	// users current game
-	currentGame *Game
 }
 
 // readPump pumps messages from the websocket connection to the hub.
@@ -77,6 +75,8 @@ func (c *Client) readPump() {
 			break
 		}
 		message = bytes.TrimSpace(bytes.Replace(message, newline, space, -1))
+		fmt.Println(c.hub.currentGame.responses)
+		c.hub.currentGame.responses <- string(message)
 		c.hub.broadcast <- message
 	}
 }
@@ -134,7 +134,7 @@ func serveWs(hub *Hub, w http.ResponseWriter, r *http.Request) {
 		log.Println(err)
 		return
 	}
-	client := &Client{hub: hub, conn: conn, send: make(chan []byte, 256)}
+	client := &Client{hub: hub, conn: conn, send: make(chan []byte, 1024)}
 	client.hub.register <- client
 
 	// Allow collection of memory referenced by the caller by doing all work in

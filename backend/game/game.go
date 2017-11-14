@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/carlso70/triviacast/backend/question"
+	"github.com/carlso70/triviacast/backend/repo"
 	"github.com/carlso70/triviacast/backend/user"
 	"github.com/carlso70/triviacast/backend/utils"
 )
@@ -68,7 +69,6 @@ func (g *Game) StartGame() error {
 // Runs a game instance, which contains the basic game logic
 func (g *Game) runGame() {
 	fmt.Println("Running game:", g.Id)
-	totalScore := 0
 
 	// Index to current question being display
 	questionCt := 0
@@ -78,7 +78,7 @@ func (g *Game) runGame() {
 	g.hub.broadcast <- []byte(gameJson)
 
 	// Keep ask
-	for totalScore < 100 || questionCt < len(g.QuestionDeck) {
+	for questionCt < len(g.QuestionDeck) {
 		// Start a question, which delays for 30 seconds while listening for answers
 		if err := g.startQuestion(g.QuestionDeck[questionCt]); err != nil {
 			log.Panic(err)
@@ -119,6 +119,8 @@ func (g *Game) startQuestion(q question.Question) error {
 					if len(answers) == len(g.Users) {
 						g.AskingQuestion = false
 					}
+				} else {
+					fmt.Println("Error Marshaling question response", err)
 				}
 			case <-timerChan:
 				fmt.Println("TIMER EXPIRED")
@@ -136,7 +138,7 @@ func (g *Game) startQuestion(q question.Question) error {
 	// Check if the question responses match the answer
 	for _, resp := range answers {
 		if resp.Answer == g.CurrentQuestion.Answer {
-			g.Scoreboard[resp.Username] += q.Value
+			g.Scoreboard[resp.Username] += question.ConvertDifficultyToValue(g.CurrentQuestion.Difficulty)
 		}
 	}
 	return nil
@@ -186,8 +188,7 @@ func (g *Game) RemoveUserFromGame(user user.User) error {
 	return errors.New("Error: Failure to delete, user not in game")
 }
 
-// TODO Build a question deck based off of these settings
 func (g *Game) buildQuestionDeck(difficulty int, questionCt int) {
-	// g.QuestionDeck := make([qCount]question.Question)
-	// for key, ques := range
+	dif := question.ConvertDifficulty(difficulty) // convert the int value to a difficulty string
+	g.QuestionDeck = repo.GenerateQuestionDeck(dif, questionCt)
 }

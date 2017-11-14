@@ -18,6 +18,7 @@ const (
 	Password   = "YOUR_PASS"
 	Database   = "trivia"
 	Collection = "users"
+	Questions  = "questions"
 )
 
 func AddUserToDB(user user.User) error {
