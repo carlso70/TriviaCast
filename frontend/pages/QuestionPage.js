@@ -59,7 +59,10 @@ export default class QuestionPage extends Component {
                 for (var i = 0; i < data.question.choices.length; i++) {
                     choices.push({label: data.question.choices[i], value: i });
                 }
-                this.setState({radio_props: choices});
+                this.setState({
+                    radio_props: choices,
+                    currentQuestion: data.question.question
+                });
             } catch (e) {
                 console.log(e);
             }
