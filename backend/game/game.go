@@ -73,10 +73,6 @@ func (g *Game) runGame() {
 	// Index to current question being display
 	questionCt := 0
 
-	// Send a snapshot message of the current game
-	gameJson, _ := json.Marshal(g)
-	g.hub.broadcast <- []byte(gameJson)
-
 	// Keep ask
 	for questionCt < len(g.QuestionDeck) {
 		// Start a question, which delays for 30 seconds while listening for answers
