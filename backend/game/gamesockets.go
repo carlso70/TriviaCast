@@ -7,6 +7,7 @@ import (
 
 // Creates a socket server for each game that users can connect to
 func (g *Game) InitGameSocket() {
+	// Initialize a socket hub that manages incoming messages
 	hub := newHub()
 	g.hub = hub
 	hub.currentGame = g

@@ -4,13 +4,6 @@
 
 package game
 
-// Typical Socket response to a question
-type SocketResponse struct {
-	UserId int    `json:"userId"`
-	GameId int    `json:"gameId"`
-	Answer string `json:"answer"`
-}
-
 // hub maintains the set of active clients and broadcasts messages to the
 // clients.
 type Hub struct {
