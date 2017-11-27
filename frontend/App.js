@@ -11,7 +11,11 @@ import ChangePassPage from './pages/ChangePassPage'
 import Lobby from './pages/Lobby'
 import Game from './pages/QuestionPage'
 import AnswerPage from './pages/AnswerPage';
+<<<<<<< HEAD
 import ForgotPage from './pages/ForgotPage'
+=======
+import QuestionPage from './pages/QuestionPage'
+>>>>>>> 4942884ab08997a4aa180025bb8862dd3dde7f97
 
 const TriviaCast = StackNavigator({
     Main: {screen: MainPage},
@@ -23,6 +27,7 @@ const TriviaCast = StackNavigator({
     Lobby: {screen: Lobby},
     Game: {screen: Game},
     ChangePassword: {screen: ChangePassPage},
+    QuestionPage: {screen: QuestionPage },
     Answer: { screen: AnswerPage},
     ForgotPassword:{screen: ForgotPage},
   },

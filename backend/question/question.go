@@ -1,14 +1,15 @@
 package question
 
-// TODO remove the need for choicesString, currently in the DB choices is saved as one comma sperated string
+import (
+	"fmt"
+)
+
 type Question struct {
-	Question      string   `json:"question" bson:"question"`
-	Choices       []string `json:"-"`
-	choicesString string   `json:"-" bson:"choices"`
-	Answer        string   `json:"-" bson:"answer"`
-	Difficulty    string   `json:"difficulty" bson:"difficulty"`
-	Category      string   `json:"category" bson:"category"`
-	Value         int      `json:"value" bson:"value"`
+	Question   string   `json:"question" bson:"question"`
+	Choices    []string `json:"choices" bson:"choices"`
+	Answer     string   `json:"-" bson:"answer"`
+	Difficulty string   `json:"difficulty" bson:"difficulty"`
+	Category   string   `json:"category" bson:"category"`
 }
 
 func GetDefaultQuestions() []Question {
@@ -19,7 +20,6 @@ func GetDefaultQuestions() []Question {
 		Answer:     "Yes",
 		Difficulty: "Easy",
 		Category:   "Default",
-		Value:      5,
 	}
 	ques2 := Question{
 		Question:   "Do you like Purdue",
@@ -27,8 +27,35 @@ func GetDefaultQuestions() []Question {
 		Answer:     "Yes",
 		Difficulty: "Easy",
 		Category:   "Default",
-		Value:      5,
 	}
 	deck = append(deck, ques1, ques2)
 	return deck
+}
+
+func ConvertDifficulty(dif int) string {
+	switch dif {
+	case 0:
+		return "Easy"
+	case 1:
+		return "Medium"
+	case 2:
+		return "Hard"
+	default:
+		fmt.Errorf("INVALID DIFFICULTY CONVERSION:%d", dif)
+		return "Easy"
+	}
+}
+
+func ConvertDifficultyToValue(dif string) int {
+	switch dif {
+	case "Easy":
+		return 1
+	case "Medium":
+		return 2
+	case "Hard":
+		return 3
+	default:
+		fmt.Errorf("INVALID DIFFICULTY CONVERSION:%s", dif)
+		return 1
+	}
 }

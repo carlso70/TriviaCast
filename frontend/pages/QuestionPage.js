@@ -12,7 +12,7 @@ import {
 
 import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
 import { StackNavigator } from 'react-navigation';
-import ButtonDemo from '../components/ButtonDemo'
+import {getAWSUrl } from '../utils/Urls'
 import { Button } from 'react-native-elements';
 const remotebackg = 'https://i.imgur.com/vqTkUz8.png';
 
@@ -25,48 +25,103 @@ var radio_props = [
     {label: 'Atlanta Falcons', value: 3 }
 ];
 
-var RadioButtonProject = React.createClass({
-    getInitialState: function() {
-        return {
-            value: 0,
-        }
-    },
-    render: function() {
-        return (
-                <View>
-                <RadioForm
-            radio_props={radio_props}
-            initial={0}
-            onPress={(value) => {this.setState({value:value})}}
-                />
-                </View>
-        );
-    }
-});
-
-
 export default class QuestionPage extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            connected: false,
+            userId: this.props.navigation.state.params.userId,
+            gameId: this.props.navigation.state.params.gameId,
+            currentQuestion: "",
+            choice: "",
+            radio_props: [{label: 'Waiting For Questions....', value: 0 }],
+            questionNumber: 1,
+        }
 
-        this.page = 2;
-    }
-
-    playMusic() {
-        async () => {
-            const source = {
-                uri: "https://freemusicarchive.org/file/music/ccCommunity/Borrtex/Something_Special/Borrtex_-_01_-_Typical_Day.mp3"
-            };
-
+        // Setup websocket
+        socketurl = 'ws://ec2-18-221-200-72.us-east-2.compute.amazonaws.com:3000/';
+        var endpoint = socketurl + 'game_socket/'+ this.state.gameId + '';
+        console.log("Connecting to websocket at " + endpoint);
+        this.socket = new WebSocket(endpoint);
+        this.socket.onopen = () => {
+            console.log("OPEN");
+            // TODO add check if host, if not dont start just join
+            this.startGame(this.props.navigation.state.params.gameId, this.props.navigation.state.params.userId)
+            this.setState({connected: true});
+        };
+        this.socket.onmessage = (e) => {
+            console.log("e.data === " + e.data);
             try {
-                await Audio.setIsEnabledAsync(true);
-                const sound = new Audio.Sound();
-                await sound.loadAsync(source);
-                await sound.playAsync();
-            } catch(error) {
-                console.error(error);
+                var data = JSON.parse(e.data);
+                console.log("data === ");
+                console.log(data.question);
+                var choices = new Array();
+                for (var i = 0; i < data.question.choices.length; i++) {
+                    choices.push({label: data.question.choices[i], value: i });
+                }
+                this.setState({
+                    radio_props: choices,
+                    currentQuestion: data.question.question
+                });
+            } catch (e) {
+                console.log(e);
             }
         };
+        this.socket.onclose = (e) => {
+            console.log("CLOSING SOCKET")
+            this.setState({connected: false});
+        }
+
+        this.emitResponse = this.emitResponse.bind(this)
+    }
+
+
+    startGame(gameId, userId) {
+        fetch(getAWSUrl() + 'startgame',{
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                userId: userId,
+                gameId: gameId,
+            })
+        }).then(function(response) {
+            console.log(response.status);
+            if (response.status === 200) {
+                return response.json();
+            } else if (response.status === 500){
+                // There was an error with username or password
+                Alert.alert(
+                    'Error Starting Game'
+                );
+                return null;
+            } else {
+                // 404 error or something else
+                Alert.alert(
+                    'Please fix your network',
+                    'Error Starting'
+                );
+                return null;
+            }
+        })
+            .then((responseJson) => {
+                if (responseJson) {
+                    // SUCCESS
+                }
+            })
+    }
+
+    emitResponse() {
+        if (this.state.connected) {
+            console.log("SENDING MESSAGE");
+            this.socket.send(JSON.stringify({
+                userId: this.state.userId,
+                gameId: this.state.gameId,
+                answer: this.state.choice
+            }));
+        }
     }
 
     render() {
@@ -87,111 +142,72 @@ export default class QuestionPage extends Component {
                 <View style={styles.content}>
                 <View style={styles.messageBox}>
                 <View>
-                <Text style={styles.messageBoxTitleText}>Question 1</Text>
+                <Text style={styles.messageBoxTitleText}>Asking Question {this.state.questionNumber}</Text>
                 </View>
                 <View>
-                <Text style={styles.messageBoxBodyText}>What NFL team won Superbowl 51 in overtime on February 5, 2017?</Text>
+                <Text style={styles.messageBoxBodyText}>{this.state.currentQuestion}</Text>
                 </View>
                 </View>
                 </View>
                 <View style={styles.content}>
                 <View style={styles.buttonArrange}>
                 <RadioForm
-            radio_props={radio_props}
+            radio_props={this.state.radio_props}
             initial={0}
-            onPress={async () => {
-                const source = {
-                    uri: "https://www.soundjay.com/button/button-16.mp3"
-                };
-
-                try {
-                    await Audio.setIsEnabledAsync(true);
-                    const sound = new Audio.Sound();
-                    await sound.loadAsync(source);
-                    await sound.playAsync();
-                } catch(error) {
-                    console.error(error);
-                }
-                (value) => {this.setState({value:value})}
-            }
-                    }
-            buttonColor={'white'}
-            buttonInnerColor={'#e74c3c'}
-            labelStyle={{fontSize: 20, color: 'white'}}
-            labelWrapStyle={{}}
-            labelColor={'#FFFFFF'}
-                />
-                </View>
-                </View>
-                <View style={styles.content}>
-                <View style={styles.buttonArrange}>
-                <Button
-            raised
-            buttonStyle={{backgroundColor: 'white', borderRadius: 10, width: 200}}
-            textStyle={{textAlign: 'center', color: 'black'}}
-            title={`Submit response`}
-            onPress={async () => {
-                const source = {
-                    uri: "https://www.soundjay.com/button/button-6.mp3"
-                };
-
-                try {
-                    await Audio.setIsEnabledAsync(true);
-                    const sound = new Audio.Sound();
-                    await sound.loadAsync(source);
-                    await sound.playAsync();
-                } catch(error) {
-                    console.error(error);
-                }
-                navigate('Answer')
-            }
-                    }
-
-                />
-                </View>
-
-            </View>
-                <View>
-                <Text style={styles.gameContextText}>Question 1/10 | 1 point</Text>
-                </View>
-
-                <View style={styles.container}>
-                <Button
-            raised
-            buttonStyle={{backgroundColor: 'white', borderRadius: 10, width: 200}}
-            textStyle={{textAlign: 'center', color: 'black'}}
-            title={`Play Music`}
             onPress={
-                async () => {
-                    const source = {
-                        uri: "https://freemusicarchive.org/file/music/ccCommunity/Borrtex/Something_Special/Borrtex_-_01_-_Typical_Day.mp3"
-                    };
-
-                    try {
-                        await Audio.setIsEnabledAsync(true);
-                        const sound = new Audio.Sound();
-                        await sound.loadAsync(source);
-                        await sound.playAsync();
-                    } catch(error) {
-                        console.error(error);
-                    }
+                (value) => {
+                    this.setState({choice:this.state.radio_props[value].label});
                 }
-            }/>
-                <Button
-            raised
-            buttonStyle={{backgroundColor: 'white', borderRadius: 10, width: 200}}
-            textStyle={{textAlign: 'center', color: 'black'}}
-            title={`Go Back`}
-            onPress={() => this.props.navigation.goBack()}/>
-                </View>
+            }
+        buttonColor={'white'}
+        buttonInnerColor={'#e74c3c'}
+        labelStyle={{fontSize: 20, color: 'white'}}
+        labelWrapStyle={{}}
+        labelColor={'#FFFFFF'}
+            />
+            </View>
+            </View>
+            <View style={styles.content}>
+            <View style={styles.buttonArrange}>
+            <Button
+        raised
+        buttonStyle={{backgroundColor: 'white', borderRadius: 10, width: 200}}
+        textStyle={{textAlign: 'center', color: 'black'}}
+        title={`Submit response`}
+        onPress={async () => {
+            const source = {
+                uri: "https://www.soundjay.com/button/button-6.mp3"
+            };
 
-            </Image>
-        );
-    }
+            try {
+                await Audio.setIsEnabledAsync(true);
+                const sound = new Audio.Sound();
+                await sound.loadAsync(source);
+                await sound.playAsync();
+            } catch(error) {
+                console.error(error);
+            }
+            navigate('Answer')
+        }
+                }
+            />
+            </View>
+            </View>
+            <View>
+            <Text style={styles.gameContextText}>Question 1/10 | 1 point</Text>
+            </View>
+            <View style={styles.container}>
+            <Button
+        raised
+        buttonStyle={{backgroundColor: 'white', borderRadius: 10, width: 200}}
+        textStyle={{textAlign: 'center', color: 'black'}}
+        title={`Go Back`}
+        onPress={() => this.props.navigation.goBack()}/>
+            </View>
+
+        </Image>
+    );
 }
-
-function getInitialState() {
-    return {liked:false};
 }
 
 const styles = StyleSheet.create({
