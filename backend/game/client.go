@@ -74,7 +74,6 @@ func (c *Client) readPump() {
 			}
 			break
 		}
-		c.hub.broadcast <- message
 		message = bytes.TrimSpace(bytes.Replace(message, newline, space, -1))
 		fmt.Println(c.hub.currentGame.responses)
 		c.hub.currentGame.responses <- string(message)

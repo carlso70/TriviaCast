@@ -33,6 +33,7 @@ export default class QuestionPage extends Component {
             userId: this.props.navigation.state.params.userId,
             gameId: this.props.navigation.state.params.gameId,
             currentQuestion: "",
+            quesitonCorrectAnswer: "",
             choice: "",
             radio_props: [{label: 'Waiting For Questions....', value: 0 }],
             questionNumber: 1,
@@ -61,7 +62,8 @@ export default class QuestionPage extends Component {
                 }
                 this.setState({
                     radio_props: choices,
-                    currentQuestion: data.question.question
+                    currentQuestion: data.question.question,
+                    questionNumber: data.questionNumber,
                 });
             } catch (e) {
                 console.log(e);
@@ -75,6 +77,16 @@ export default class QuestionPage extends Component {
         this.emitResponse = this.emitResponse.bind(this)
     }
 
+    emitResponse() {
+        if (this.state.connected) {
+            console.log("SENDING MESSAGE");
+            this.socket.send(JSON.stringify({
+                userId: this.state.userId,
+                gameId: this.state.gameId,
+                answer: this.state.choice
+            }));
+        }
+    }
 
     startGame(gameId, userId) {
         fetch(getAWSUrl() + 'startgame',{
@@ -111,17 +123,6 @@ export default class QuestionPage extends Component {
                     // SUCCESS
                 }
             })
-    }
-
-    emitResponse() {
-        if (this.state.connected) {
-            console.log("SENDING MESSAGE");
-            this.socket.send(JSON.stringify({
-                userId: this.state.userId,
-                gameId: this.state.gameId,
-                answer: this.state.choice
-            }));
-        }
     }
 
     render() {
@@ -187,14 +188,11 @@ export default class QuestionPage extends Component {
             } catch(error) {
                 console.error(error);
             }
-            navigate('Answer')
+            this.emitResponse();
         }
                 }
             />
             </View>
-            </View>
-            <View>
-            <Text style={styles.gameContextText}>Question 1/10 | 1 point</Text>
             </View>
             <View style={styles.container}>
             <Button
