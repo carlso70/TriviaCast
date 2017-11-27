@@ -14,7 +14,7 @@ import (
 )
 
 type QuestionResponse struct {
-	UserId string `json:"userId"`
+	UserId int    `json:"userId"`
 	Answer string `json:"answer"`
 }
 
