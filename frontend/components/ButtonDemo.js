@@ -1,8 +1,8 @@
+//import react and needed components
 import React, {Component} from 'react'
-
 import { Button } from 'react-native-elements';
 
-
+// create defaut button to be used 
 class NavButton extends Component {
   render = () => {
     return (<Button
@@ -17,4 +17,5 @@ class NavButton extends Component {
   }
 }
 
+//export button
 export default NavButton;
