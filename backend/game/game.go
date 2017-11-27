@@ -23,6 +23,7 @@ type Game struct {
 	Users           []user.User         `json:"users"`
 	QuestionDeck    []question.Question `json:"-"`
 	CurrentQuestion question.Question   `json:"question"`
+	QuestionNumber  int                 `json:"questionNumber"`
 	AskingQuestion  bool                `json:"askingQuestion"`
 	Scoreboard      map[string]int      `json:"scoreboard"`
 	QuestionCt      int                 `json:"questionCt"`
@@ -71,15 +72,15 @@ func (g *Game) runGame() {
 	fmt.Println("Running game:", g.Id)
 
 	// Index to current question being display
-	questionCt := 0
+	g.QuestionNumber = 1
 
 	// Keep ask
-	for questionCt < len(g.QuestionDeck) {
+	for g.QuestionNumber <= len(g.QuestionDeck) {
 		// Start a question, which delays for 30 seconds while listening for answers
-		if err := g.startQuestion(g.QuestionDeck[questionCt]); err != nil {
+		if err := g.startQuestion(g.QuestionDeck[g.QuestionNumber-1]); err != nil {
 			log.Panic(err)
 		}
-		questionCt += 1
+		g.QuestionNumber += 1
 	}
 
 	g.endGame()
@@ -95,7 +96,6 @@ func (g *Game) startQuestion(q question.Question) error {
 	g.hub.broadcast <- []byte(gameJson)
 
 	// start timer, and tick chan
-
 	fmt.Printf("Starting question %s...\n", q.Question)
 
 	answers := make([]QuestionResponse, 0)
