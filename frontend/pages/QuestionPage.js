@@ -18,13 +18,6 @@ const remotebackg = 'https://i.imgur.com/vqTkUz8.png';
 
 import { Constants, Audio } from 'expo';
 
-var radio_props = [
-    {label: 'New England Patriots', value: 0 },
-    {label: 'Dallas Cowboys', value: 1 },
-    {label: 'Los Angeles Chargers', value: 2 },
-    {label: 'Atlanta Falcons', value: 3 }
-];
-
 export default class QuestionPage extends Component {
     constructor(props) {
         super(props);
@@ -32,6 +25,7 @@ export default class QuestionPage extends Component {
             connected: false,
             userId: this.props.navigation.state.params.userId,
             gameId: this.props.navigation.state.params.gameId,
+            username: this.props.navigation.state.params.username,
             currentQuestion: "",
             quesitonCorrectAnswer: "",
             choice: "",
@@ -83,7 +77,7 @@ export default class QuestionPage extends Component {
         if (this.state.connected) {
             console.log("SENDING MESSAGE");
             this.socket.send(JSON.stringify({
-                userId: this.state.userId,
+                username: this.state.username,
                 answer: this.state.choice
             }));
         }

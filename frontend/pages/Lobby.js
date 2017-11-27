@@ -11,6 +11,7 @@ export default class Lobby extends Component {
         this.state = {
             userId: this.props.navigation.state.params.userId,
             gameId: this.props.navigation.state.params.gameId,
+            username: this.props.navigation.state.params.username,
             difficulty: this.props.navigation.state.params.difficulty,
             questionCt: this.props.navigation.state.params.questionCt,
         };
