@@ -37,6 +37,7 @@ export default class QuestionPage extends Component {
             choice: "",
             radio_props: [{label: 'Waiting For Questions....', value: 0 }],
             questionNumber: 1,
+            gameOver: false,
         }
 
         // Setup websocket
@@ -64,6 +65,7 @@ export default class QuestionPage extends Component {
                     radio_props: choices,
                     currentQuestion: data.question.question,
                     questionNumber: data.questionNumber,
+                    gameOver: data.gameOver,
                 });
             } catch (e) {
                 console.log(e);
@@ -126,85 +128,100 @@ export default class QuestionPage extends Component {
 
     render() {
         const { navigate } = this.props.navigation;
-        return (
-                <Image
-            style={{
-                backgroundColor: '#ccc',
-                flex: 1,
-                resizeMode: 'cover',
-                position: 'absolute',
-                width: '100%',
-                height: '100%',
-                justifyContent: 'center',
-            }}
-            source={{ uri: remotebackg }}
-                >
-                <View style={styles.content}>
-                <View style={styles.messageBox}>
-                <View>
-                <Text style={styles.messageBoxTitleText}>Asking Question {this.state.questionNumber}</Text>
-                </View>
-                <View>
-                <Text style={styles.messageBoxBodyText}>{this.state.currentQuestion}</Text>
-                </View>
-                </View>
-                </View>
-                <View style={styles.content}>
-                <View style={styles.buttonArrange}>
-                <RadioForm
-            radio_props={this.state.radio_props}
-            initial={0}
-            onPress={
-                (value) => {
-                    this.setState({choice:this.state.radio_props[value].label});
+        if (this.state.gameOver) {
+            return (
+                    <View style={styles.content}>
+                    <View style={styles.messageBox}>
+                    <View>
+                    <Text style={styles.messageBoxTitleText}>GAME OVER</Text>
+                    </View>
+                    <View>
+                    <Text style={styles.messageBoxBodyText}>TODO SCOREBOARD</Text>
+                    </View>
+                    </View>
+                    </View>
+            );
+        } else {
+            return (
+                    <Image
+                style={{
+                    backgroundColor: '#ccc',
+                    flex: 1,
+                    resizeMode: 'cover',
+                    position: 'absolute',
+                    width: '100%',
+                    height: '100%',
+                    justifyContent: 'center',
+                }}
+                source={{ uri: remotebackg }}
+                    >
+                    <View style={styles.content}>
+                    <View style={styles.messageBox}>
+                    <View>
+                    <Text style={styles.messageBoxTitleText}>Asking Question {this.state.questionNumber}</Text>
+                    </View>
+                    <View>
+                    <Text style={styles.messageBoxBodyText}>{this.state.currentQuestion}</Text>
+                    </View>
+                    </View>
+                    </View>
+                    <View style={styles.content}>
+                    <View style={styles.buttonArrange}>
+                    <RadioForm
+                radio_props={this.state.radio_props}
+                initial={0}
+                onPress={
+                    (value) => {
+                        this.setState({choice:this.state.radio_props[value].label});
+                    }
                 }
-            }
-        buttonColor={'white'}
-        buttonInnerColor={'#e74c3c'}
-        labelStyle={{fontSize: 20, color: 'white'}}
-        labelWrapStyle={{}}
-        labelColor={'#FFFFFF'}
-            />
-            </View>
-            </View>
-            <View style={styles.content}>
-            <View style={styles.buttonArrange}>
-            <Button
-        raised
-        buttonStyle={{backgroundColor: 'white', borderRadius: 10, width: 200}}
-        textStyle={{textAlign: 'center', color: 'black'}}
-        title={`Submit response`}
-        onPress={async () => {
-            const source = {
-                uri: "https://www.soundjay.com/button/button-6.mp3"
-            };
+                buttonColor={'white'}
+                buttonInnerColor={'#e74c3c'}
+                labelStyle={{fontSize: 20, color: 'white'}}
+                labelWrapStyle={{}}
+                labelColor={'#FFFFFF'}
+                    />
+                    </View>
+                    </View>
+                    <View style={styles.content}>
+                    <View style={styles.buttonArrange}>
+                    <Button
+                raised
+                buttonStyle={{backgroundColor: 'white', borderRadius: 10, width: 200}}
+                textStyle={{textAlign: 'center', color: 'black'}}
+                title={`Submit response`}
+                onPress={async () => {
+                    const source = {
+                        uri: "https://www.soundjay.com/button/button-6.mp3"
+                    };
 
-            try {
-                await Audio.setIsEnabledAsync(true);
-                const sound = new Audio.Sound();
-                await sound.loadAsync(source);
-                await sound.playAsync();
-            } catch(error) {
-                console.error(error);
-            }
-            this.emitResponse();
+                    try {
+                        await Audio.setIsEnabledAsync(true);
+                        const sound = new Audio.Sound();
+                        await sound.loadAsync(source);
+                        await sound.playAsync();
+                    } catch(error) {
+                        console.error(error);
+                    }
+                    this.emitResponse();
+                }
+                        }
+                    />
+                    </View>
+                    </View>
+                    <View style={styles.container}>
+                    <Button
+                raised
+                buttonStyle={{backgroundColor: 'white', borderRadius: 10, width: 200}}
+                textStyle={{textAlign: 'center', color: 'black'}}
+                title={`Go Back`}
+                onPress={() => this.props.navigation.goBack()}/>
+                    </View>
+
+                </Image>
+            );
         }
-                }
-            />
-            </View>
-            </View>
-            <View style={styles.container}>
-            <Button
-        raised
-        buttonStyle={{backgroundColor: 'white', borderRadius: 10, width: 200}}
-        textStyle={{textAlign: 'center', color: 'black'}}
-        title={`Go Back`}
-        onPress={() => this.props.navigation.goBack()}/>
-            </View>
-
-        </Image>
-    );
-}
+    }
 }
 
 const styles = StyleSheet.create({
@@ -270,6 +287,5 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center'
     }
-
 });
 
