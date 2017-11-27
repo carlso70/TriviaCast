@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"log"
+	"strconv"
 	"time"
 
 	"github.com/carlso70/triviacast/backend/question"
@@ -136,7 +137,8 @@ func (g *Game) startQuestion(q question.Question) error {
 	// Check if the question responses match the answer
 	for _, resp := range answers {
 		if resp.Answer == g.CurrentQuestion.Answer {
-			g.Scoreboard[string(resp.UserId)] += question.ConvertDifficultyToValue(g.CurrentQuestion.Difficulty)
+			strId := strconv.Itoa(resp.UserId)
+			g.Scoreboard[strId] += question.ConvertDifficultyToValue(g.CurrentQuestion.Difficulty)
 		}
 	}
 	return nil
