@@ -1,6 +1,7 @@
 package game
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/carlso70/triviacast/backend/user"

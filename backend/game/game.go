@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/carlso70/triviacast/backend/question"
+	"github.com/carlso70/triviacast/backend/repo"
 	"github.com/carlso70/triviacast/backend/user"
 	"github.com/carlso70/triviacast/backend/utils"
 )
@@ -28,19 +29,20 @@ type Game struct {
 	GameDifficulty  int                 `json:"difficulty"`
 	Winner          string              `json:"-"`
 	responses       chan string         `json:"-"`
+	hub             *Hub                `json:"-"`
 }
 
 const (
 	QUESTION_LENGTH = 30 * time.Second // In Seconds
 )
 
-func Init() Game {
+func Init() *Game {
 	id := utils.GenerateId()
 	scoreboard := make(map[string]int)
 	responses := make(chan string)
 	deck := question.GetDefaultQuestions()
 	// Default QuestionCt = 10, GameDif = 1
-	return Game{
+	return &Game{
 		Id:             id,
 		Users:          nil,
 		QuestionDeck:   deck,
@@ -67,17 +69,16 @@ func (g *Game) StartGame() error {
 // Runs a game instance, which contains the basic game logic
 func (g *Game) runGame() {
 	fmt.Println("Running game:", g.Id)
-	totalScore := 0
 
 	// Index to current question being display
 	questionCt := 0
 
 	// Send a snapshot message of the current game
 	gameJson, _ := json.Marshal(g)
-	SendMsg(string(gameJson))
+	g.hub.broadcast <- []byte(gameJson)
 
 	// Keep ask
-	for totalScore < 100 || questionCt < len(g.QuestionDeck) {
+	for questionCt < len(g.QuestionDeck) {
 		// Start a question, which delays for 30 seconds while listening for answers
 		if err := g.startQuestion(g.QuestionDeck[questionCt]); err != nil {
 			log.Panic(err)
@@ -85,7 +86,7 @@ func (g *Game) runGame() {
 		questionCt += 1
 	}
 
-	g.EndGame()
+	g.endGame()
 }
 
 // startQuestion starts a timer, and broadcasts the question while waiting for the game channel to fill or timer to expire
@@ -95,7 +96,7 @@ func (g *Game) startQuestion(q question.Question) error {
 
 	// Send a message of the current game
 	gameJson, _ := json.Marshal(g)
-	SendMsg(string(gameJson))
+	g.hub.broadcast <- []byte(gameJson)
 
 	// start timer, and tick chan
 
@@ -111,13 +112,15 @@ func (g *Game) startQuestion(q question.Question) error {
 			case c := <-g.responses:
 				var answer QuestionResponse
 				fmt.Println("RECIEVED RESPONSE:", c)
-				err := json.Unmarshal([]byte(c), answer)
+				err := json.Unmarshal([]byte(c), &answer)
 				if err == nil {
 					// if there is no err with the response add it to the current answer array
 					answers = append(answers, answer)
 					if len(answers) == len(g.Users) {
 						g.AskingQuestion = false
 					}
+				} else {
+					fmt.Println("Error Marshaling question response", err)
 				}
 			case <-timerChan:
 				fmt.Println("TIMER EXPIRED")
@@ -135,15 +138,14 @@ func (g *Game) startQuestion(q question.Question) error {
 	// Check if the question responses match the answer
 	for _, resp := range answers {
 		if resp.Answer == g.CurrentQuestion.Answer {
-			g.Scoreboard[resp.Username] += q.Value
+			g.Scoreboard[resp.Username] += question.ConvertDifficultyToValue(g.CurrentQuestion.Difficulty)
 		}
 	}
 	return nil
 }
 
 // EndGame updates players all time score at the end of the game
-func (g *Game) EndGame() {
-	// TODO broadcast to in game users that the game is over
+func (g *Game) endGame() {
 	fmt.Println("Ending game....")
 
 	for i := 0; i < len(g.Users); i++ {
@@ -155,8 +157,7 @@ func (g *Game) EndGame() {
 
 	// Send a message of the current game
 	gameJson, _ := json.Marshal(g)
-	SendMsg(string(gameJson))
-
+	g.hub.broadcast <- []byte(gameJson)
 }
 
 // AddUserToGame checks if the user is in the game, if it is then append to game slice
@@ -187,8 +188,7 @@ func (g *Game) RemoveUserFromGame(user user.User) error {
 	return errors.New("Error: Failure to delete, user not in game")
 }
 
-// TODO Build a question deck based off of these settings
-func (g *Game) CreateQuestionDeckFromSettings() {
-	// g.QuestionDeck := make([qCount]question.Question)
-	// for key, ques := range
+func (g *Game) BuildQuestionDeck() {
+	dif := question.ConvertDifficulty(g.GameDifficulty) // convert the int value to a difficulty string
+	g.QuestionDeck = repo.GenerateQuestionDeck(dif, g.QuestionCt)
 }
