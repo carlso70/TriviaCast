@@ -14,8 +14,8 @@ import (
 )
 
 type QuestionResponse struct {
-	Username string `json:"username"`
-	Answer   string `json:"answer"`
+	UserId string `json:"userId"`
+	Answer string `json:"answer"`
 }
 
 type Game struct {
@@ -30,6 +30,7 @@ type Game struct {
 	GameDifficulty  int                 `json:"difficulty"`
 	Winner          string              `json:"-"`
 	responses       chan string         `json:"-"`
+	GameOver        bool                `json:"gameOver"`
 	hub             *Hub                `json:"-"`
 }
 
@@ -51,6 +52,7 @@ func Init() *Game {
 		responses:      responses,
 		GameDifficulty: 1,
 		QuestionCt:     10,
+		GameOver:       false,
 	}
 }
 
@@ -75,7 +77,7 @@ func (g *Game) runGame() {
 	g.QuestionNumber = 1
 
 	// Keep ask
-	for g.QuestionNumber <= len(g.QuestionDeck) {
+	for g.QuestionNumber-1 < g.QuestionCt {
 		// Start a question, which delays for 30 seconds while listening for answers
 		if err := g.startQuestion(g.QuestionDeck[g.QuestionNumber-1]); err != nil {
 			log.Panic(err)
@@ -134,7 +136,7 @@ func (g *Game) startQuestion(q question.Question) error {
 	// Check if the question responses match the answer
 	for _, resp := range answers {
 		if resp.Answer == g.CurrentQuestion.Answer {
-			g.Scoreboard[resp.Username] += question.ConvertDifficultyToValue(g.CurrentQuestion.Difficulty)
+			g.Scoreboard[string(resp.UserId)] += question.ConvertDifficultyToValue(g.CurrentQuestion.Difficulty)
 		}
 	}
 	return nil
@@ -144,13 +146,15 @@ func (g *Game) startQuestion(q question.Question) error {
 func (g *Game) endGame() {
 	fmt.Println("Ending game....")
 
+	//TODO determine game winner
 	for i := 0; i < len(g.Users); i++ {
 		g.Users[i].Score += g.Scoreboard[g.Users[i].Username]
-		if g.Users[i].Username == g.Winner {
+		if string(g.Users[i].Id) == g.Winner {
 			g.Users[i].WinCt += 1
 		}
 	}
 
+	g.GameOver = true
 	// Send a message of the current game
 	gameJson, _ := json.Marshal(g)
 	g.hub.broadcast <- []byte(gameJson)

@@ -82,7 +82,6 @@ export default class QuestionPage extends Component {
             console.log("SENDING MESSAGE");
             this.socket.send(JSON.stringify({
                 userId: this.state.userId,
-                gameId: this.state.gameId,
                 answer: this.state.choice
             }));
         }
