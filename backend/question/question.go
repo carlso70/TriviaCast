@@ -7,7 +7,7 @@ import (
 type Question struct {
 	Question   string   `json:"question" bson:"question"`
 	Choices    []string `json:"choices" bson:"choices"`
-	Answer     string   `json:"-" bson:"answer"`
+	Answer     string   `json:"answer" bson:"answer"`
 	Difficulty string   `json:"difficulty" bson:"difficulty"`
 	Category   string   `json:"category" bson:"category"`
 }
