@@ -179,6 +179,7 @@ func (g *Game) AddUserToGame(user user.User) error {
 	// Dereference the user point and append it to current game slice
 	g.Users = append(g.Users, user)
 
+	fmt.Println("Adding user:", user.Username, "to game:", g.Id)
 	// Broadcast new user
 	gameJson, _ := json.Marshal(g)
 	g.hub.broadcast <- []byte(gameJson)

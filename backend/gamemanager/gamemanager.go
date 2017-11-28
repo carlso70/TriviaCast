@@ -2,7 +2,6 @@ package gamemanager
 
 import (
 	"errors"
-	"fmt"
 	"sync"
 
 	"github.com/carlso70/triviacast/backend/game"
@@ -78,9 +77,9 @@ func (g *GameManager) AddUserToGame(gameId, userId int) (*game.Game, error) {
 	if err != nil {
 		panic(err)
 	}
-	gm.Users = append(gm.Users, user)
-	fmt.Printf("GAME %d USERS: %#v\n", gm.Id, gm.Users)
-
+	if err = gm.AddUserToGame(user); err != nil {
+		panic(err)
+	}
 	// Join Game instance
 	return gm, nil
 }
