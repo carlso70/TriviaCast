@@ -29,7 +29,7 @@ export default class QuestionPage extends Component {
             currentQuestion: "",
             quesitonCorrectAnswer: "",
             choice: "",
-            users: [username],
+            users: [this.props.navigation.state.params.username],
             gameLobby: true,
             radio_props: [{label: 'Waiting For Questions....', value: 0 }],
             questionNumber: 1,
@@ -132,6 +132,7 @@ export default class QuestionPage extends Component {
     render() {
         const { navigate } = this.props.navigation;
         if (this.state.gameLobby) {
+            return (
                 <Image
             style={{
                 backgroundColor: '#ccc',
@@ -149,14 +150,15 @@ export default class QuestionPage extends Component {
                 <View>
                 <Text style={styles.messageBoxTitleText}>Game Lobby</Text>
                 <Text style={styles.messageBoxBodyText}>{this.state.users}</Text>
-                <View style={styles.buttonArrange}>
-                <Button title="Start" onPress={() => this.startGame(this.state.gameId, this.state.userId)} />
-                <Button title="Go Back" onPress={() => this.props.navigation.goBack()} />
+                </View>
+                    <View style={styles.buttonArrange}>
+                    <Button title="Start" onPress={() => this.startGame(this.state.gameId, this.state.userId)} />
+                    <Button title="Go Back" onPress={() => this.props.navigation.goBack()} />
                 </View>
                 </View>
                 </View>
-                </View>
-                </Image>
+                    </Image>
+            );
         } else if (this.state.gameOver) {
             return (
                     <View style={styles.content}>
