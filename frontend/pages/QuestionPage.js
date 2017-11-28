@@ -7,6 +7,7 @@ import {
     Text,
     View,
     TextInput,
+    ListView,
     StyleSheet,
     TouchableOpacity,
 } from 'react-native';
@@ -65,16 +66,18 @@ export default class QuestionPage extends Component {
                         gameOver: data.gameOver,
                         gameLobby: data.inLobby,
                     });
-                } else {
-                    var users = newArray();
+                } else if (data.inLobby) {
+                    var users = new Array();
                     for (var i = 0; i < data.users.length; i++) {
                         users.push(data.users[i].username);
                     }
                     // Set the new users in the lobby
                     this.setState({
-                        gameLobby: data.inLobby,
                         users: users,
+                        gameLobby: data.inLobby,
                     });
+                } else {
+                    console.log("Invalid Question Response received, likely null values");
                 }
             } catch (e) {
                 console.log(e);
@@ -155,7 +158,11 @@ export default class QuestionPage extends Component {
                     <View style={styles.messageBox}>
                     <View>
                     <Text style={styles.messageBoxTitleText}>Game Lobby</Text>
-                    <Text style={styles.messageBoxBodyText}>{this.state.users}</Text>
+                    <Text style={styles.messageBoxBodyText}>{this.state.users[0]}</Text>
+                    <Text style={styles.messageBoxBodyText}>{this.state.users[1]}</Text>
+                    <Text style={styles.messageBoxBodyText}>{this.state.users[2]}</Text>
+                    <Text style={styles.messageBoxBodyText}>{this.state.users[3]}</Text>
+                    <Text style={styles.messageBoxBodyText}>{this.state.users[4]}</Text>
                     </View>
                     <View style={styles.buttonArrange}>
                     <Button title="Start Game" onPress={() => this.startGame(this.state.gameId, this.state.userId)} />
