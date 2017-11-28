@@ -1,3 +1,4 @@
+//import react and needed components 
 import React, { Component } from 'react';
 import {
     AppRegistry,
@@ -6,12 +7,13 @@ import {
     Text,
     View
 } from 'react-native';
-
 import LoginComponent from '../components/LoginComponent'
 import { Button } from 'react-native-elements'
 import { StackNavigator } from 'react-navigation';
-const remotebackg = 'https://i.imgur.com/vqTkUz8.png';
 
+const remotebackg = 'https://i.imgur.com/vqTkUz8.png'; //background image
+
+// create and export main page
 export default class MainPage extends Component {
     constructor(props) {
         super(props);
@@ -20,16 +22,17 @@ export default class MainPage extends Component {
         }
     }
 
+    // render the page
     render() {
         var page;
-        if (!this.state.isLoggedIn) {
+        if (!this.state.isLoggedIn) { // if the user is logged in 
             page = <LoginComponent navigation={this.props.navigation} />
         }else{
             // Whatever our game page will be, which will allow users to create/join/start game
             page = <Text>Testing</Text>;
         }
         return (
-                <Image
+                <Image // background image 
             style={{
                 backgroundColor: '#ccc',
                 flex: 1,

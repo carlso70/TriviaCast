@@ -1,3 +1,4 @@
+// import react and needed components 
 import React, { Component } from 'react';
 import {
   Alert,
@@ -9,29 +10,19 @@ import {
   StyleSheet,
   TouchableOpacity
 } from 'react-native';
-
 import ButtonDemo from '../components/ButtonDemo'
 import { Button } from 'react-native-elements';
-const remotebackg = 'https://i.imgur.com/vqTkUz8.png';
 
-const styles = StyleSheet.create({
+const remotebackg = 'https://i.imgur.com/vqTkUz8.png'; // background image 
 
-   inputText: {
-      marginLeft: '20%',
-      marginTop: '5%',
-      width: '60%'
-   },
-   buttonArrange: {
-     alignItems: 'center'
-   }
-});
-
+// create and export page for signup page 
 export default class SignupPage extends Component {
 
+  // rend page 
   render() {
     return (
         <Image
-          style={{
+          style={{// background style 
             backgroundColor: '#ccc',
             flex: 1,
             resizeMode: 'cover',
@@ -43,7 +34,7 @@ export default class SignupPage extends Component {
           source={{ uri: remotebackg }}
         >
 
-                <TextInput placeholder='Username' style={styles.inputText} />
+        <TextInput placeholder='Username' style={styles.inputText} />
         <TextInput placeholder='Password' style={styles.inputText} secureTextEntry={true}/>
         <TextInput
           placeholder='Email'
@@ -63,3 +54,16 @@ export default class SignupPage extends Component {
     );
   }
 }
+
+// style sheet for page
+const styles = StyleSheet.create({
+  
+     inputText: {
+        marginLeft: '20%',
+        marginTop: '5%',
+        width: '60%'
+     },
+     buttonArrange: {
+       alignItems: 'center'
+     }
+  });

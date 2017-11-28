@@ -31,6 +31,7 @@ type Game struct {
 	Winner          string              `json:"-"`
 	responses       chan string         `json:"-"`
 	GameOver        bool                `json:"gameOver"`
+	InLobby         bool                `json:"inLobby"`
 	hub             *Hub                `json:"-"`
 }
 
@@ -53,6 +54,7 @@ func Init() *Game {
 		GameDifficulty: 1,
 		QuestionCt:     10,
 		GameOver:       false,
+		InLobby:        true,
 	}
 }
 
@@ -65,6 +67,10 @@ func (g *Game) StartGame() error {
 		fmt.Println("0 USERS IN GAME ", g.Id)
 		return errors.New("No user exception, can't start game")
 	}
+
+	// Go Out of Lobby Mode
+	g.InLobby = false
+
 	go g.runGame()
 	return nil
 }

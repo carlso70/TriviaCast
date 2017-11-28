@@ -1,6 +1,8 @@
+// import react and needed componenets
 import React, {Component} from 'react'
 import {Image} from 'react-native';
 
+// make default component for the background image 
 const remotebackg = 'https://i.imgur.com/vqTkUz8.png';
 const Background = () => {
     return(
@@ -19,4 +21,5 @@ const Background = () => {
     );
 }
 
+// export background
 export default Background;

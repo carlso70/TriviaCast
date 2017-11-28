@@ -1,3 +1,4 @@
+// import react and neeeded components and dependencies 
 import React, { Component } from 'react';
 import {
     Alert,
@@ -9,19 +10,17 @@ import {
     StyleSheet,
     TouchableOpacity,
 } from 'react-native';
-
 import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
 import { StackNavigator } from 'react-navigation';
 import {getAWSUrl } from '../utils/Urls'
 import { Button } from 'react-native-elements';
-const remotebackg = 'https://i.imgur.com/vqTkUz8.png';
-
 import { Constants, Audio } from 'expo';
+const remotebackg = 'https://i.imgur.com/vqTkUz8.png'; // background image
 
 export default class QuestionPage extends Component {
     constructor(props) {
         super(props);
-        this.state = {
+        this.state = { // initalize state variables 
             connected: false,
             userId: this.props.navigation.state.params.userId,
             gameId: this.props.navigation.state.params.gameId,
@@ -29,6 +28,8 @@ export default class QuestionPage extends Component {
             currentQuestion: "",
             quesitonCorrectAnswer: "",
             choice: "",
+            users: [this.props.navigation.state.params.username],
+            gameLobby: true,
             radio_props: [{label: 'Waiting For Questions....', value: 0 }],
             questionNumber: 1,
             gameOver: false,
@@ -51,16 +52,23 @@ export default class QuestionPage extends Component {
                 var data = JSON.parse(e.data);
                 console.log("data === ");
                 console.log(data.question);
-                var choices = new Array();
-                for (var i = 0; i < data.question.choices.length; i++) {
-                    choices.push({label: data.question.choices[i], value: i });
+                // If in game and not lobby set data
+                if (!data.inLobby) {
+                    var choices = new Array();
+                    for (var i = 0; i < data.question.choices.length; i++) {
+                        choices.push({label: data.question.choices[i], value: i });
+                    }
+                    this.setState({
+                        radio_props: choices,
+                        currentQuestion: data.question.question,
+                        questionNumber: data.questionNumber,
+                        gameOver: data.gameOver,
+                    });
+                } else {
+                    // Set the new users in the lobby
+                    console.log("Users")
+                    console.log(data.users)
                 }
-                this.setState({
-                    radio_props: choices,
-                    currentQuestion: data.question.question,
-                    questionNumber: data.questionNumber,
-                    gameOver: data.gameOver,
-                });
             } catch (e) {
                 console.log(e);
             }
@@ -84,19 +92,19 @@ export default class QuestionPage extends Component {
     }
 
     startGame(gameId, userId) {
-        fetch(getAWSUrl() + 'startgame',{
-            method: 'POST',
-            headers: {
+        fetch(getAWSUrl() + 'startgame',{ // create request to start game
+            method: 'POST', 
+            headers: { // add headers
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({
+            body: JSON.stringify({ // add body headers 
                 userId: userId,
                 gameId: gameId,
             })
         }).then(function(response) {
             console.log(response.status);
-            if (response.status === 200) {
+            if (response.status === 200) { // response was good 
                 return response.json();
             } else if (response.status === 500){
                 // There was an error with username or password
@@ -114,15 +122,43 @@ export default class QuestionPage extends Component {
             }
         })
             .then((responseJson) => {
-                if (responseJson) {
+                if (responseJson) { // parse the response sense it was a success 
                     // SUCCESS
                 }
             })
     }
-
+    
     render() {
         const { navigate } = this.props.navigation;
-        if (this.state.gameOver) {
+        if (this.state.gameLobby) {
+            return (
+                    <Image
+                style={{
+                    backgroundColor: '#ccc',
+                    flex: 1,
+                    resizeMode: 'cover',
+                    position: 'absolute',
+                    width: '100%',
+                    height: '100%',
+                    justifyContent: 'center',
+                }}
+                source={{ uri: remotebackg }}
+                    >
+                    <View style={styles.content}>
+                    <View style={styles.messageBox}>
+                    <View>
+                    <Text style={styles.messageBoxTitleText}>Game Lobby</Text>
+                    <Text style={styles.messageBoxBodyText}>{this.state.users}</Text>
+                    </View>
+                    <View style={styles.buttonArrange}>
+                    <Button title="Start" onPress={() => this.startGame(this.state.gameId, this.state.userId)} />
+                    <Button title="Go Back" onPress={() => this.props.navigation.goBack()} />
+                    </View>
+                    </View>
+                    </View>
+                    </Image>
+            );
+        } else if (this.state.gameOver) {
             return (
                     <View style={styles.content}>
                     <View style={styles.messageBox}>
@@ -189,6 +225,7 @@ export default class QuestionPage extends Component {
                         uri: "https://www.soundjay.com/button/button-6.mp3"
                     };
 
+
                     try {
                         await Audio.setIsEnabledAsync(true);
                         const sound = new Audio.Sound();
@@ -218,6 +255,7 @@ export default class QuestionPage extends Component {
     }
 }
 
+// style sheet 
 const styles = StyleSheet.create({
     buttonArrange: {
         alignItems:'center',
