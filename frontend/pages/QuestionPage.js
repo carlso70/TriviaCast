@@ -16,6 +16,7 @@ import {getAWSUrl } from '../utils/Urls'
 import { Button } from 'react-native-elements';
 import { Constants, Audio } from 'expo';
 
+
 const remotebackg = 'https://i.imgur.com/vqTkUz8.png'; // background image
 
 
@@ -35,6 +36,7 @@ export default class QuestionPage extends Component {
             connected: false,
             userId: this.props.navigation.state.params.userId,
             gameId: this.props.navigation.state.params.gameId,
+            username: this.props.navigation.state.params.username,
             currentQuestion: "",
             quesitonCorrectAnswer: "",
             choice: "",
@@ -86,7 +88,7 @@ export default class QuestionPage extends Component {
         if (this.state.connected) {
             console.log("SENDING MESSAGE");
             this.socket.send(JSON.stringify({
-                userId: this.state.userId,
+                username: this.state.username,
                 answer: this.state.choice
             }));
         }

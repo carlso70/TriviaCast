@@ -59,9 +59,15 @@ export default class MainMenu extends Component {
                 console.log(responseJson) // log for debugging 
                 // The game object json response contains its gameId in a var called id
                 console.log("GameId: " + responseJson.id)
-                this.props.navigation.navigate('Lobby', { // go to lobby with the following parameters
+
+                //this.props.navigation.navigate('Lobby', {
+
+                console.log("username: " + responseJson.users[0].username)
+                this.props.navigation.navigate('Lobby', {  // go to lobby with the following parameters
+
                     userId: userId,
                     gameId: responseJson.id,
+                    username: responseJson.users[0].username,
                     difficulty: this.state.difficulty,
                     questionCt: this.state.questionCt
                 });

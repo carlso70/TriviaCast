@@ -5,7 +5,6 @@ import (
 	"errors"
 	"fmt"
 	"log"
-	"strconv"
 	"time"
 
 	"github.com/carlso70/triviacast/backend/question"
@@ -15,8 +14,8 @@ import (
 )
 
 type QuestionResponse struct {
-	UserId int    `json:"userId"`
-	Answer string `json:"answer"`
+	Username string `json:"username"`
+	Answer   string `json:"answer"`
 }
 
 type Game struct {
@@ -137,8 +136,7 @@ func (g *Game) startQuestion(q question.Question) error {
 	// Check if the question responses match the answer
 	for _, resp := range answers {
 		if resp.Answer == g.CurrentQuestion.Answer {
-			strId := strconv.Itoa(resp.UserId)
-			g.Scoreboard[strId] += question.ConvertDifficultyToValue(g.CurrentQuestion.Difficulty)
+			g.Scoreboard[resp.Username] += question.ConvertDifficultyToValue(g.CurrentQuestion.Difficulty)
 		}
 	}
 	return nil
@@ -151,7 +149,7 @@ func (g *Game) endGame() {
 	//TODO determine game winner
 	for i := 0; i < len(g.Users); i++ {
 		g.Users[i].Score += g.Scoreboard[g.Users[i].Username]
-		if string(g.Users[i].Id) == g.Winner {
+		if g.Users[i].Username == g.Winner {
 			g.Users[i].WinCt += 1
 		}
 	}
