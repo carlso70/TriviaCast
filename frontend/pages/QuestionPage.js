@@ -29,6 +29,8 @@ export default class QuestionPage extends Component {
             currentQuestion: "",
             quesitonCorrectAnswer: "",
             choice: "",
+            users: [username],
+            gameLobby: true,
             radio_props: [{label: 'Waiting For Questions....', value: 0 }],
             questionNumber: 1,
             gameOver: false,
@@ -51,16 +53,23 @@ export default class QuestionPage extends Component {
                 var data = JSON.parse(e.data);
                 console.log("data === ");
                 console.log(data.question);
-                var choices = new Array();
-                for (var i = 0; i < data.question.choices.length; i++) {
-                    choices.push({label: data.question.choices[i], value: i });
+                // If in game and not lobby set data
+                if (!data.inLobby) {
+                    var choices = new Array();
+                    for (var i = 0; i < data.question.choices.length; i++) {
+                        choices.push({label: data.question.choices[i], value: i });
+                    }
+                    this.setState({
+                        radio_props: choices,
+                        currentQuestion: data.question.question,
+                        questionNumber: data.questionNumber,
+                        gameOver: data.gameOver,
+                    });
+                } else {
+                    // Set the new users in the lobby
+                    console.log("Users")
+                    console.log(data.users)
                 }
-                this.setState({
-                    radio_props: choices,
-                    currentQuestion: data.question.question,
-                    questionNumber: data.questionNumber,
-                    gameOver: data.gameOver,
-                });
             } catch (e) {
                 console.log(e);
             }
@@ -122,7 +131,33 @@ export default class QuestionPage extends Component {
 
     render() {
         const { navigate } = this.props.navigation;
-        if (this.state.gameOver) {
+        if (this.state.gameLobby) {
+                <Image
+            style={{
+                backgroundColor: '#ccc',
+                flex: 1,
+                resizeMode: 'cover',
+                position: 'absolute',
+                width: '100%',
+                height: '100%',
+                justifyContent: 'center',
+            }}
+            source={{ uri: remotebackg }}
+                >
+                <View style={styles.content}>
+                <View style={styles.messageBox}>
+                <View>
+                <Text style={styles.messageBoxTitleText}>Game Lobby</Text>
+                <Text style={styles.messageBoxBodyText}>{this.state.users}</Text>
+                <View style={styles.buttonArrange}>
+                <Button title="Start" onPress={() => this.startGame(this.state.gameId, this.state.userId)} />
+                <Button title="Go Back" onPress={() => this.props.navigation.goBack()} />
+                </View>
+                </View>
+                </View>
+                </View>
+                </Image>
+        } else if (this.state.gameOver) {
             return (
                     <View style={styles.content}>
                     <View style={styles.messageBox}>

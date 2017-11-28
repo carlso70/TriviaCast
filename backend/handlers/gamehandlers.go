@@ -53,7 +53,6 @@ func CreateGame(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, string(jsonGame))
 }
 
-// TODO Refactor methods to increase speed
 // StartGame starts running a new game instance, checks if it exists
 func StartGame(w http.ResponseWriter, r *http.Request) {
 	var request GameSessionRequest
