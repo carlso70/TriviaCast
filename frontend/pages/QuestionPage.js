@@ -17,7 +17,6 @@ import { Button } from 'react-native-elements';
 import { Constants, Audio } from 'expo';
 const remotebackg = 'https://i.imgur.com/vqTkUz8.png'; // background image
 
-//create and export page for a sample question
 export default class QuestionPage extends Component {
     constructor(props) {
         super(props);
