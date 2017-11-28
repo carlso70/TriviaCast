@@ -1,3 +1,4 @@
+// import react and neeeded components and dependencies 
 import React, { Component } from 'react';
 import {
     Alert,
@@ -9,19 +10,29 @@ import {
     StyleSheet,
     TouchableOpacity,
 } from 'react-native';
-
 import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
 import { StackNavigator } from 'react-navigation';
 import {getAWSUrl } from '../utils/Urls'
 import { Button } from 'react-native-elements';
-const remotebackg = 'https://i.imgur.com/vqTkUz8.png';
-
 import { Constants, Audio } from 'expo';
 
+
+const remotebackg = 'https://i.imgur.com/vqTkUz8.png'; // background image
+
+
+// radio proos for example 
+var radio_props = [
+    {label: 'New England Patriots', value: 0 },
+    {label: 'Dallas Cowboys', value: 1 },
+    {label: 'Los Angeles Chargers', value: 2 },
+    {label: 'Atlanta Falcons', value: 3 }
+];
+
+//create and export page for a sample question 
 export default class QuestionPage extends Component {
     constructor(props) {
         super(props);
-        this.state = {
+        this.state = { // initalize state variables 
             connected: false,
             userId: this.props.navigation.state.params.userId,
             gameId: this.props.navigation.state.params.gameId,
@@ -47,7 +58,7 @@ export default class QuestionPage extends Component {
             this.startGame(this.props.navigation.state.params.gameId, this.props.navigation.state.params.userId)
             this.setState({connected: true});
         };
-        this.socket.onmessage = (e) => {
+        this.socket.onmessage = (e) => { 
             console.log("e.data === " + e.data);
             try {
                 var data = JSON.parse(e.data);
@@ -93,19 +104,19 @@ export default class QuestionPage extends Component {
     }
 
     startGame(gameId, userId) {
-        fetch(getAWSUrl() + 'startgame',{
-            method: 'POST',
-            headers: {
+        fetch(getAWSUrl() + 'startgame',{ // create request to start game
+            method: 'POST', 
+            headers: { // add headers
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({
+            body: JSON.stringify({ // add body headers 
                 userId: userId,
                 gameId: gameId,
             })
         }).then(function(response) {
             console.log(response.status);
-            if (response.status === 200) {
+            if (response.status === 200) { // response was good 
                 return response.json();
             } else if (response.status === 500){
                 // There was an error with username or password
@@ -123,12 +134,12 @@ export default class QuestionPage extends Component {
             }
         })
             .then((responseJson) => {
-                if (responseJson) {
+                if (responseJson) { // parse the response sense it was a success 
                     // SUCCESS
                 }
             })
     }
-
+  
     render() {
         const { navigate } = this.props.navigation;
         if (this.state.gameLobby) {
@@ -226,6 +237,7 @@ export default class QuestionPage extends Component {
                         uri: "https://www.soundjay.com/button/button-6.mp3"
                     };
 
+
                     try {
                         await Audio.setIsEnabledAsync(true);
                         const sound = new Audio.Sound();
@@ -255,6 +267,7 @@ export default class QuestionPage extends Component {
     }
 }
 
+// style sheet 
 const styles = StyleSheet.create({
     buttonArrange: {
         alignItems:'center',
