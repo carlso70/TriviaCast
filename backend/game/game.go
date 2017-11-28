@@ -202,6 +202,10 @@ func (g *Game) RemoveUserFromGame(id int) error {
 			// if the user is the game, remove
 			fmt.Println("Removing User:", usr.Username, "from game:", g.Id)
 			g.Users = append(g.Users[:key], g.Users[key+1:]...)
+			// Set the game to be deleted if the user count == 0
+			if len(g.Users) == 0 {
+				g.GameOver = true
+			}
 			return nil
 		}
 	}
