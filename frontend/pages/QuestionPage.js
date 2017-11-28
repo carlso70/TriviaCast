@@ -15,20 +15,9 @@ import { StackNavigator } from 'react-navigation';
 import {getAWSUrl } from '../utils/Urls'
 import { Button } from 'react-native-elements';
 import { Constants, Audio } from 'expo';
-
-
 const remotebackg = 'https://i.imgur.com/vqTkUz8.png'; // background image
 
-
-// radio proos for example 
-var radio_props = [
-    {label: 'New England Patriots', value: 0 },
-    {label: 'Dallas Cowboys', value: 1 },
-    {label: 'Los Angeles Chargers', value: 2 },
-    {label: 'Atlanta Falcons', value: 3 }
-];
-
-//create and export page for a sample question 
+//create and export page for a sample question
 export default class QuestionPage extends Component {
     constructor(props) {
         super(props);
@@ -58,7 +47,7 @@ export default class QuestionPage extends Component {
             this.startGame(this.props.navigation.state.params.gameId, this.props.navigation.state.params.userId)
             this.setState({connected: true});
         };
-        this.socket.onmessage = (e) => { 
+        this.socket.onmessage = (e) => {
             console.log("e.data === " + e.data);
             try {
                 var data = JSON.parse(e.data);
@@ -139,35 +128,35 @@ export default class QuestionPage extends Component {
                 }
             })
     }
-  
+    
     render() {
         const { navigate } = this.props.navigation;
         if (this.state.gameLobby) {
             return (
-                <Image
-            style={{
-                backgroundColor: '#ccc',
-                flex: 1,
-                resizeMode: 'cover',
-                position: 'absolute',
-                width: '100%',
-                height: '100%',
-                justifyContent: 'center',
-            }}
-            source={{ uri: remotebackg }}
-                >
-                <View style={styles.content}>
-                <View style={styles.messageBox}>
-                <View>
-                <Text style={styles.messageBoxTitleText}>Game Lobby</Text>
-                <Text style={styles.messageBoxBodyText}>{this.state.users}</Text>
-                </View>
+                    <Image
+                style={{
+                    backgroundColor: '#ccc',
+                    flex: 1,
+                    resizeMode: 'cover',
+                    position: 'absolute',
+                    width: '100%',
+                    height: '100%',
+                    justifyContent: 'center',
+                }}
+                source={{ uri: remotebackg }}
+                    >
+                    <View style={styles.content}>
+                    <View style={styles.messageBox}>
+                    <View>
+                    <Text style={styles.messageBoxTitleText}>Game Lobby</Text>
+                    <Text style={styles.messageBoxBodyText}>{this.state.users}</Text>
+                    </View>
                     <View style={styles.buttonArrange}>
                     <Button title="Start" onPress={() => this.startGame(this.state.gameId, this.state.userId)} />
                     <Button title="Go Back" onPress={() => this.props.navigation.goBack()} />
-                </View>
-                </View>
-                </View>
+                    </View>
+                    </View>
+                    </View>
                     </Image>
             );
         } else if (this.state.gameOver) {

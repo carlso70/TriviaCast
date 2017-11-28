@@ -18,7 +18,6 @@ export default class MainMenu extends Component {
         }
     }
 
-
     // method to create game and connec with backend 
     createGame(userId) {
         var dif = AsyncStorage.getItem('Difficulty'); // get difficulty from async storage 
@@ -54,14 +53,11 @@ export default class MainMenu extends Component {
                 );
                 return null;
             }
-        }).then((responseJson) => { // request was successful 
+        }).then((responseJson) => { // request was successful
             if (responseJson) {
-                console.log(responseJson) // log for debugging 
+                console.log(responseJson) // log for debugging
                 // The game object json response contains its gameId in a var called id
                 console.log("GameId: " + responseJson.id)
-
-                //this.props.navigation.navigate('Lobby', {
-
                 console.log("username: " + responseJson.users[0].username)
                 this.props.navigation.navigate('QuestionPage', {
                     userId: userId,
@@ -74,10 +70,10 @@ export default class MainMenu extends Component {
         })
     }
 
-    // render actual page 
+    // render actual page
     render() {
         return (
-                <Image //background image 
+                <Image
             style={{
                 backgroundColor: '#ccc',
                 flex: 1,
@@ -89,26 +85,25 @@ export default class MainMenu extends Component {
             }}
             source={{ uri: remotebackg }}
                 >
-                {/* the follow buttons are all the options for for the game*/}
-                <Button 
+                <Button
             raised
             buttonStyle={styles.buttons}
             textStyle={{textAlign: 'center', color: 'black'}}
-            title={`Create Game`}
-            onPress={() => this.createGame(this.state.userId)} // call create game method 
+            title={'Create Game'}
+            onPress={() => this.createGame(this.state.userId)}
                 />
                 <Button
             raised
             buttonStyle={styles.buttons}
             textStyle={{textAlign: 'center', color: 'black'}}
-            title={`Join Game`}
-            onPress={() => this.props.navigation.navigate('Game')} // navigate to game page
+            title={'Join Game'}
+            onPress={() => this.props.navigation.navigate('Game')}
                 />
                 <Button
             raised
             buttonStyle={styles.buttons}
             textStyle={{textAlign: 'center', color: 'black'}}
-            title={`High Scores`}
+            title={'High Scores'}
             onPress={() => this.props.navigation.navigate('HighScores', { //navigate to highscores page with parameter user id 
                 userId: this.state.userId
             })}
@@ -117,14 +112,14 @@ export default class MainMenu extends Component {
             raised
             buttonStyle={styles.buttons}
             textStyle={{textAlign: 'center', color: 'black'}}
-            title={`Game Settings`}
+            title={'Game Settings'}
             onPress={() => this.props.navigation.navigate('Settings')} // navigate to settings page 
                 />
                 <Button
             raised
             buttonStyle={styles.buttons}
             textStyle={{textAlign: 'center', color: 'black'}}
-            title={`Log Out`}
+            title={'Log Out'}
             onPress={() => this.props.navigation.goBack()} // go back to the previous page and log out 
                 />
                 </Image>

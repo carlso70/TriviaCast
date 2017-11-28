@@ -116,9 +116,9 @@ export default class LoginPage extends React.Component {
             source={{ uri: remotebackg }}
                 >
                 <TextInput
-            placeholder='Username' // allow user to enter username 
+            placeholder='Username'
             style={styles.inputText}
-            onChangeText={ (text) => this.setState({ username: text })} // change state variable 
+            onChangeText={ (text) => this.setState({ username: text })}
             value={this.state.username}
                 />
                 <TextInput
@@ -128,7 +128,7 @@ export default class LoginPage extends React.Component {
             onChangeText={ (text) => this.setState({ password: text })} // change state variable
             value={this.state.password}
                 />
-                <View style={styles.buttonArrange}> {/*create buttons for all options*/}
+                <View style={styles.buttonArrange}>
                 <Button buttonStyle={styles.buttons} title="Login" color='black' marginTop='30' onPress={() => this.authenticate(this.state.username, this.state.password) } />
                 <Button buttonStyle={styles.buttons} title="Change Password" color='black' onPress={() => this.props.navigation.navigate('ChangePassword') } />
                 <Button buttonStyle={styles.buttons} title="Forgot Password" color='black' onPress={() => this.props.navigation.navigate('ForgotPassword') } />
