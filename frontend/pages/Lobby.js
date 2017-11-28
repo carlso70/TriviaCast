@@ -1,3 +1,4 @@
+//import react and needed components a
 import React, { Component } from 'react';
 import {Image,Text, StyleSheet, View} from 'react-native';
 import {Button} from 'react-native-elements';
@@ -5,10 +6,11 @@ import {getAWSUrl } from '../utils/Urls'
 import { StackNavigator } from 'react-navigation';
 const remotebackg = 'https://i.imgur.com/vqTkUz8.png';
 
+//create and export class for game lobby 
 export default class Lobby extends Component {
     constructor(props) {
         super(props);
-        this.state = {
+        this.state = { //set state variables using parameeters for vlass 
             userId: this.props.navigation.state.params.userId,
             gameId: this.props.navigation.state.params.gameId,
             difficulty: this.props.navigation.state.params.difficulty,
@@ -16,14 +18,15 @@ export default class Lobby extends Component {
         };
 
     }
-
+    // start game menthod 
     startGame(gameId, userId) {
+        // starts naviagation to question page 
         this.props.navigation.navigate('QuestionPage', { userId: userId, gameId: gameId });
     }
 
     render() {
         return (
-                <Image
+                <Image //background image 
             style={{
                 backgroundColor: '#ccc',
                 flex: 1,
@@ -33,7 +36,7 @@ export default class Lobby extends Component {
                 height: '100%',
                 justifyContent: 'center',
             }}
-            source={{ uri: remotebackg }}
+            source={{ uri: remotebackg }} // source for background image 
                 >
                 <Text
             style={styles.lobbyText}
@@ -41,14 +44,17 @@ export default class Lobby extends Component {
                 {'Lobby'}
             </Text>
                 <View style={styles.buttonArrange}>
-                <Button title="Start" onPress={() => this.startGame(this.state.gameId, this.state.userId)} />
-                <Button title="Go Back" onPress={() => this.props.navigation.goBack()} />
+                <Button // starts navigation to the first game by calling method 
+                    title="Start" onPress={() => this.startGame(this.state.gameId, this.state.userId)} />
+                <Button  // navigates back to previous screen
+                    title="Go Back" onPress={() => this.props.navigation.goBack()} /> 
                 </View>
                 </Image>
         );
     }
 }
 
+//style sheet for the page 
 const styles = StyleSheet.create({
     buttons: {
         alignItems: 'center',
