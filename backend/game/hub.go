@@ -43,8 +43,8 @@ func (h *Hub) run() {
 			h.clients[client] = true
 		case client := <-h.unregister:
 			if _, ok := h.clients[client]; ok {
-				fmt.Println("Client:", client.user.Username, "unregistered from WS")
-				h.currentGame.RemoveUserFromGame(*client.user)
+				fmt.Println("User:", client.user.Username, "unregistered from socket")
+				h.currentGame.RemoveUserFromGame(client.user.Id)
 				delete(h.clients, client)
 				close(client.send)
 			}

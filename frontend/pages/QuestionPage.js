@@ -177,8 +177,45 @@ export default class QuestionPage extends Component {
             })
     }
 
+    leaveGame(gameId, userId) {
+        fetch(getAWSUrl() + 'leavegame',{ // create request to start game
+            method: 'POST',
+            headers: { // add headers
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ // add body headers
+                userId: userId,
+                gameId: gameId,
+            })
+        }).then(function(response) {
+            console.log(response.status);
+            if (response.status === 200) { // response was good 
+                return response.json();
+            } else if (response.status === 500){
+                // There was an error with username or password
+                Alert.alert(
+                    'Error Leaving Game'
+                );
+                return null;
+            } else {
+                // 404 error or something else
+                Alert.alert(
+                    'Please fix your network',
+                    'Error Leaving Game'
+                );
+                return null;
+            }
+        })
+            .then((responseJson) => {
+                if (responseJson) { // parse the response sense it was a success 
+                    // SUCCESS
+                }
+            })
+    }
+
     navigateBack() {
-        this.socket.onclose();
+        this.leaveGame(this.state.gameId, this.state.userId)
         this.setState({
             connected: false
         });
