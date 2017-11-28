@@ -303,7 +303,8 @@ const styles = StyleSheet.create({
         paddingLeft:20,
         paddingRight:20,
         borderRadius:10,
-        marginTop: 20,
+        marginTop: 40,
+        marginBottom: 40
     },
     messageBoxTitleText:{
         fontWeight:'bold',
