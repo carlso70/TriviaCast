@@ -182,6 +182,7 @@ export default class QuestionPage extends Component {
         this.setState({
             connected: false
         });
+        this.props.navigation.goBack();
     }
 
     render() {
@@ -212,7 +213,7 @@ export default class QuestionPage extends Component {
                     </View>
                     <View style={styles.buttonArrange}>
                     <Button title="Start Game" onPress={() => this.startGame(this.state.gameId, this.state.userId)} />
-                    <Button title="Go Back" onPress={() => this.props.navigation.goBack()} />
+                    <Button title="Go Back" onPress={() => this.navigateBack()} />
                     </View>
                     </View>
                     </View>
