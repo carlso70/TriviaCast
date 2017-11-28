@@ -2,7 +2,9 @@ package gamemanager
 
 import (
 	"errors"
+	"fmt"
 	"sync"
+	"time"
 
 	"github.com/carlso70/triviacast/backend/game"
 	"github.com/carlso70/triviacast/backend/repo"
@@ -21,8 +23,27 @@ func GetInstance() *GameManager {
 	once.Do(func() {
 		games := make([]*game.Game, 0)
 		instance = &GameManager{Games: games}
+		go instance.Cleaner()
 	})
 	return instance
+}
+
+func (g *GameManager) deleteDoneGames() {
+	for i := 0; i < len(g.Games); i++ {
+		// Delete the game
+		if g.Games[i].GameOver {
+			fmt.Println("Deleting Done Game:", g.Games[i].Id)
+			g.Games = append(g.Games[:i], g.Games[i+1:]...)
+		}
+	}
+}
+
+// Cleaner sweeps all the games and removes the ones that are over
+func (g *GameManager) Cleaner() {
+	for {
+		<-time.After(2 * time.Second)
+		go g.deleteDoneGames()
+	}
 }
 
 // CreateGame adds a game to the GameServer

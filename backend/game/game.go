@@ -84,6 +84,11 @@ func (g *Game) runGame() {
 
 	// Keep ask
 	for g.QuestionNumber-1 < g.QuestionCt {
+		if len(g.Users) == 0 {
+			fmt.Println("Ending game")
+			g.endEarly()
+			return
+		}
 		// Start a question, which delays for 30 seconds while listening for answers
 		if err := g.startQuestion(g.QuestionDeck[g.QuestionNumber-1]); err != nil {
 			log.Panic(err)
@@ -146,6 +151,10 @@ func (g *Game) startQuestion(q question.Question) error {
 		}
 	}
 	return nil
+}
+
+func (g *Game) endEarly() {
+	g.GameOver = true
 }
 
 // EndGame updates players all time score at the end of the game
