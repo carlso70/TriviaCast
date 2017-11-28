@@ -35,7 +35,6 @@ export default class QuestionPage extends Component {
             questionNumber: 1,
             gameOver: false,
         }
-
         // Setup websocket
         socketurl = 'ws://ec2-18-221-200-72.us-east-2.compute.amazonaws.com:3000/';
         var endpoint = socketurl + 'game_socket/'+ this.state.gameId + '';
@@ -43,8 +42,6 @@ export default class QuestionPage extends Component {
         this.socket = new WebSocket(endpoint);
         this.socket.onopen = () => {
             console.log("OPEN");
-            // TODO add check if host, if not dont start just join
-            //this.startGame(this.props.navigation.state.params.gameId, this.props.navigation.state.params.userId)
             this.setState({connected: true});
         };
         this.socket.onmessage = (e) => {
@@ -88,6 +85,10 @@ export default class QuestionPage extends Component {
             this.setState({connected: false});
         }
 
+        if (this.props.navigation.state.params.joining) {
+            this.joinGame(this.props.navigation.state.params.gameId, this.props.navigation.state.params.userId)
+        }
+
         this.emitResponse = this.emitResponse.bind(this)
     }
 
@@ -99,6 +100,44 @@ export default class QuestionPage extends Component {
                 answer: this.state.choice
             }));
         }
+    }
+
+    joinGame(gameId, userId) {
+        fetch(getAWSUrl() + 'joingame',{ // create request to start game
+            method: 'POST',
+            headers: { // add headers
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ // add body headers
+                userId: userId,
+                gameId: gameId,
+            })
+        }).then(function(response) {
+            console.log(response.status);
+            if (response.status === 200) { // response was good 
+                return response.json();
+            } else if (response.status === 500){
+                // There was an error with username or password
+                Alert.alert(
+                    'Error Starting Game'
+                );
+                return null;
+            } else {
+                // 404 error or something else
+                Alert.alert(
+                    'Please fix your network',
+                    'Error Starting'
+                );
+                return null;
+            }
+        })
+            .then((responseJson) => {
+                if (responseJson) { // parse the response sense it was a success 
+                    // SUCCESS
+                    console.log("Joined Game")
+                }
+            })
     }
 
     startGame(gameId, userId) {
@@ -136,6 +175,13 @@ export default class QuestionPage extends Component {
                     // SUCCESS
                 }
             })
+    }
+
+    navigateBack() {
+        this.socket.onclose();
+        this.setState({
+            connected: false
+        });
     }
 
     render() {
