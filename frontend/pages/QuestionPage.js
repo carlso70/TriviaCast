@@ -20,7 +20,7 @@ const remotebackg = 'https://i.imgur.com/vqTkUz8.png'; // background image
 export default class QuestionPage extends Component {
     constructor(props) {
         super(props);
-        this.state = { // initalize state variables 
+        this.state = { // initalize state variables
             connected: false,
             userId: this.props.navigation.state.params.userId,
             gameId: this.props.navigation.state.params.gameId,
@@ -66,12 +66,15 @@ export default class QuestionPage extends Component {
                         gameLobby: data.inLobby,
                     });
                 } else {
+                    var users = newArray();
+                    for (var i = 0; i < data.users.length; i++) {
+                        users.push(data.users[i].username);
+                    }
                     // Set the new users in the lobby
                     this.setState({
-                        gameLobby: data.inLobby
+                        gameLobby: data.inLobby,
+                        users: users,
                     });
-                    console.log("Users")
-                    console.log(data.users)
                 }
             } catch (e) {
                 console.log(e);

@@ -15,7 +15,7 @@ import { Button, FormLabel, FormInput} from 'react-native-elements';
 
 const remotebackg = 'https://i.imgur.com/vqTkUz8.png'; //background image
 
-// create and export page for users to login at 
+// create and export page for users to login at
 export default class LoginPage extends React.Component {
     constructor(props) {
         super(props);
@@ -36,9 +36,9 @@ export default class LoginPage extends React.Component {
                 username: username,
                 password: password,
             })
-        }).then(function(response) { // format response 
+        }).then(function(response) { // format response
             console.log(response.status);
-            if (response.status === 200) { // good response 
+            if (response.status === 200) { // good response
                 return response.json();
             } else if (response.status === 500){
                 // There was an error with username or password
@@ -56,9 +56,12 @@ export default class LoginPage extends React.Component {
                 return null;
             }
         })
-            .then((responseJson) => { // response was good 
+            .then((responseJson) => { // response was good
                 if (responseJson) {
-                    this.props.navigation.navigate('GameMenu', { userId: responseJson.id }); //navigate to main menu as logged in user 
+                    this.props.navigation.navigate('GameMenu', {
+                        userId: responseJson.id,
+                        username: username
+                    }); //navigate to main menu as logged in user
                 }
             })
     }

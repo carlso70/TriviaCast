@@ -6,10 +6,10 @@ import { StackNavigator } from 'react-navigation';
 import MainPage from './pages/MainPage'
 import LoginPage from './pages/LoginPage'
 import GameMenu from './pages/GameMenu'
+import JoinGamePage from './pages/JoinGamePage'
 import SettingsPage from './pages/SettingsPage'
 import HighScorePage from './pages/HighScorePage'
 import ChangePassPage from './pages/ChangePassPage'
-import Lobby from './pages/Lobby'
 import Game from './pages/QuestionPage'
 import AnswerPage from './pages/AnswerPage';
 import ForgotPage from './pages/ForgotPage'
@@ -23,12 +23,12 @@ const TriviaCast = StackNavigator({
     HighScores: {screen: HighScorePage},
     GameMenu: {screen: GameMenu},
     Settings: {screen: SettingsPage},
-    Lobby: {screen: Lobby},
     Game: {screen: Game},
     ChangePassword: {screen: ChangePassPage},
     QuestionPage: {screen: QuestionPage },
     Answer: { screen: AnswerPage},
     ForgotPassword:{screen: ForgotPage},
+    JoinGamePage: { screen: JoinGamePage },
   },
   {headerMode: 'none'}
 

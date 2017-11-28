@@ -7,22 +7,47 @@ import { StackNavigator } from 'react-navigation';
 const remotebackg = 'https://i.imgur.com/vqTkUz8.png';
 
 //create and export class for game lobby
-export default class Lobby extends Component {
+export default class JoinGamePage extends Component {
     constructor(props) {
         super(props);
-        this.state = { //set state variables using parameters for class
+        this.state = {
+            //set state variables using parameters for class
             userId: this.props.navigation.state.params.userId,
-            gameId: this.props.navigation.state.params.gameId,
+            gameId: 0,
             username: this.props.navigation.state.params.username,
-            difficulty: this.props.navigation.state.params.difficulty,
-            questionCt: this.props.navigation.state.params.questionCt,
         };
 
+        // Fetch all the games
+        this.listGames();
     }
-    // start game menthod
-    startGame(gameId, userId) {
-        // starts naviagation to question page
-        this.props.navigation.navigate('QuestionPage', { userId: userId, gameId: gameId });
+
+    // list game method
+    listGames() {
+        fetch(getAWSUrl() + 'listgames').then(function(response) {
+            console.log(response.status);
+            if (response.json()) { // response was good
+                return response.json();
+            } else if (response.status === 500){
+                // There was an error with username or password
+                Alert.alert(
+                    'Error Finding Games'
+                );
+                return null;
+            } else {
+                // 404 error or something else
+                Alert.alert(
+                    'Please fix your network',
+                    'Error Starting'
+                );
+                return null;
+            }
+        })
+            .then((responseJson) => {
+                if (responseJson) { // parse the response sense it was a success 
+                    // SUCCESS
+                    console.log(responseJson)
+                }
+            })
     }
 
     render() {
@@ -45,8 +70,7 @@ export default class Lobby extends Component {
                 {'Lobby'}
             </Text>
                 <View style={styles.buttonArrange}>
-                <Button // starts navigation to the first game by calling method 
-                    title="Start" onPress={() => this.startGame(this.state.gameId, this.state.userId)} />
+                <Button title="Find Games" onPress={() => this.listGames()} />
                 <Button  // navigates back to previous screen
                     title="Go Back" onPress={() => this.props.navigation.goBack()} /> 
                 </View>
