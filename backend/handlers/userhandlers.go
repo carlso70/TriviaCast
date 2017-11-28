@@ -17,6 +17,12 @@ type AccountRequest struct {
 	Password string `json:"password"`
 }
 
+type CreateRequest struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
+	SecurityAnswer string `json:"securityAnswer"`
+}
+
 type PasswordChangeRequest struct {
 	Username    string `json:"username"`
 	OldPassword string `json:"oldPassword"`
@@ -25,6 +31,7 @@ type PasswordChangeRequest struct {
 
 func CreateUser(w http.ResponseWriter, r *http.Request) {
 	var request AccountRequest
+	//var request CreateRequest
 
 	fmt.Println("CREATE USER")
 	decoder := json.NewDecoder(r.Body)
@@ -50,6 +57,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 	usr := user.Init()
 	usr.Username = request.Username
 	usr.Password = utils.EncryptPass(request.Password)
+	// usr.SecurityAnswer = request.SecurityAnswer
 
 	if err := repo.AddUserToDB(usr); err != nil {
 		panic(err)

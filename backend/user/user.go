@@ -13,6 +13,7 @@ type User struct {
 	Score    int    `json:"score" bson:"score"`
 	Active   bool   `json:"active" bson:"active"`
 	WinCt    int    `json:"wins" bson:"wins"`
+	SecurityAnswer string `json:"securityAnswer" bson:"securityAnswer"`
 }
 
 func Init() User {
@@ -21,7 +22,7 @@ func Init() User {
 	return User{Id: id, Active: active}
 }
 
-func CreateUser(id int, username string, password string, gameId int, score int, active bool) User {
+func CreateUser(id int, username string, password string, gameId int, score int, active bool, securityAnswer string) User {
 	return User{
 		Id:       id,
 		Username: username,
@@ -29,5 +30,6 @@ func CreateUser(id int, username string, password string, gameId int, score int,
 		GameId:   gameId,
 		Score:    score,
 		Active:   active,
+		SecurityAnswer: securityAnswer
 	}
 }
