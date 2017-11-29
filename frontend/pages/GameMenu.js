@@ -26,7 +26,7 @@ export default class MainMenu extends Component {
         var ct = AsyncStorage.getItem('QuestionCount'); // get question count from async storage 
         if (ct == null)
             ct = 10;
-      fetch(getAWSUrl() + 'creategame', { // create json request 
+        fetch(getAWSUrl() + 'creategame', { // create json request 
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -97,45 +97,49 @@ export default class MainMenu extends Component {
             buttonStyle={styles.buttons}
             textStyle={{textAlign: 'center', color: 'black'}}
             title={'Join Game'}
-            onPress={() => this.props.navigation.navigate('Game')}
-                />
-                <Button
-            raised
-            buttonStyle={styles.buttons}
-            textStyle={{textAlign: 'center', color: 'black'}}
-            title={'High Scores'}
-            onPress={() => this.props.navigation.navigate('HighScores', { //navigate to highscores page with parameter user id 
+            onPress={() => this.props.navigation.navigate('JoinGamePage', {
+                username: this.props.navigation.state.params.username,
                 userId: this.state.userId
-            })}
-                />
-                <Button
-            raised
-            buttonStyle={styles.buttons}
-            textStyle={{textAlign: 'center', color: 'black'}}
-            title={'Game Settings'}
-            onPress={() => this.props.navigation.navigate('Settings')} // navigate to settings page 
-                />
-                <Button
-            raised
-            buttonStyle={styles.buttons}
-            textStyle={{textAlign: 'center', color: 'black'}}
-            title={'Log Out'}
-            onPress={() => this.props.navigation.goBack()} // go back to the previous page and log out 
-                />
-                </Image>
-        );
+            })
+            }
+                     />
+                     <Button
+                     raised
+                     buttonStyle={styles.buttons}
+                     textStyle={{textAlign: 'center', color: 'black'}}
+                     title={'High Scores'}
+                     onPress={() => this.props.navigation.navigate('HighScores', { //navigate to highscores page with parameter user id
+                         userId: this.state.userId
+                     })}
+                     />
+                     <Button
+                     raised
+                     buttonStyle={styles.buttons}
+                     textStyle={{textAlign: 'center', color: 'black'}}
+                     title={'Game Settings'}
+                     onPress={() => this.props.navigation.navigate('Settings')} // navigate to settings page 
+                     />
+                     <Button
+                     raised
+                     buttonStyle={styles.buttons}
+                     textStyle={{textAlign: 'center', color: 'black'}}
+                     title={'Log Out'}
+                     onPress={() => this.props.navigation.goBack()} // go back to the previous page and log out 
+                     />
+                     </Image>
+                    );
+        }
     }
-}
 
 
-// style sheet for page
-const styles = StyleSheet.create({
-    buttons: {
-        alignItems: 'center',
-        padding: 20,
-        backgroundColor: 'white',
-        marginTop: 20,
-        borderRadius: 10
+    // style sheet for page
+    const styles = StyleSheet.create({
+        buttons: {
+            alignItems: 'center',
+            padding: 20,
+            backgroundColor: 'white',
+            marginTop: 20,
+            borderRadius: 10
 
-    }
-})
+        }
+    })

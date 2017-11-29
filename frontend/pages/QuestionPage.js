@@ -20,7 +20,7 @@ const remotebackg = 'https://i.imgur.com/vqTkUz8.png'; // background image
 export default class QuestionPage extends Component {
     constructor(props) {
         super(props);
-        this.state = { // initalize state variables 
+        this.state = { // initalize state variables
             connected: false,
             userId: this.props.navigation.state.params.userId,
             gameId: this.props.navigation.state.params.gameId,
@@ -43,7 +43,7 @@ export default class QuestionPage extends Component {
         this.socket.onopen = () => {
             console.log("OPEN");
             // TODO add check if host, if not dont start just join
-            this.startGame(this.props.navigation.state.params.gameId, this.props.navigation.state.params.userId)
+            //this.startGame(this.props.navigation.state.params.gameId, this.props.navigation.state.params.userId)
             this.setState({connected: true});
         };
         this.socket.onmessage = (e) => {
@@ -63,11 +63,18 @@ export default class QuestionPage extends Component {
                         currentQuestion: data.question.question,
                         questionNumber: data.questionNumber,
                         gameOver: data.gameOver,
+                        gameLobby: data.inLobby,
                     });
                 } else {
+                    var users = newArray();
+                    for (var i = 0; i < data.users.length; i++) {
+                        users.push(data.users[i].username);
+                    }
                     // Set the new users in the lobby
-                    console.log("Users")
-                    console.log(data.users)
+                    this.setState({
+                        gameLobby: data.inLobby,
+                        users: users,
+                    });
                 }
             } catch (e) {
                 console.log(e);
@@ -93,12 +100,12 @@ export default class QuestionPage extends Component {
 
     startGame(gameId, userId) {
         fetch(getAWSUrl() + 'startgame',{ // create request to start game
-            method: 'POST', 
+            method: 'POST',
             headers: { // add headers
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ // add body headers 
+            body: JSON.stringify({ // add body headers
                 userId: userId,
                 gameId: gameId,
             })
@@ -127,7 +134,7 @@ export default class QuestionPage extends Component {
                 }
             })
     }
-    
+
     render() {
         const { navigate } = this.props.navigation;
         if (this.state.gameLobby) {
@@ -151,7 +158,7 @@ export default class QuestionPage extends Component {
                     <Text style={styles.messageBoxBodyText}>{this.state.users}</Text>
                     </View>
                     <View style={styles.buttonArrange}>
-                    <Button title="Start" onPress={() => this.startGame(this.state.gameId, this.state.userId)} />
+                    <Button title="Start Game" onPress={() => this.startGame(this.state.gameId, this.state.userId)} />
                     <Button title="Go Back" onPress={() => this.props.navigation.goBack()} />
                     </View>
                     </View>
@@ -296,7 +303,8 @@ const styles = StyleSheet.create({
         paddingLeft:20,
         paddingRight:20,
         borderRadius:10,
-        marginTop: 20,
+        marginTop: 40,
+        marginBottom: 40
     },
     messageBoxTitleText:{
         fontWeight:'bold',
