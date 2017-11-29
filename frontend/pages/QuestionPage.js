@@ -216,6 +216,7 @@ export default class QuestionPage extends Component {
 
     navigateBack() {
         this.leaveGame(this.state.gameId, this.state.userId)
+        this.socket.close()
         this.setState({
             connected: false
         });
