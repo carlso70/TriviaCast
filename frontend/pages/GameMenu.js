@@ -1,38 +1,38 @@
-//import react and needed components and dependencies 
+//import react and needed components and dependencies
 import React, { Component } from 'react';
 import {Image,Text, StyleSheet, Alert, AsyncStorage} from 'react-native';
 import {Button} from 'react-native-elements';
 import { StackNavigator } from 'react-navigation';
 import {getAWSUrl} from '../utils/Urls'
 
-// background image 
+// background image
 const remotebackg = 'https://i.imgur.com/vqTkUz8.png';
 
 export default class MainMenu extends Component {
     constructor(props) {
         super(props);
-        this.state = { // set state variables 
-            userId: this.props.navigation.state.params.userId, // use class parameters 
+        this.state = { // set state variables
+            userId: this.props.navigation.state.params.userId, // use class parameters
             difficulty: 1,
             questionCt: 10,
         }
     }
 
-    // method to create game and connec with backend 
+    // method to create game and connec with backend
     createGame(userId) {
-        var dif = AsyncStorage.getItem('Difficulty'); // get difficulty from async storage 
+        var dif = AsyncStorage.getItem('Difficulty'); // get difficulty from async storage
         if (dif == null)
             dif = 1;
-        var ct = AsyncStorage.getItem('QuestionCount'); // get question count from async storage 
+        var ct = AsyncStorage.getItem('QuestionCount'); // get question count from async storage
         if (ct == null)
             ct = 10;
-        fetch(getAWSUrl() + 'creategame', { // create json request 
+        fetch(getAWSUrl() + 'creategame', { // create json request
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ //add body elements to the json request 
+            body: JSON.stringify({ //add body elements to the json request
                 userId: userId,
                 gameId: 9999,
                 difficulty: this.state.difficulty,
@@ -40,16 +40,16 @@ export default class MainMenu extends Component {
             })
         }).then(function(response) {  // get response from request
             console.log(response.status); // log the status for debuging
-            if (response.status === 200) { // response was successful  
+            if (response.status === 200) { // response was successful
                 return response.json();
-            } else if (response.status === 500) { // there was an error 
+            } else if (response.status === 500) { // there was an error
                 Alert.alert(
-                    'Game could not be created' // error with the game 
+                    'Game could not be created' // error with the game
                 );
                 return null;
             } else {
                 Alert.alert(
-                    'Fix network, bad request' // request wasnt sent 
+                    'Fix network, bad request' // request wasnt sent
                 );
                 return null;
             }
@@ -107,6 +107,12 @@ export default class MainMenu extends Component {
                      raised
                      buttonStyle={styles.buttons}
                      textStyle={{textAlign: 'center', color: 'black'}}
+                     title={'Chat Room'}
+                     />
+                     <Button
+                     raised
+                     buttonStyle={styles.buttons}
+                     textStyle={{textAlign: 'center', color: 'black'}}
                      title={'High Scores'}
                      onPress={() => this.props.navigation.navigate('HighScores', { //navigate to highscores page with parameter user id
                          userId: this.state.userId
@@ -117,14 +123,14 @@ export default class MainMenu extends Component {
                      buttonStyle={styles.buttons}
                      textStyle={{textAlign: 'center', color: 'black'}}
                      title={'Game Settings'}
-                     onPress={() => this.props.navigation.navigate('Settings')} // navigate to settings page 
+                     onPress={() => this.props.navigation.navigate('Settings')} // navigate to settings page
                      />
                      <Button
                      raised
                      buttonStyle={styles.buttons}
                      textStyle={{textAlign: 'center', color: 'black'}}
                      title={'Log Out'}
-                     onPress={() => this.props.navigation.goBack()} // go back to the previous page and log out 
+                     onPress={() => this.props.navigation.goBack()} // go back to the previous page and log out
                      />
                      </Image>
                     );
