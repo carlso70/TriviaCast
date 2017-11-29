@@ -18,7 +18,7 @@ const remotebackg = 'https://i.imgur.com/vqTkUz8.png'; // background image
 // create and export page for signup page 
 export default class SignupPage extends Component {
 
-  // rend page 
+  // render page 
   render() {
     return (
         <Image

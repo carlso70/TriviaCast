@@ -131,7 +131,12 @@ export default class LoginPage extends React.Component {
                 <View style={styles.buttonArrange}>
                 <Button buttonStyle={styles.buttons} title="Login" color='black' marginTop='30' onPress={() => this.authenticate(this.state.username, this.state.password) } />
                 <Button buttonStyle={styles.buttons} title="Change Password" color='black' onPress={() => this.props.navigation.navigate('ChangePassword') } />
-                <Button buttonStyle={styles.buttons} title="Forgot Password" color='black' onPress={() => this.props.navigation.navigate('ForgotPassword') } />
+                <Button 
+                        buttonStyle={styles.buttons} 
+                        title="Forgot Password" color='black' 
+                        onPress={() => this.props.navigation.navigate('ForgotPassword', {
+                        username: this.state.username
+                        })} />
                 <Button buttonStyle={styles.buttons} title="Create Account" color='black' onPress={() => this.createAccount(this.state.username, this.state.password) } />
                 <Button buttonStyle={styles.buttons} title="Go Back" color='black' onPress={() => this.props.navigation.goBack()} />
                 </View>
