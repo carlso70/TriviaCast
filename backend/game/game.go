@@ -86,7 +86,7 @@ func (g *Game) runGame() {
 	for g.QuestionNumber-1 < g.QuestionCt {
 		if len(g.Users) == 0 {
 			fmt.Println("Ending game")
-			g.endEarly()
+			g.endGame()
 			return
 		}
 		// Start a question, which delays for 30 seconds while listening for answers
@@ -170,9 +170,11 @@ func (g *Game) endGame() {
 	}
 
 	g.GameOver = true
-	// Send a message of the current game
-	gameJson, _ := json.Marshal(g)
-	g.hub.broadcast <- []byte(gameJson)
+	if len(g.Users) > 0 {
+		// Send a message of the current game
+		gameJson, _ := json.Marshal(g)
+		g.hub.broadcast <- []byte(gameJson)
+	}
 }
 
 // AddUserToGame checks if the user is in the game, if it is then append to game slice

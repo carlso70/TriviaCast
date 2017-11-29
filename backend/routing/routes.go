@@ -76,4 +76,10 @@ var routes = Routes{
 		"/leavegame",
 		handlers.LeaveGame,
 	},
+	Route{
+		"UploadAvatar",
+		"POST",
+		"/uploadavatar",
+		handlers.UploadAvatar,
+	},
 }
