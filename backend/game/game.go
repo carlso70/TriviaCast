@@ -187,10 +187,11 @@ func (g *Game) AddUserToGame(user user.User) error {
 }
 
 // RemoveUserFromGame will remove a specific user from the game if it is exists
-func (g *Game) RemoveUserFromGame(user user.User) error {
+func (g *Game) RemoveUserFromGame(id int) error {
 	for key, usr := range g.Users {
-		if usr.Id == user.Id {
+		if usr.Id == id {
 			// if the user is the game, remove
+			fmt.Println("Removing User:", usr.Username, "from game:", g.Id)
 			g.Users = append(g.Users[:key], g.Users[key+1:]...)
 			return nil
 		}

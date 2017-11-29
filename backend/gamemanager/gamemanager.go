@@ -84,6 +84,23 @@ func (g *GameManager) AddUserToGame(gameId, userId int) (*game.Game, error) {
 	return gm, nil
 }
 
+// AddUserToGame searchs to see if game exists, then finds the user with the id
+// and adds them to the game
+func (g *GameManager) RemoveUserFromGame(gameId, userId int) (*game.Game, error) {
+	// Search for game instance
+	gm, err := findGame(g.Games, gameId)
+	if err != nil {
+		panic(err)
+	}
+
+	if err = gm.RemoveUserFromGame(userId); err != nil {
+		panic(err)
+	}
+
+	// Join Game instance
+	return gm, nil
+}
+
 func (g *GameManager) DeleteGame(gameId int) error {
 	// Search for game
 

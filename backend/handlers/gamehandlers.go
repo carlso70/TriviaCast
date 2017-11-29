@@ -105,6 +105,34 @@ func JoinGame(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, string(jsonGame))
 }
 
+// LeaveGame adds a user to a game with a specific id
+func LeaveGame(w http.ResponseWriter, r *http.Request) {
+	var request GameSessionRequest
+
+	decoder := json.NewDecoder(r.Body)
+	err := decoder.Decode(&request)
+	if err != nil {
+		panic(err)
+	}
+	defer r.Body.Close()
+
+	// Get the gamemanager instance, start new game
+	gm := gamemanager.GetInstance()
+	game, err := gm.RemoveUserFromGame(request.GameId, request.UserId)
+	if err != nil {
+		http.Error(w, "Could not remove user from game", 400)
+		return
+	}
+
+	jsonGame, err := json.Marshal(game)
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+
+	fmt.Fprint(w, string(jsonGame))
+}
+
 // ListGames responds with a list of all the active games
 func ListGames(w http.ResponseWriter, r *http.Request) {
 	// Get the gamemanager instance, get all active games

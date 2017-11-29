@@ -70,4 +70,10 @@ var routes = Routes{
 		"/changepassword",
 		handlers.ChangePassword,
 	},
+	Route{
+		"LeaveGame",
+		"POST",
+		"/leavegame",
+		handlers.LeaveGame,
+	},
 }
