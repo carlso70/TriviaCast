@@ -111,12 +111,9 @@ func ListGames(w http.ResponseWriter, r *http.Request) {
 	gamemanager := gamemanager.GetInstance()
 	games := gamemanager.GetGames()
 
-	for _, game := range games {
-		// Converts the game to a readable json
-		byteSlice, err := json.Marshal(&game)
-		if err != nil {
-			panic(err)
-		}
-		fmt.Fprintf(w, "%s\n", string(byteSlice))
+	byteSlice, err := json.Marshal(&games)
+	if err != nil {
+		panic(err)
 	}
+	fmt.Fprintf(w, "%s\n", string(byteSlice))
 }
