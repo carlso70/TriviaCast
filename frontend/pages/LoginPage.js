@@ -96,7 +96,9 @@ export default class LoginPage extends React.Component {
         })
             .then((responseJson) => { //response was good so naviagate to the game menu logged in as new user 
                 if (responseJson) {
-                    this.props.navigation.navigate('GameMenu', { userId: responseJson.id });
+                    this.props.navigation.navigate('GameMenu', { 
+                        userId: responseJson.id, 
+                        username: this.state.username});
                 }
             })
     }
