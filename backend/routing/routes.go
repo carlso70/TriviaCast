@@ -41,9 +41,45 @@ var routes = Routes{
 		handlers.ListGames,
 	},
 	Route{
+		"JoinGame",
+		"POST",
+		"/joingame",
+		handlers.JoinGame,
+	},
+	Route{
 		"CreateUser",
 		"POST",
 		"/createuser",
 		handlers.CreateUser,
+	},
+	Route{
+		"LoginUser",
+		"POST",
+		"/loginuser",
+		handlers.LoginUser,
+	},
+	Route{
+		"HighScores",
+		"GET",
+		"/highscores",
+		handlers.GetHighScores,
+	},
+	Route{
+		"ChangePassword",
+		"POST",
+		"/changepassword",
+		handlers.ChangePassword,
+	},
+	Route{
+		"LeaveGame",
+		"POST",
+		"/leavegame",
+		handlers.LeaveGame,
+	},
+	Route{
+		"UploadAvatar",
+		"POST",
+		"/uploadavatar",
+		handlers.UploadAvatar,
 	},
 }

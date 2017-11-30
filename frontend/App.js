@@ -1,65 +1,44 @@
-import React, { Component } from 'react';
-import {
-  AppRegistry,
-  Image,
-  Text,
-  View
-} from 'react-native';
+// import react native to handle navigation
+import React from 'react';
 import { StackNavigator } from 'react-navigation';
 
+// import all pages that we will be using in order to add them to the stack navigator
+import MainPage from './pages/MainPage'
+import LoginPage from './pages/LoginPage'
+import GameMenu from './pages/GameMenu'
+import JoinGamePage from './pages/JoinGamePage'
+import SettingsPage from './pages/SettingsPage'
+import HighScorePage from './pages/HighScorePage'
+import ChangePassPage from './pages/ChangePassPage'
+import Game from './pages/QuestionPage'
+import AnswerPage from './pages/AnswerPage'
+import ForgotPage from './pages/ForgotPage'
+import QuestionPage from './pages/QuestionPage'
+import ChangeAva from './pages/ChangeAvatar'
 
-
-
-import MainPage from './pages/MainPage.js'
-import LoginPage from './pages/LoginPage.js'
-
-// class MainPage extends Component{
-//   static navigationOptions = {
-//     title: 'Welcome',
-//     header: { visible:false }
-//   };
-//   render() {
-//     return <Text>Hello</Text>;
-//   }
-// }
-
-// class LoginPage extends Component{
-//   static navigationOptions = {
-//     title: 'Welcome',
-//   };
-//   render() {
-//     return <Text>Hello</Text>;
-//   }
-// }
-
+// initalize stack navigator
 const TriviaCast = StackNavigator({
-  MainPage: {screen: MainPage},
-  //LoginPage: {screen: LoginPage},
-});
+    Main: {screen: MainPage},
+    Login: {screen: LoginPage},
+    Settings: {screen: SettingsPage},
+    HighScores: {screen: HighScorePage},
+    GameMenu: {screen: GameMenu},
+    Settings: {screen: SettingsPage},
+    Game: {screen: Game},
+    ChangePassword: {screen: ChangePassPage},
+    QuestionPage: {screen: QuestionPage },
+    Answer: { screen: AnswerPage},
+    ForgotPassword:{screen: ForgotPage},
+    ChangeAvatar: {screen: ChangeAva},
+    JoinGamePage: { screen: JoinGamePage },
+  },
+  {headerMode: 'none'}
 
-const remotebackg = 'https://i.imgur.com/vqTkUz8.png';
+);
 
-
-export default class App extends Component {
+// export main class
+export default class App extends React.Component {
   render() {
-    return <TriviaCast />;
+        return <TriviaCast/>;
   }
 }
-
-// export default class App extends Component {
-
-//   constructor(props) {
-//     super(props)
-//     this.page = 0;
-//   }
-//   render() {
-//     return (
-//         <MainPage/>
-//    );
-//     return (
-//         <LoginPage/>
-//     );
-//   }
-// }
-
-AppRegistry.registerComponent('TriviaCast', () => TriviaCast);

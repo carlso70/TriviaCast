@@ -118,4 +118,15 @@ android/logcat.txt
  ios/Pods
  .expo
 
+# Annoying frontend files
+frontend/.DS_Store
 frontend/react-native-package-cache*
+
+# Annoying DS STORE
+.DS_Store
+.DS_Store~HEAD
+
+node_modules*
+
+# Webapp ignore
+webapp/node_module*

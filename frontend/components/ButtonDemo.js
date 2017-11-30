@@ -1,8 +1,9 @@
+//import react and needed components
 import React, {Component} from 'react'
 import { Button } from 'react-native-elements';
 
-
-class ButtonDemo extends Component {
+// create defaut button to be used 
+class NavButton extends Component {
   render = () => {
     return (<Button
       raised
@@ -10,10 +11,11 @@ class ButtonDemo extends Component {
       buttonStyle={{backgroundColor: 'white', borderRadius: 10}}
       textStyle={{textAlign: 'center', color: 'black'}}
       title={`Create an account`}
-      //onPress={() => navigate(LoginPage.js)}
+            onPress={this.props.onPress}
     />
     )
   }
 }
 
-export default ButtonDemo;
+//export button
+export default NavButton;
