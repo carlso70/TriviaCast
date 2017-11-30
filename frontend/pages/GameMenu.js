@@ -11,14 +11,10 @@ const remotebackg = 'https://i.imgur.com/vqTkUz8.png';
 export default class MainMenu extends Component {
     constructor(props) {
         super(props);
-<<<<<<< HEAD
         this.state = { // set state variables 
             userId: this.props.navigation.state.params.userId, // use class parameters 
             username: this.props.navigation.state.params.username,
-=======
-        this.state = { // set state variables
-            userId: this.props.navigation.state.params.userId, // use class parameters
->>>>>>> e27659ce56a1ac74ef9d08e39694feae5438d737
+
             difficulty: 1,
             questionCt: 10,
         }
@@ -106,7 +102,6 @@ export default class MainMenu extends Component {
             onPress={() => this.props.navigation.navigate('JoinGamePage', {
                 username: this.props.navigation.state.params.username,
                 userId: this.state.userId
-<<<<<<< HEAD
             })}
                 />
                 <Button
@@ -134,44 +129,8 @@ export default class MainMenu extends Component {
                 />
                 </Image>
         );
-=======
-            })
-            }
-                     />
-                     <Button
-                     raised
-                     buttonStyle={styles.buttons}
-                     textStyle={{textAlign: 'center', color: 'black'}}
-                     title={'Chat Room'}
-                     />
-                     <Button
-                     raised
-                     buttonStyle={styles.buttons}
-                     textStyle={{textAlign: 'center', color: 'black'}}
-                     title={'High Scores'}
-                     onPress={() => this.props.navigation.navigate('HighScores', { //navigate to highscores page with parameter user id
-                         userId: this.state.userId
-                     })}
-                     />
-                     <Button
-                     raised
-                     buttonStyle={styles.buttons}
-                     textStyle={{textAlign: 'center', color: 'black'}}
-                     title={'Game Settings'}
-                     onPress={() => this.props.navigation.navigate('Settings')} // navigate to settings page
-                     />
-                     <Button
-                     raised
-                     buttonStyle={styles.buttons}
-                     textStyle={{textAlign: 'center', color: 'black'}}
-                     title={'Log Out'}
-                     onPress={() => this.props.navigation.goBack()} // go back to the previous page and log out
-                     />
-                     </Image>
-                    );
-        }
->>>>>>> e27659ce56a1ac74ef9d08e39694feae5438d737
     }
+}
 
 
     // style sheet for page
