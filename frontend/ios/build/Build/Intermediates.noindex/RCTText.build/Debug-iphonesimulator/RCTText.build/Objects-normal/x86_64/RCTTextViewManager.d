@@ -1,0 +1,35 @@
+dependencies: \
+  /Users/kathleenmasterson/goworkspace/src/github.com/carlso70/triviacast/frontend/node_modules/react-native/Libraries/Text/RCTTextViewManager.m \
+  /Users/kathleenmasterson/goworkspace/src/github.com/carlso70/triviacast/frontend/node_modules/react-native/Libraries/Text/RCTTextViewManager.h \
+  /Users/kathleenmasterson/goworkspace/src/github.com/carlso70/triviacast/frontend/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTViewManager.h \
+  /Users/kathleenmasterson/goworkspace/src/github.com/carlso70/triviacast/frontend/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTBridgeModule.h \
+  /Users/kathleenmasterson/goworkspace/src/github.com/carlso70/triviacast/frontend/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTDefines.h \
+  /Users/kathleenmasterson/goworkspace/src/github.com/carlso70/triviacast/frontend/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTConvert.h \
+  /Users/kathleenmasterson/goworkspace/src/github.com/carlso70/triviacast/frontend/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTAnimationType.h \
+  /Users/kathleenmasterson/goworkspace/src/github.com/carlso70/triviacast/frontend/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTBorderStyle.h \
+  /Users/kathleenmasterson/goworkspace/src/github.com/carlso70/triviacast/frontend/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTLog.h \
+  /Users/kathleenmasterson/goworkspace/src/github.com/carlso70/triviacast/frontend/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTAssert.h \
+  /Users/kathleenmasterson/goworkspace/src/github.com/carlso70/triviacast/frontend/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTUtils.h \
+  /Users/kathleenmasterson/goworkspace/src/github.com/carlso70/triviacast/frontend/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTPointerEvents.h \
+  /Users/kathleenmasterson/goworkspace/src/github.com/carlso70/triviacast/frontend/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTTextDecorationLineType.h \
+  /Users/kathleenmasterson/goworkspace/src/github.com/carlso70/triviacast/frontend/ios/build/Build/Products/Debug-iphonesimulator/include/yoga/Yoga.h \
+  /Users/kathleenmasterson/goworkspace/src/github.com/carlso70/triviacast/frontend/ios/build/Build/Products/Debug-iphonesimulator/include/yoga/YGEnums.h \
+  /Users/kathleenmasterson/goworkspace/src/github.com/carlso70/triviacast/frontend/ios/build/Build/Products/Debug-iphonesimulator/include/yoga/YGMacros.h \
+  /Users/kathleenmasterson/goworkspace/src/github.com/carlso70/triviacast/frontend/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTEventDispatcher.h \
+  /Users/kathleenmasterson/goworkspace/src/github.com/carlso70/triviacast/frontend/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTBridge.h \
+  /Users/kathleenmasterson/goworkspace/src/github.com/carlso70/triviacast/frontend/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTBridgeDelegate.h \
+  /Users/kathleenmasterson/goworkspace/src/github.com/carlso70/triviacast/frontend/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTJavaScriptLoader.h \
+  /Users/kathleenmasterson/goworkspace/src/github.com/carlso70/triviacast/frontend/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTFrameUpdate.h \
+  /Users/kathleenmasterson/goworkspace/src/github.com/carlso70/triviacast/frontend/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTInvalidating.h \
+  /Users/kathleenmasterson/goworkspace/src/github.com/carlso70/triviacast/frontend/ios/build/Build/Products/Debug-iphonesimulator/include/React/UIView+React.h \
+  /Users/kathleenmasterson/goworkspace/src/github.com/carlso70/triviacast/frontend/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTComponent.h \
+  /Users/kathleenmasterson/goworkspace/src/github.com/carlso70/triviacast/frontend/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTFont.h \
+  /Users/kathleenmasterson/goworkspace/src/github.com/carlso70/triviacast/frontend/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTShadowView+Layout.h \
+  /Users/kathleenmasterson/goworkspace/src/github.com/carlso70/triviacast/frontend/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTShadowView.h \
+  /Users/kathleenmasterson/goworkspace/src/github.com/carlso70/triviacast/frontend/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTRootView.h \
+  /Users/kathleenmasterson/goworkspace/src/github.com/carlso70/triviacast/frontend/node_modules/react-native/Libraries/Text/RCTConvert+Text.h \
+  /Users/kathleenmasterson/goworkspace/src/github.com/carlso70/triviacast/frontend/node_modules/react-native/Libraries/Text/RCTShadowTextView.h \
+  /Users/kathleenmasterson/goworkspace/src/github.com/carlso70/triviacast/frontend/node_modules/react-native/Libraries/Text/RCTTextView.h \
+  /Users/kathleenmasterson/goworkspace/src/github.com/carlso70/triviacast/frontend/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTView.h \
+  /Users/kathleenmasterson/goworkspace/src/github.com/carlso70/triviacast/frontend/node_modules/react-native/Libraries/Text/RCTTextInput.h \
+  /Users/kathleenmasterson/goworkspace/src/github.com/carlso70/triviacast/frontend/node_modules/react-native/Libraries/Text/RCTBackedTextInputViewProtocol.h
