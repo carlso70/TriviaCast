@@ -7,6 +7,7 @@ import {
     Text,
     View,
     TextInput,
+    ListView,
     StyleSheet,
     TouchableOpacity,
 } from 'react-native';
@@ -20,7 +21,7 @@ const remotebackg = 'https://i.imgur.com/vqTkUz8.png'; // background image
 export default class QuestionPage extends Component {
     constructor(props) {
         super(props);
-        this.state = { // initalize state variables 
+        this.state = { // initalize state variables
             connected: false,
             userId: this.props.navigation.state.params.userId,
             gameId: this.props.navigation.state.params.gameId,
@@ -34,7 +35,6 @@ export default class QuestionPage extends Component {
             questionNumber: 1,
             gameOver: false,
         }
-
         // Setup websocket
         socketurl = 'ws://ec2-18-221-200-72.us-east-2.compute.amazonaws.com:3000/';
         var endpoint = socketurl + 'game_socket/'+ this.state.gameId + '';
@@ -42,8 +42,6 @@ export default class QuestionPage extends Component {
         this.socket = new WebSocket(endpoint);
         this.socket.onopen = () => {
             console.log("OPEN");
-            // TODO add check if host, if not dont start just join
-            this.startGame(this.props.navigation.state.params.gameId, this.props.navigation.state.params.userId)
             this.setState({connected: true});
         };
         this.socket.onmessage = (e) => {
@@ -63,11 +61,20 @@ export default class QuestionPage extends Component {
                         currentQuestion: data.question.question,
                         questionNumber: data.questionNumber,
                         gameOver: data.gameOver,
+                        gameLobby: data.inLobby,
+                    });
+                } else if (data.inLobby) {
+                    var users = new Array();
+                    for (var i = 0; i < data.users.length; i++) {
+                        users.push(data.users[i].username);
+                    }
+                    // Set the new users in the lobby
+                    this.setState({
+                        users: users,
+                        gameLobby: data.inLobby,
                     });
                 } else {
-                    // Set the new users in the lobby
-                    console.log("Users")
-                    console.log(data.users)
+                    console.log("Invalid Question Response received, likely null values");
                 }
             } catch (e) {
                 console.log(e);
@@ -76,6 +83,10 @@ export default class QuestionPage extends Component {
         this.socket.onclose = (e) => {
             console.log("CLOSING SOCKET")
             this.setState({connected: false});
+        }
+
+        if (this.props.navigation.state.params.joining) {
+            this.joinGame(this.props.navigation.state.params.gameId, this.props.navigation.state.params.userId)
         }
 
         this.emitResponse = this.emitResponse.bind(this)
@@ -91,14 +102,52 @@ export default class QuestionPage extends Component {
         }
     }
 
-    startGame(gameId, userId) {
-        fetch(getAWSUrl() + 'startgame',{ // create request to start game
-            method: 'POST', 
+    joinGame(gameId, userId) {
+        fetch(getAWSUrl() + 'joingame',{ // create request to start game
+            method: 'POST',
             headers: { // add headers
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ // add body headers 
+            body: JSON.stringify({ // add body headers
+                userId: userId,
+                gameId: gameId,
+            })
+        }).then(function(response) {
+            console.log(response.status);
+            if (response.status === 200) { // response was good 
+                return response.json();
+            } else if (response.status === 500){
+                // There was an error with username or password
+                Alert.alert(
+                    'Error Starting Game'
+                );
+                return null;
+            } else {
+                // 404 error or something else
+                Alert.alert(
+                    'Please fix your network',
+                    'Error Starting'
+                );
+                return null;
+            }
+        })
+            .then((responseJson) => {
+                if (responseJson) { // parse the response sense it was a success 
+                    // SUCCESS
+                    console.log("Joined Game")
+                }
+            })
+    }
+
+    startGame(gameId, userId) {
+        fetch(getAWSUrl() + 'startgame',{ // create request to start game
+            method: 'POST',
+            headers: { // add headers
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ // add body headers
                 userId: userId,
                 gameId: gameId,
             })
@@ -127,7 +176,53 @@ export default class QuestionPage extends Component {
                 }
             })
     }
-    
+
+    leaveGame(gameId, userId) {
+        fetch(getAWSUrl() + 'leavegame',{ // create request to start game
+            method: 'POST',
+            headers: { // add headers
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ // add body headers
+                userId: userId,
+                gameId: gameId,
+            })
+        }).then(function(response) {
+            console.log(response.status);
+            if (response.status === 200) { // response was good 
+                return response.json();
+            } else if (response.status === 500){
+                // There was an error with username or password
+                Alert.alert(
+                    'Error Leaving Game'
+                );
+                return null;
+            } else {
+                // 404 error or something else
+                Alert.alert(
+                    'Please fix your network',
+                    'Error Leaving Game'
+                );
+                return null;
+            }
+        })
+            .then((responseJson) => {
+                if (responseJson) { // parse the response sense it was a success 
+                    // SUCCESS
+                }
+            })
+    }
+
+    navigateBack() {
+        this.leaveGame(this.state.gameId, this.state.userId)
+        this.socket.close()
+        this.setState({
+            connected: false
+        });
+        this.props.navigation.goBack();
+    }
+
     render() {
         const { navigate } = this.props.navigation;
         if (this.state.gameLobby) {
@@ -148,11 +243,15 @@ export default class QuestionPage extends Component {
                     <View style={styles.messageBox}>
                     <View>
                     <Text style={styles.messageBoxTitleText}>Game Lobby</Text>
-                    <Text style={styles.messageBoxBodyText}>{this.state.users}</Text>
+                    <Text style={styles.messageBoxBodyText}>{this.state.users[0]}</Text>
+                    <Text style={styles.messageBoxBodyText}>{this.state.users[1]}</Text>
+                    <Text style={styles.messageBoxBodyText}>{this.state.users[2]}</Text>
+                    <Text style={styles.messageBoxBodyText}>{this.state.users[3]}</Text>
+                    <Text style={styles.messageBoxBodyText}>{this.state.users[4]}</Text>
                     </View>
                     <View style={styles.buttonArrange}>
-                    <Button title="Start" onPress={() => this.startGame(this.state.gameId, this.state.userId)} />
-                    <Button title="Go Back" onPress={() => this.props.navigation.goBack()} />
+                    <Button title="Start Game" onPress={() => this.startGame(this.state.gameId, this.state.userId)} />
+                    <Button title="Go Back" onPress={() => this.navigateBack()} />
                     </View>
                     </View>
                     </View>
@@ -296,7 +395,8 @@ const styles = StyleSheet.create({
         paddingLeft:20,
         paddingRight:20,
         borderRadius:10,
-        marginTop: 20,
+        marginTop: 40,
+        marginBottom: 40
     },
     messageBoxTitleText:{
         fontWeight:'bold',

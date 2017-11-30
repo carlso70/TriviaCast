@@ -84,6 +84,11 @@ func (g *Game) runGame() {
 
 	// Keep ask
 	for g.QuestionNumber-1 < g.QuestionCt {
+		if len(g.Users) == 0 {
+			fmt.Println("Ending game")
+			g.endGame()
+			return
+		}
 		// Start a question, which delays for 30 seconds while listening for answers
 		if err := g.startQuestion(g.QuestionDeck[g.QuestionNumber-1]); err != nil {
 			log.Panic(err)
@@ -148,6 +153,10 @@ func (g *Game) startQuestion(q question.Question) error {
 	return nil
 }
 
+func (g *Game) endEarly() {
+	g.GameOver = true
+}
+
 // EndGame updates players all time score at the end of the game
 func (g *Game) endGame() {
 	fmt.Println("Ending game....")
@@ -161,9 +170,11 @@ func (g *Game) endGame() {
 	}
 
 	g.GameOver = true
-	// Send a message of the current game
-	gameJson, _ := json.Marshal(g)
-	g.hub.broadcast <- []byte(gameJson)
+	if len(g.Users) > 0 {
+		// Send a message of the current game
+		gameJson, _ := json.Marshal(g)
+		g.hub.broadcast <- []byte(gameJson)
+	}
 }
 
 // AddUserToGame checks if the user is in the game, if it is then append to game slice
@@ -178,15 +189,25 @@ func (g *Game) AddUserToGame(user user.User) error {
 	user.GameId = g.Id
 	// Dereference the user point and append it to current game slice
 	g.Users = append(g.Users, user)
+
+	fmt.Println("Adding user:", user.Username, "to game:", g.Id)
+	// Broadcast new user
+	gameJson, _ := json.Marshal(g)
+	g.hub.broadcast <- []byte(gameJson)
 	return nil
 }
 
 // RemoveUserFromGame will remove a specific user from the game if it is exists
-func (g *Game) RemoveUserFromGame(user user.User) error {
+func (g *Game) RemoveUserFromGame(id int) error {
 	for key, usr := range g.Users {
-		if usr.Id == user.Id {
+		if usr.Id == id {
 			// if the user is the game, remove
+			fmt.Println("Removing User:", usr.Username, "from game:", g.Id)
 			g.Users = append(g.Users[:key], g.Users[key+1:]...)
+			// Set the game to be deleted if the user count == 0
+			if len(g.Users) == 0 {
+				g.GameOver = true
+			}
 			return nil
 		}
 	}

@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"github.com/carlso70/triviacast/backend/user"
+	"github.com/carlso70/triviacast/backend/utils"
 )
 
 var testId = -1

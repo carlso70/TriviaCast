@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"sync"
+	"time"
 
 	"github.com/carlso70/triviacast/backend/game"
 	"github.com/carlso70/triviacast/backend/repo"
@@ -22,8 +23,27 @@ func GetInstance() *GameManager {
 	once.Do(func() {
 		games := make([]*game.Game, 0)
 		instance = &GameManager{Games: games}
+		go instance.Cleaner()
 	})
 	return instance
+}
+
+func (g *GameManager) deleteDoneGames() {
+	for i := 0; i < len(g.Games); i++ {
+		// Delete the game
+		if g.Games[i].GameOver {
+			fmt.Println("Deleting Done Game:", g.Games[i].Id)
+			g.Games = append(g.Games[:i], g.Games[i+1:]...)
+		}
+	}
+}
+
+// Cleaner sweeps all the games and removes the ones that are over
+func (g *GameManager) Cleaner() {
+	for {
+		<-time.After(15 * time.Millisecond)
+		go g.deleteDoneGames()
+	}
 }
 
 // CreateGame adds a game to the GameServer
@@ -78,8 +98,25 @@ func (g *GameManager) AddUserToGame(gameId, userId int) (*game.Game, error) {
 	if err != nil {
 		panic(err)
 	}
-	gm.Users = append(gm.Users, user)
-	fmt.Printf("GAME %d USERS: %#v\n", gm.Id, gm.Users)
+	if err = gm.AddUserToGame(user); err != nil {
+		panic(err)
+	}
+	// Join Game instance
+	return gm, nil
+}
+
+// AddUserToGame searchs to see if game exists, then finds the user with the id
+// and adds them to the game
+func (g *GameManager) RemoveUserFromGame(gameId, userId int) (*game.Game, error) {
+	// Search for game instance
+	gm, err := findGame(g.Games, gameId)
+	if err != nil {
+		panic(err)
+	}
+
+	if err = gm.RemoveUserFromGame(userId); err != nil {
+		panic(err)
+	}
 
 	// Join Game instance
 	return gm, nil

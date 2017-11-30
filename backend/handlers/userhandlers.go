@@ -1,10 +1,15 @@
 package handlers
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
+	"io"
+	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
+	"strconv"
 
 	"github.com/carlso70/triviacast/backend/gamemanager"
 	"github.com/carlso70/triviacast/backend/repo"
@@ -15,6 +20,10 @@ import (
 type AccountRequest struct {
 	Username string `json:"username"`
 	Password string `json:"password"`
+}
+
+type AvatarRequest struct {
+	Username int `json:"userId"`
 }
 
 type PasswordChangeRequest struct {
@@ -160,4 +169,60 @@ func GetHighScores(w http.ResponseWriter, r *http.Request) {
 		log.Panic(err)
 	}
 	fmt.Fprintf(w, "%s\n", string(byteSlice))
+}
+
+func UploadAvatar(w http.ResponseWriter, r *http.Request) {
+	defer r.Body.Close()
+
+	var Buf bytes.Buffer
+	// Set users avatarUrl
+	strid := r.FormValue("userId")
+	if strid == "" {
+		fmt.Println("missing userid")
+		http.Error(w, "Invalid userId", 500)
+		return
+	}
+
+	file, header, err := r.FormFile("file")
+	if err != nil {
+		panic(err)
+	}
+	defer file.Close()
+	name := header.Filename
+	fmt.Printf("File name %s\n", name)
+
+	// Write the file
+	io.Copy(&Buf, file)
+	err = ioutil.WriteFile(name, Buf.Bytes(), 0666)
+
+	// Upload file
+	location := utils.UploadFileToS3(name)
+
+	userid, err := strconv.Atoi(strid)
+	if err != nil {
+		panic(err)
+		http.Error(w, "Invalid userId", 500)
+		return
+	}
+
+	// Update the user's new file location
+	usr, err := repo.FindUser(userid)
+	if err != nil {
+		panic(err)
+		http.Error(w, "Invalid userId", 500)
+		return
+	}
+	usr.AvatarLink = location
+	err = repo.UpdateUser(usr)
+	if err != nil {
+		panic(err)
+	}
+
+	// Delete the file since it has been uploaded
+	err = os.Remove(name)
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Fprintf(w, "{ \"avatarUrl\": \"%s\" }\n", location)
 }

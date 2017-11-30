@@ -6,11 +6,11 @@ import {getAWSUrl } from '../utils/Urls'
 import { StackNavigator } from 'react-navigation';
 const remotebackg = 'https://i.imgur.com/vqTkUz8.png';
 
-//create and export class for game lobby 
+//create and export class for game lobby
 export default class Lobby extends Component {
     constructor(props) {
         super(props);
-        this.state = { //set state variables using parameeters for vlass 
+        this.state = { //set state variables using parameters for class
             userId: this.props.navigation.state.params.userId,
             gameId: this.props.navigation.state.params.gameId,
             username: this.props.navigation.state.params.username,
@@ -19,15 +19,15 @@ export default class Lobby extends Component {
         };
 
     }
-    // start game menthod 
+    // start game menthod
     startGame(gameId, userId) {
-        // starts naviagation to question page 
+        // starts naviagation to question page
         this.props.navigation.navigate('QuestionPage', { userId: userId, gameId: gameId });
     }
 
     render() {
         return (
-                <Image //background image 
+                <Image
             style={{
                 backgroundColor: '#ccc',
                 flex: 1,
