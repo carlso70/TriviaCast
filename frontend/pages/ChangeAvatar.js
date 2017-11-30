@@ -11,6 +11,8 @@ import {
 } from 'react-native';
 import ButtonDemo from '../components/ButtonDemo'
 import { Button, FormLabel, FormInput} from 'react-native-elements';
+//import { Image } from 'react-native'
+//import PhotoUpload from 'react-native-photo-upload'
 
 // background image 
 const remotebackg = 'https://i.imgur.com/vqTkUz8.png';

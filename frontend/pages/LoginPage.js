@@ -25,7 +25,9 @@ export default class LoginPage extends React.Component {
         };
     }
 
+    
     authenticate(username, password) { //create request for user to login 
+        try{
         fetch(getAWSUrl() + 'loginuser',{
             method: 'POST',
             headers: { //add headers 
@@ -61,6 +63,13 @@ export default class LoginPage extends React.Component {
                     this.props.navigation.navigate('GameMenu', { userId: responseJson.id }); //navigate to main menu as logged in user 
                 }
             })
+        }
+        catch(e){
+            Alert.alert(
+                'Please fix your network', // there was an issue and the request wasnt sent
+                'Try again'
+            );
+        }
     }
 
     createAccount(username, password) {
