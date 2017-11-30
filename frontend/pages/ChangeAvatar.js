@@ -11,16 +11,18 @@ import {
 } from 'react-native';
 import ButtonDemo from '../components/ButtonDemo'
 import { Button, FormLabel, FormInput} from 'react-native-elements';
+//import { Image } from 'react-native'
+//import PhotoUpload from 'react-native-photo-upload'
 
 // background image 
 const remotebackg = 'https://i.imgur.com/vqTkUz8.png';
 
 //create and export page for a forgetten password 
-export default class ForgotPage extends React.Component {
+export default class ChangeAvatar extends React.Component {
   constructor(props) { //state variables 
     super(props);
     this.state = { 
-      username: this.props.navigation.state.params.username,
+      userId: this.props.navigation.state.params.userId,
       answer: ''};
     
   }
@@ -45,28 +47,23 @@ export default class ForgotPage extends React.Component {
         {/* this needs changed to dynamically fill in users security question  */}
       
       </View>
+      <Text
+          style={{
+            backgroundColor: 'transparent',
+            textAlign: 'center',
+            fontSize: 45,
+            color: 'white',
+            padding: 40,
+          }}
+        >
+          {'Change Avatar'}
+        </Text>
       <TextInput // allow user to enter answer for security question 
         placeholder = {this.state.username}
         text = {this.state.username}
-        editable = {false}
-        style={styles.inputText}
-        //onChangeText={ (text) => this.setState({ answer: text })} // set the state variable to answer 
-        //value={this.state.answer}
-      />
-      <TextInput // allow user to enter answer for security question 
-        placeholder = 'This will Hold The Users Question'
-        text = 'This will Hold The Users Question'
         placeholderTextColor = 'black'
         editable = {false}
         style={styles.inputText}
-        //onChangeText={ (text) => this.setState({ answer: text })} // set the state variable to answer 
-        //value={this.state.answer}
-      />
-      <TextInput // allow user to enter answer for security question 
-        placeholder='Answer'
-        style={styles.inputText}
-        onChangeText={ (text) => this.setState({ answer: text })} // set the state variable to answer 
-        value={this.state.answer}
       />
       <View style={styles.buttonArrange}>
         <Button
