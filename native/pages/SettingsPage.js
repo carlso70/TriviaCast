@@ -117,7 +117,16 @@ export default class SettingsPage extends React.Component {
             // go back to previous page 
             onPress={() => this.props.navigation.goBack()}  />
         </View>
-        </ImageBackground>
+	<View style={styles.buttonArrange}>
+	<Button
+	    raised
+	    title={'Setup Chromecast'}
+	    buttonStyle={styles.buttons}
+	    textStyle={{textAlign: 'center', color: 'black', backgroundColor: 'transparent'}}
+	    // Go to chromecast setup page
+	    onPress={() => this.props.navigation.navigate('ChromeCast')}  />
+        </View>
+	</ImageBackground>
         )
     }
 }

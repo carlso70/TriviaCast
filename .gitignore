@@ -132,3 +132,6 @@ node_modules*
 webapp/node_module*
 
 chatserver/node_modules*
+
+native/ios*
+frontend/ios*
