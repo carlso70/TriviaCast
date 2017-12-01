@@ -331,6 +331,7 @@ func GetSecurityQuestion(w http.ResponseWriter, r *http.Request) {
 	}
 	fmt.Println("GETING SECURITY QUESTION FOR:", request.Username)
 	usr, err := repo.FindUserByUsername(request.Username)
+	fmt.Println(usr)
 	fmt.Println("USERS QUESTION IS:", usr.SecurityQuestion)
 	if err != nil {
 		http.Error(w, "Error Finding User", 500)
