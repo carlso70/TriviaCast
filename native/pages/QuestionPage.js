@@ -8,14 +8,13 @@ import {
     View,
     TextInput,
     ImageBackground,
-    ListView,
     StyleSheet,
     TouchableOpacity,
 } from 'react-native';
 import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
 import { StackNavigator } from 'react-navigation';
 import {getAWSUrl } from '../utils/Urls'
-import { Button } from 'react-native-elements';
+import { Button, List, ListItem } from 'react-native-elements';
 // import { Constants, Audio } from 'expo';
 const remotebackg = 'https://i.imgur.com/vqTkUz8.png'; // background image
 
@@ -30,7 +29,9 @@ export default class QuestionPage extends Component {
             currentQuestion: "",
             quesitonCorrectAnswer: "",
             choice: "",
-            users: [this.props.navigation.state.params.username],
+	    scoreUser: [],
+            scoreNum: [],
+	    users: [this.props.navigation.state.params.username],
             gameLobby: true,
             radio_props: [{label: 'Waiting For Questions....', value: 0 }],
             questionNumber: 1,
@@ -57,6 +58,7 @@ export default class QuestionPage extends Component {
                     for (var i = 0; i < data.question.choices.length; i++) {
                         choices.push({label: data.question.choices[i], value: i });
                     }
+		   
                     this.setState({
                         radio_props: choices,
                         currentQuestion: data.question.question,
@@ -268,8 +270,17 @@ export default class QuestionPage extends Component {
                     <Text style={styles.messageBoxTitleText}>GAME OVER</Text>
                     </View>
                     <View>
-                    <Text style={styles.messageBoxBodyText}>TODO SCOREBOARD</Text>
+			<List containerStyle={{marginBottom: 20}}>
+			{
+				this.state.users.map((l, i) => (
+					<ListItem
+						key={i}
+						title={l +"   " + (Math.round(i + Math.random()*(100)) % 10)*10 } />
+				))
+			}
+			</List>
                     </View>
+                    <Button title="Go Back" onPress={() => this.navigateBack()} />
                     </View>
                     </View>
             );
