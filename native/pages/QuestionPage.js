@@ -136,7 +136,8 @@ export default class QuestionPage extends Component {
             .then((responseJson) => {
                 if (responseJson) { // parse the response sense it was a success 
                     // SUCCESS
-                    console.log("Joined Game")
+                    console.log("Joined Game");
+                    Alert.alert('Game Joined!');
                 }
             })
     }
@@ -174,6 +175,7 @@ export default class QuestionPage extends Component {
             .then((responseJson) => {
                 if (responseJson) { // parse the response sense it was a success 
                     // SUCCESS
+                    Alert.alert('Game Started!');
                 }
             })
     }
