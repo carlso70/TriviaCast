@@ -32,7 +32,7 @@ type SecurityQuestionRequest struct {
 	Username string `json:"username"`
 	Answer   string `json:"answer"`
 	Question string `json:"question"`
-	Password string `json:"newPassword"`
+	Password string `json:"password"`
 }
 
 type PasswordChangeRequest struct {
