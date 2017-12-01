@@ -86,7 +86,7 @@ export default class LoginPage extends React.Component {
             method: 'POST',
             headers: {
                 'Accept': 'application/json', // add headers
-                'Content-Type': 'p',
+                'Content-Type': 'application/json',
             },
             body: JSON.stringify({ //add body 
                 username: username,
@@ -99,8 +99,8 @@ export default class LoginPage extends React.Component {
             } else if (response.status === 500){
                 // There was an error with username or password
                 Alert.alert(
-                    'Invalid Password',
-                    'Try another password'
+                    'Error',
+                    'Try another password or username'
                 );
                 return null;
             } else {
@@ -122,6 +122,18 @@ export default class LoginPage extends React.Component {
                         username: this.state.username});
                 }
             })
+    }
+
+    checkusername(username){
+        if(username == '')
+        {
+            Alert.alert("Please enter a username");
+        }
+        else{
+            this.props.navigation.navigate('ForgotPassword', {
+                username: this.state.username
+            });
+        }
     }
 
     render() { // create actual page 
@@ -158,9 +170,7 @@ export default class LoginPage extends React.Component {
                 <Button 
                         buttonStyle={styles.buttons} 
                         title="Forgot Password" color='black' 
-                        onPress={() => this.props.navigation.navigate('ForgotPassword', {
-                        username: this.state.username
-                        })} />
+                        onPress={() => this.checkusername(this.state.username)} />
                 <Button buttonStyle={styles.buttons} title="Create Account" color='black' onPress={() => this.createAccount(this.state.username, this.state.password) } />
                 <Button buttonStyle={styles.buttons} title="Go Back" color='black' onPress={() => this.props.navigation.goBack()} />
                 </View>

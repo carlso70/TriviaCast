@@ -36,7 +36,7 @@ export default class SecuriQuestionPage extends React.Component {
         method: 'POST',
         headers: {
             'Accept': 'application/json', // add headers
-            'Content-Type': 'application.json',
+            'Content-Type': 'application/json',
         },
         body: JSON.stringify({ //add body 
             username: username,
