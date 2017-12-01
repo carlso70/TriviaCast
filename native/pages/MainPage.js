@@ -5,6 +5,7 @@ import {
     Alert,
     Image,
     Text,
+    ImageBackground,
     View
 } from 'react-native';
 import LoginComponent from '../components/LoginComponent'
@@ -32,22 +33,22 @@ export default class MainPage extends Component {
             page = <Text>Testing</Text>;
         }
         return (
-<View>
-                <Image // background image 
+
+                <ImageBackground // background image 
             style={{
                 backgroundColor: '#ccc',
                 flex: 1,
-                resizeMode: 'cover',
+                //resizeMode: 'cover',
                 position: 'absolute',
                 width: '100%',
                 height: '100%',
                 justifyContent: 'center',
             }}
             source={{ uri: remotebackg }}
-                />
+                >
 
                 { page }
-            </View>
+            </ImageBackground>
         );
     }
 }

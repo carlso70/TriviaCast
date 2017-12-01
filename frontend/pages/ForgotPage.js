@@ -28,6 +28,7 @@ export default class ForgotPage extends React.Component {
   //render the page
   render() {
     return (
+      <View>
       <Image // background image
         style={{
           backgroundColor: '#ccc',
@@ -39,7 +40,7 @@ export default class ForgotPage extends React.Component {
           justifyContent: 'center',
         }}
         source={{ uri: remotebackg }}
-      >
+      />
       <View style={styles.textbox}>
 
         {/* this needs changed to dynamically fill in users security question  */}
@@ -82,7 +83,7 @@ export default class ForgotPage extends React.Component {
           title="Go Back" 
           color='black' onPress={() => this.props.navigation.goBack()} />
       </View>
-    </Image>
+    </View>
     );
   }
 }

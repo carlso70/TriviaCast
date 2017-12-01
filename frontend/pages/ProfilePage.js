@@ -23,6 +23,7 @@ export default class ProfilePage extends React.Component {
   // render page
   render() {
     return (
+      <View>
       <Image //background image
         style={{
           backgroundColor: '#ccc',
@@ -34,7 +35,7 @@ export default class ProfilePage extends React.Component {
           justifyContent: 'center',
         }}
         source={{ uri: remotebackg }} // background image
-      >
+      />
       {/*style options for profile page*/}
       <View style={styles.container}>
          <Text style={{fontSize: 30, color: 'white', marginTop: '5%', marginBottom: '5%'}}>My Profile</Text>
@@ -54,7 +55,7 @@ export default class ProfilePage extends React.Component {
            //onPress={() => navigate('LoginPage')}
          />
       </View>
-    </Image>
+    </View>
     );
   }
 }

@@ -21,6 +21,7 @@ export default class SignupPage extends Component {
   // render page 
   render() {
     return (
+      <View>
         <Image
           style={{// background style 
             backgroundColor: '#ccc',
@@ -32,7 +33,7 @@ export default class SignupPage extends Component {
             justifyContent: 'center',
           }}
           source={{ uri: remotebackg }}
-        >
+        />
 
         <TextInput placeholder='Username' style={styles.inputText} />
         <TextInput placeholder='Password' style={styles.inputText} secureTextEntry={true}/>
@@ -50,7 +51,7 @@ export default class SignupPage extends Component {
           title={`Create`}
         />
         </View>
-      </Image>
+      </View>
     );
   }
 }

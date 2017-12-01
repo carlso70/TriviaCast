@@ -7,6 +7,7 @@ import {
     Text,
     View,
     TextInput,
+    ImageBackground,
     ListView,
     StyleSheet,
     TouchableOpacity,
@@ -227,11 +228,11 @@ export default class QuestionPage extends Component {
         const { navigate } = this.props.navigation;
         if (this.state.gameLobby) {
             return (
-                    <Image
+                    <ImageBackground
                 style={{
                     backgroundColor: '#ccc',
                     flex: 1,
-                    resizeMode: 'cover',
+                    //resizeMode: 'cover',
                     position: 'absolute',
                     width: '100%',
                     height: '100%',
@@ -255,7 +256,7 @@ export default class QuestionPage extends Component {
                     </View>
                     </View>
                     </View>
-                    </Image>
+                    </ImageBackground>
             );
         } else if (this.state.gameOver) {
             return (
@@ -272,7 +273,7 @@ export default class QuestionPage extends Component {
             );
         } else {
             return (
-                    <Image
+                    <ImageBackground
                 style={{
                     backgroundColor: '#ccc',
                     flex: 1,
@@ -332,7 +333,7 @@ export default class QuestionPage extends Component {
                 onPress={() => this.props.navigation.goBack()}/>
                     </View>
 
-                </Image>
+                </ImageBackground>
             );
         }
     }

@@ -6,6 +6,7 @@ import {
   Image,
   Text,
   View,
+  ImageBackground,
   TextInput,
   StyleSheet,
   TouchableOpacity
@@ -25,11 +26,11 @@ export default class AnswerPage extends React.Component {
   }
   render() {
     return (
-        <Image
+        <ImageBackground
           style={{
             backgroundColor: '#ccc',
             flex: 1,
-            resizeMode: 'cover',
+            //resizeMode: 'cover',
             position: 'absolute',
             width: '100%',
             height: '100%',
@@ -69,7 +70,7 @@ export default class AnswerPage extends React.Component {
 	    />
 	  </View>
 	</View>
-      </Image>
+      </ImageBackground>
     );
   }
 }

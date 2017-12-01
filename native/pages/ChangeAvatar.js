@@ -7,6 +7,7 @@ import {
   View,
   TextInput,
   StyleSheet,
+  ImageBackground,
   Alert
 } from 'react-native';
 import ButtonDemo from '../components/ButtonDemo'
@@ -30,11 +31,11 @@ export default class ChangeAvatar extends React.Component {
   //render the page
   render() {
     return (
-      <Image // background image
+      <ImageBackground // background image
         style={{
           backgroundColor: '#ccc',
           flex: 1,
-          resizeMode: 'cover',
+          //resizeMode: 'cover',
           position: 'absolute',
           width: '100%',
           height: '100%',
@@ -79,7 +80,7 @@ export default class ChangeAvatar extends React.Component {
           title="Go Back" 
           color='black' onPress={() => this.props.navigation.goBack()} />
       </View>
-    </Image>
+    </ImageBackground>
     );
   }
 }

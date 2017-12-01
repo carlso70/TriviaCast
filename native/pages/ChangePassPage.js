@@ -6,6 +6,7 @@ import {
     Alert,
     Text,
     TouchableHighlight,
+    ImageBackground,
     View,
     TextInput,
     StyleSheet,
@@ -72,11 +73,11 @@ export default class ChangePassPage extends React.Component {
     // render the actual page 
     render() {
         return (
-                <Image // background image
+                <ImageBackground // background image
             style={{
                 backgroundColor: '#ccc',
                 flex: 1,
-                resizeMode: 'cover',
+                //resizeMode: 'cover',
                 position: 'absolute',
                 width: '100%',
                 height: '100%',
@@ -119,7 +120,7 @@ export default class ChangePassPage extends React.Component {
             onPress={() => this.props.navigation.goBack()}
                 />
                 </View>
-                </Image>
+                </ImageBackground>
         );
     }
 }

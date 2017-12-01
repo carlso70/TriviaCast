@@ -1,6 +1,6 @@
 //import react and needed components a
 import React, { Component } from 'react';
-import {Image,Text, StyleSheet, View } from 'react-native';
+import {Image,Text, StyleSheet, View, ImageBackground } from 'react-native';
 import {Button, List, ListItem } from 'react-native-elements';
 import {getAWSUrl } from '../utils/Urls'
 import { StackNavigator } from 'react-navigation';
@@ -65,11 +65,11 @@ export default class JoinGamePage extends Component {
 
     render() {
         return (
-                <Image
+                <ImageBackground
             style={{
                 backgroundColor: '#ccc',
                 flex: 1,
-                resizeMode: 'cover',
+                //resizeMode: 'cover',
                 position: 'absolute',
                 width: '100%',
                 height: '100%',
@@ -98,7 +98,7 @@ export default class JoinGamePage extends Component {
                 <Button  // navigates back to previous screen
                     title="Go Back" onPress={() => this.props.navigation.goBack()} /> 
                 </View>
-                </Image>
+                </ImageBackground>
         );
     }
 }

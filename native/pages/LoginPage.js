@@ -5,6 +5,7 @@ import {
     Image, Alert,
     Text,
     TouchableHighlight,
+    ImageBackground,
     View,
     TextInput,
     StyleSheet,
@@ -116,19 +117,19 @@ export default class LoginPage extends React.Component {
 
     render() { // create actual page 
         return (
-<View>
-                <Image //background image 
+//<View>
+                <ImageBackground //background image 
             style={{
                 backgroundColor: '#ccc',
                 flex: 1,
-                resizeMode: 'cover',
+                //resizeMode: 'cover',
                 position: 'absolute',
                 width: '100%',
                 height: '100%',
                 justifyContent: 'center',
             }}
             source={{ uri: remotebackg }}
-                />
+                >
                 <TextInput
             placeholder='Username'
             style={styles.inputText}
@@ -154,7 +155,7 @@ export default class LoginPage extends React.Component {
                 <Button buttonStyle={styles.buttons} title="Create Account" color='black' onPress={() => this.createAccount(this.state.username, this.state.password) } />
                 <Button buttonStyle={styles.buttons} title="Go Back" color='black' onPress={() => this.props.navigation.goBack()} />
                 </View>
-                </View>
+                </ImageBackground>
         );
     }
 }
@@ -168,7 +169,8 @@ const styles = StyleSheet.create({
     },
     buttonArrange: {
         alignItems: 'center',
-        paddingBottom: 4
+        paddingBottom: 4,
+        backgroundColor: "transparent"
     },
     buttons: {
         alignItems: 'center',

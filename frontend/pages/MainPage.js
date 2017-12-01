@@ -32,6 +32,7 @@ export default class MainPage extends Component {
             page = <Text>Testing</Text>;
         }
         return (
+            <View style={styles.v}>
                 <Image // background image 
             style={{
                 backgroundColor: '#ccc',
@@ -40,12 +41,18 @@ export default class MainPage extends Component {
                 position: 'absolute',
                 width: '100%',
                 height: '100%',
-                justifyContent: 'center',
+                //ustifyContent: 'center',
             }}
             source={{ uri: remotebackg }}
-                >
+                />
                 { page }
-            </Image>
+            </View>
         );
     }
 }
+
+const styles = StyleSheet.create({
+    v: {
+        flex: 1
+    }
+});

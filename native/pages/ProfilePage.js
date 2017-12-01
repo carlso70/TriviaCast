@@ -6,6 +6,7 @@ import {
   Text,
   View,
   TextInput,
+  ImageBackground,
   StyleSheet,
   Alert
 } from 'react-native';
@@ -23,11 +24,11 @@ export default class ProfilePage extends React.Component {
   // render page
   render() {
     return (
-      <Image //background image
+      <ImageBackground //background image
         style={{
           backgroundColor: '#ccc',
           flex: 1,
-          resizeMode: 'cover',
+          //resizeMode: 'cover',
           position: 'absolute',
           width: '100%',
           height: '100%',
@@ -54,7 +55,7 @@ export default class ProfilePage extends React.Component {
            //onPress={() => navigate('LoginPage')}
          />
       </View>
-    </Image>
+    </ImageBackground>
     );
   }
 }

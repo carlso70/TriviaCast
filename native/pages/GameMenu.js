@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import {
 	View
 } from 'react-native';
-import {Image,Text, StyleSheet, Alert, AsyncStorage} from 'react-native';
+import {Image,Text, StyleSheet, Alert, AsyncStorage, ImageBackground} from 'react-native';
 import {Button} from 'react-native-elements';
 import { StackNavigator } from 'react-navigation';
 import {getAWSUrl} from '../utils/Urls'
@@ -78,19 +78,19 @@ export default class MainMenu extends Component {
     // render actual page
     render() {
         return (
-<View>
-                <Image
+
+                <ImageBackground
             style={{
                 backgroundColor: '#ccc',
                 flex: 1,
-                resizeMode: 'cover',
+                //resizeMode: 'cover',
                 position: 'absolute',
                 width: '100%',
                 height: '100%',
                 justifyContent: 'center',
             }}
             source={{ uri: remotebackg }}
-                />
+                >
                 <Button
             raised
             buttonStyle={styles.buttons}
@@ -131,7 +131,7 @@ export default class MainMenu extends Component {
             title={'Log Out'}
             onPress={() => this.props.navigation.goBack()} // go back to the previous page and log out 
                 />
-                </View>
+                </ImageBackground>
         );
     }
 }

@@ -6,6 +6,7 @@ import {
   Text,
   View,
   TextInput,
+  ImageBackground,
   StyleSheet,
   Alert
 } from 'react-native';
@@ -28,19 +29,19 @@ export default class ForgotPage extends React.Component {
   //render the page
   render() {
     return (
-<View>
-      <Image // background image
+
+      <ImageBackground // background image
         style={{
           backgroundColor: '#ccc',
           flex: 1,
-          resizeMode: 'cover',
+          //resizeMode: 'cover',
           position: 'absolute',
           width: '100%',
           height: '100%',
           justifyContent: 'center',
         }}
         source={{ uri: remotebackg }}
-      />
+      >
       <View style={styles.textbox}>
 
         {/* this needs changed to dynamically fill in users security question  */}
@@ -83,7 +84,7 @@ export default class ForgotPage extends React.Component {
           title="Go Back" 
           color='black' onPress={() => this.props.navigation.goBack()} />
       </View>
-    </View>
+    </ImageBackground>
     );
   }
 }

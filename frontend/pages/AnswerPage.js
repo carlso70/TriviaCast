@@ -25,6 +25,7 @@ export default class AnswerPage extends React.Component {
   }
   render() {
     return (
+      <View>
         <Image
           style={{
             backgroundColor: '#ccc',
@@ -36,7 +37,7 @@ export default class AnswerPage extends React.Component {
             justifyContent: 'center',
           }}
           source={{ uri: remotebackg }}
-        >
+        />
     {/* example layout for answer page, will be changed to dynamically fill  */}
 	<View style={styles.content}>
 	  <View style={styles.messageBox}>
@@ -69,7 +70,7 @@ export default class AnswerPage extends React.Component {
 	    />
 	  </View>
 	</View>
-      </Image>
+      </View>
     );
   }
 }

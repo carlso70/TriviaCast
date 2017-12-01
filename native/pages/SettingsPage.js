@@ -1,6 +1,6 @@
 // import react and needed components 
 import React, {Component} from 'react'
-import {View, Text, StyleSheet, Image, AsyncStorage} from 'react-native'
+import {View, Text, StyleSheet, Image, AsyncStorage, ImageBackground} from 'react-native'
 import {Button} from 'react-native-elements';
 import { StackNavigator, NavigationActions } from 'react-navigation';
 import { Rating, Slider } from 'react-native-elements';
@@ -39,11 +39,11 @@ export default class SettingsPage extends React.Component {
     render() {
         return (
 
-        <Image
+        <ImageBackground
             style={{
               backgroundColor: '#ccc',
               flex: 1,
-              resizeMode: 'cover',
+              //resizeMode: 'cover',
               position: 'absolute',
               width: '100%',
               height: '100%',
@@ -117,7 +117,7 @@ export default class SettingsPage extends React.Component {
             // go back to previous page 
             onPress={() => this.props.navigation.goBack()}  />
         </View>
-        </Image>
+        </ImageBackground>
         )
     }
 }

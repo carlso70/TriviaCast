@@ -1,6 +1,6 @@
 //import react and needed components / dependencies 
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, Image, Alert } from 'react-native'
+import { View, Text, StyleSheet, Image, Alert, ImageBackground } from 'react-native'
 import { Button } from 'react-native-elements';
 import { getAWSUrl } from '../utils/Urls'
 import { StackNavigator, NavigationActions } from 'react-navigation';
@@ -91,11 +91,11 @@ export default class HighScorePage extends React.Component {
   render() {
     return (
 
-      <Image // background image 
+      <ImageBackground // background image 
         style={{
           backgroundColor: '#ccc',
           flex: 1,
-          resizeMode: 'cover',
+          //resizeMode: 'cover',
           position: 'absolute',
           width: '100%',
           height: '100%',
@@ -173,7 +173,7 @@ export default class HighScorePage extends React.Component {
           textStyle={{ textAlign: 'center', color: 'black', backgroundColor: 'transparent' }}
           onPress={() => this.props.navigation.goBack()} />
 
-      </Image>
+      </ImageBackground>
     )
   }
 }
