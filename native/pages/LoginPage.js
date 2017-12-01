@@ -13,6 +13,8 @@ import {
 import {getAWSUrl} from '../utils/Urls'
 import { StackNavigator, NavigationActions } from 'react-navigation';
 import { Button, FormLabel, FormInput} from 'react-native-elements';
+//import {Prompt} from 'react-native-prompt';
+
 
 const remotebackg = 'https://i.imgur.com/vqTkUz8.png'; //background image
 
@@ -23,6 +25,9 @@ export default class LoginPage extends React.Component {
         this.state = {
             username: '',
             password: '',
+            promptVisible: false,
+            answer: '',
+            question: ''
         };
     }
     
@@ -75,16 +80,17 @@ export default class LoginPage extends React.Component {
         }
     }
 
-    createAccount(username, password) {
+    createAccount(username, password, question) {
+        //this.setState({ promptVisible: true })       
         fetch(getAWSUrl() + 'createuser',{ //create request for user to create account 
             method: 'POST',
             headers: {
                 'Accept': 'application/json', // add headers
-                'Content-Type': 'application/json',
+                'Content-Type': 'p',
             },
             body: JSON.stringify({ //add body 
                 username: username,
-                password: password,
+                password: password
             })
         }).then(function(response) {
             console.log(response.status);
@@ -158,7 +164,11 @@ export default class LoginPage extends React.Component {
                 <Button buttonStyle={styles.buttons} title="Create Account" color='black' onPress={() => this.createAccount(this.state.username, this.state.password) } />
                 <Button buttonStyle={styles.buttons} title="Go Back" color='black' onPress={() => this.props.navigation.goBack()} />
                 </View>
+            
+                
                 </ImageBackground>
+                
+                
         );
     }
 }
