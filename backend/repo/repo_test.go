@@ -9,6 +9,15 @@ import (
 
 var testId = -1
 
+/*
+func AddCastUserToDB(t *testing.T) {
+	cast := user.User{Id: 21, Username: "cast", GameId: 0}
+	if err := AddUserToDB(cast); err != nil {
+		t.Error("Error AddUserToDB: ", err)
+	}
+}
+*/
+
 func TestAddUserToDB(t *testing.T) {
 	// Create dummy user
 	if err := AddUserToDB(user.User{Id: testId, Username: "Cold Tuna", Score: 150}); err != nil {

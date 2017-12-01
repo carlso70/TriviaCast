@@ -21,7 +21,7 @@ type User struct {
 func Init() User {
 	id := utils.GenerateId()
 	active := true
-	return User{Id: id, Active: active}
+	return User{Id: id, Active: active, AvatarLink: utils.DefaultAvatarUrl()}
 }
 
 func CreateUser(id int, username string, password string, gameId int, score int, active bool) User {
