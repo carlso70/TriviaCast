@@ -112,6 +112,18 @@ func UpdateUser(usr user.User) error {
 	return err
 }
 
+func UpdateUserSecurityQuestion(usr user.User) error {
+	session, err := mgo.DialWithInfo(&mgo.DialInfo{
+		Addrs: Host,
+	})
+	defer session.Close()
+
+	// Collection
+	c := session.DB(Database).C(Collection)
+	err = c.Update(bson.M{"id": usr.Id}, bson.M{"$set": bson.M{"securityQuestion": usr.SecurityQuestion, "securityQuestionAnswer": usr.SecurityQuestionAnswer}})
+	return err
+}
+
 func UpdateUserPassword(usr user.User) error {
 	session, err := mgo.DialWithInfo(&mgo.DialInfo{
 		Addrs: Host,
