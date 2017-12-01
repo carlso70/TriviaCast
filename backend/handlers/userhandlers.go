@@ -280,6 +280,7 @@ func AnswerQuestion(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	fmt.Println("username: ", request.Username)
 
+	fmt.Printf("Username: %s, Answer: %s, Password: %s", request.Username, request.Answer, request.Password)
 	if request.Username == "" || request.Answer == "" || request.Password == "" {
 		fmt.Println("Empty fields request")
 		http.Error(w, "Empty fields request", 500)
