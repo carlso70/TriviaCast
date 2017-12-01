@@ -282,13 +282,14 @@ func AnswerQuestion(w http.ResponseWriter, r *http.Request) {
 	if request.Username == "" || request.Answer == "" || request.Password == "" {
 		fmt.Println("Empty fields request")
 		http.Error(w, "Empty fields request", 500)
+		fmt.Fprintf(w, "{ \"message\": \"failure\" }\n")
 		return
 	}
 
 	usr, err := repo.FindUserByUsername(request.Username)
 	if usr.SecurityQuestionAnswer != request.Answer {
 		fmt.Println("INVALID ANSWER")
-		http.Error(w, "Empty fields request", 500)
+		http.Error(w, "Invalid answer", 500)
 		fmt.Fprintf(w, "{ \"message\": \"failure\" }\n")
 		return
 	}
