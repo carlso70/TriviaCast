@@ -90,7 +90,7 @@ export default class HighScorePage extends React.Component {
   // render page 
   render() {
     return (
-
+      <View>
       <Image // background image 
         style={{
           backgroundColor: '#ccc',
@@ -102,7 +102,7 @@ export default class HighScorePage extends React.Component {
           justifyContent: 'center',
         }}
         source={{ uri: remotebackg }}
-      >
+      />
 
         <Text // high score text
           style={{
@@ -173,7 +173,7 @@ export default class HighScorePage extends React.Component {
           textStyle={{ textAlign: 'center', color: 'black', backgroundColor: 'transparent' }}
           onPress={() => this.props.navigation.goBack()} />
 
-      </Image>
+      </View>
     )
   }
 }

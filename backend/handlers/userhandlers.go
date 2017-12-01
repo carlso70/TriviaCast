@@ -26,6 +26,12 @@ type AvatarRequest struct {
 	Username int `json:"userId"`
 }
 
+type SecurityQuestionRequest struct {
+	Username string `json:"username"`
+	Answer   string `json:"answer"`
+	Question string `json:"question"`
+}
+
 type PasswordChangeRequest struct {
 	Username    string `json:"username"`
 	OldPassword string `json:"oldPassword"`
@@ -225,4 +231,88 @@ func UploadAvatar(w http.ResponseWriter, r *http.Request) {
 	}
 
 	fmt.Fprintf(w, "{ \"avatarUrl\": \"%s\" }\n", location)
+}
+
+func SetSecurityQuestion(w http.ResponseWriter, r *http.Request) {
+	var request SecurityQuestionRequest
+
+	fmt.Println("SETTING SECURITY QUESTION")
+	decoder := json.NewDecoder(r.Body)
+	err := decoder.Decode(&request)
+	if err != nil {
+		http.Error(w, "Server Problem", 500)
+	}
+	defer r.Body.Close()
+	fmt.Println("username: ", request.Username)
+
+	if request.Username == "" || request.Question == "" || request.Answer == "" {
+		fmt.Println("Empty fields request")
+		http.Error(w, "Empty fields request", 500)
+		return
+	}
+
+	usr, err := repo.FindUserByUsername(request.Username)
+	usr.SecurityQuestion = request.Question
+	err = repo.UpdateUser(usr)
+	if err != nil {
+		fmt.Println("ERROR UPDATING SECURITY QUESTION:", err)
+		return
+	}
+	fmt.Fprintf(w, "{ \"message\": \"success\" }\n")
+}
+
+func AnswerQuestion(w http.ResponseWriter, r *http.Request) {
+	var request SecurityQuestionRequest
+
+	fmt.Println("ANSWERING SECURITY QUESTION")
+	decoder := json.NewDecoder(r.Body)
+	err := decoder.Decode(&request)
+	if err != nil {
+		http.Error(w, "Server Problem", 500)
+	}
+	defer r.Body.Close()
+	fmt.Println("username: ", request.Username)
+
+	if request.Username == "" || request.Answer == "" {
+		fmt.Println("Empty fields request")
+		http.Error(w, "Empty fields request", 500)
+		return
+	}
+
+	usr, err := repo.FindUserByUsername(request.Username)
+	if usr.SecurityQuestion != request.Question {
+		fmt.Println("INVALID ANSWER")
+		http.Error(w, "Empty fields request", 500)
+		fmt.Fprintf(w, "{ \"message\": \"failure\" }\n")
+		return
+	}
+
+	fmt.Fprintf(w, "{ \"message\": \"success\" }\n")
+}
+
+func GetSecurityQuestion(w http.ResponseWriter, r *http.Request) {
+	var request SecurityQuestionRequest
+
+	decoder := json.NewDecoder(r.Body)
+	err := decoder.Decode(&request)
+	if err != nil {
+		http.Error(w, "Server Problem", 500)
+		return
+	}
+	defer r.Body.Close()
+
+	if request.Username == "" {
+		fmt.Println("Empty fields request")
+		http.Error(w, "Empty fields request", 500)
+		return
+	}
+	fmt.Println("GETING SECURITY QUESTION FOR:", request.Username)
+	usr, err := repo.FindUserByUsername(request.Username)
+	if err != nil {
+		http.Error(w, "Error Finding User", 500)
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Fprintf(w, "{ \"question\": \"%s\" }\n", usr.SecurityQuestion)
 }

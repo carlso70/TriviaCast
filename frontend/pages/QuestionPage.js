@@ -227,6 +227,7 @@ export default class QuestionPage extends Component {
         const { navigate } = this.props.navigation;
         if (this.state.gameLobby) {
             return (
+                <View>
                     <Image
                 style={{
                     backgroundColor: '#ccc',
@@ -238,7 +239,7 @@ export default class QuestionPage extends Component {
                     justifyContent: 'center',
                 }}
                 source={{ uri: remotebackg }}
-                    >
+                    />
                     <View style={styles.content}>
                     <View style={styles.messageBox}>
                     <View>
@@ -255,7 +256,7 @@ export default class QuestionPage extends Component {
                     </View>
                     </View>
                     </View>
-                    </Image>
+                    </View>
             );
         } else if (this.state.gameOver) {
             return (
@@ -272,6 +273,7 @@ export default class QuestionPage extends Component {
             );
         } else {
             return (
+                <View>
                     <Image
                 style={{
                     backgroundColor: '#ccc',
@@ -283,7 +285,7 @@ export default class QuestionPage extends Component {
                     justifyContent: 'center',
                 }}
                 source={{ uri: remotebackg }}
-                    >
+                    />
                     <View style={styles.content}>
                     <View style={styles.messageBox}>
                     <View>
@@ -348,7 +350,7 @@ export default class QuestionPage extends Component {
                 onPress={() => this.props.navigation.goBack()}/>
                     </View>
 
-                </Image>
+                </View>
             );
         }
     }

@@ -11,9 +11,11 @@ import SettingsPage from './pages/SettingsPage'
 import HighScorePage from './pages/HighScorePage'
 import ChangePassPage from './pages/ChangePassPage'
 import Game from './pages/QuestionPage'
-import AnswerPage from './pages/AnswerPage';
+import AnswerPage from './pages/AnswerPage'
 import ForgotPage from './pages/ForgotPage'
 import QuestionPage from './pages/QuestionPage'
+import ChangeAva from './pages/ChangeAvatar'
+import ChatRoom from './pages/ChatRoom'
 
 // initalize stack navigator
 const TriviaCast = StackNavigator({
@@ -28,7 +30,9 @@ const TriviaCast = StackNavigator({
     QuestionPage: {screen: QuestionPage },
     Answer: { screen: AnswerPage},
     ForgotPassword:{screen: ForgotPage},
+    ChangeAvatar: {screen: ChangeAva},
     JoinGamePage: { screen: JoinGamePage },
+    ChatRoom: { screen: ChatRoom},
   },
   {headerMode: 'none'}
 

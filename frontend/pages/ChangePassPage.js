@@ -72,6 +72,7 @@ export default class ChangePassPage extends React.Component {
     // render the actual page 
     render() {
         return (
+            <View style={styles.v}>
                 <Image // background image
             style={{
                 backgroundColor: '#ccc',
@@ -83,7 +84,7 @@ export default class ChangePassPage extends React.Component {
                 justifyContent: 'center',
             }}
             source={{ uri: remotebackg }}
-                >
+                />
                 <TextInput // enter username tied to account 
             placeholder='Username'
             style={styles.inputText}
@@ -119,13 +120,16 @@ export default class ChangePassPage extends React.Component {
             onPress={() => this.props.navigation.goBack()}
                 />
                 </View>
-                </Image>
+                </View>
         );
     }
 }
 
 //style sheet for page 
 const styles = StyleSheet.create({
+    v: {
+        flex: 1
+    },
     inputText: {
         marginLeft: '20%',
         marginTop: '5%',

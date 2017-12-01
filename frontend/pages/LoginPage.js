@@ -5,6 +5,7 @@ import {
     Image, Alert,
     Text,
     TouchableHighlight,
+    ImageBackground,
     View,
     TextInput,
     StyleSheet,
@@ -25,7 +26,9 @@ export default class LoginPage extends React.Component {
         };
     }
 
+    
     authenticate(username, password) { //create request for user to login 
+        try{
         fetch(getAWSUrl() + 'loginuser',{
             method: 'POST',
             headers: { //add headers 
@@ -64,6 +67,13 @@ export default class LoginPage extends React.Component {
                     }); //navigate to main menu as logged in user
                 }
             })
+        }
+        catch(e){
+            Alert.alert(
+                'Please fix your network', // there was an issue and the request wasnt sent
+                'Try again'
+            );
+        }
     }
 
     createAccount(username, password) {
@@ -99,25 +109,29 @@ export default class LoginPage extends React.Component {
         })
             .then((responseJson) => { //response was good so naviagate to the game menu logged in as new user 
                 if (responseJson) {
-                    this.props.navigation.navigate('GameMenu', { userId: responseJson.id });
+                    this.props.navigation.navigate('GameMenu', { 
+                        userId: responseJson.id, 
+                        username: this.state.username});
                 }
             })
     }
 
     render() { // create actual page 
         return (
-                <Image //background image 
+            //<View style={styles.v}>
+                <ImageBackground //background image 
             style={{
                 backgroundColor: '#ccc',
                 flex: 1,
                 resizeMode: 'cover',
-                position: 'absolute',
+                /*position: 'absolute',
                 width: '100%',
                 height: '100%',
-                justifyContent: 'center',
+                justifyContent: 'center',*/
             }}
             source={{ uri: remotebackg }}
                 >
+
                 <TextInput
             placeholder='Username'
             style={styles.inputText}
@@ -134,11 +148,16 @@ export default class LoginPage extends React.Component {
                 <View style={styles.buttonArrange}>
                 <Button buttonStyle={styles.buttons} title="Login" color='black' marginTop='30' onPress={() => this.authenticate(this.state.username, this.state.password) } />
                 <Button buttonStyle={styles.buttons} title="Change Password" color='black' onPress={() => this.props.navigation.navigate('ChangePassword') } />
-                <Button buttonStyle={styles.buttons} title="Forgot Password" color='black' onPress={() => this.props.navigation.navigate('ForgotPassword') } />
+                <Button 
+                        buttonStyle={styles.buttons} 
+                        title="Forgot Password" color='black' 
+                        onPress={() => this.props.navigation.navigate('ForgotPassword', {
+                        username: this.state.username
+                        })} />
                 <Button buttonStyle={styles.buttons} title="Create Account" color='black' onPress={() => this.createAccount(this.state.username, this.state.password) } />
                 <Button buttonStyle={styles.buttons} title="Go Back" color='black' onPress={() => this.props.navigation.goBack()} />
                 </View>
-                </Image>
+                </ImageBackground>
         );
     }
 }
@@ -161,5 +180,8 @@ const styles = StyleSheet.create({
         marginTop: 20,
         borderRadius: 10
 
+    },
+    v: {
+        flex: 1
     }
 });

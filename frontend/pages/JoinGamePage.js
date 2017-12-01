@@ -65,6 +65,7 @@ export default class JoinGamePage extends Component {
 
     render() {
         return (
+            <View>
                 <Image
             style={{
                 backgroundColor: '#ccc',
@@ -76,7 +77,7 @@ export default class JoinGamePage extends Component {
                 justifyContent: 'center',
             }}
             source={{ uri: remotebackg }} // source for background image 
-                >
+               />
                 <Text
             style={styles.lobbyText}
                 >
@@ -98,7 +99,7 @@ export default class JoinGamePage extends Component {
                 <Button  // navigates back to previous screen
                     title="Go Back" onPress={() => this.props.navigation.goBack()} /> 
                 </View>
-                </Image>
+                </View>
         );
     }
 }
