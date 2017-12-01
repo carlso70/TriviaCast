@@ -100,6 +100,8 @@ export default class QuestionPage extends Component {
                 username: this.state.username,
                 answer: this.state.choice
             }));
+
+            //Alert.alert('The correct answer was: ');
         }
     }
 
