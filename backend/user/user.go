@@ -6,14 +6,16 @@ import (
 
 // SessionId is the current gameId
 type User struct {
-	Id         int    `json:"id" bson:"id"`
-	Username   string `json:"username" bson:"username"`
-	Password   string `json:"-" bson:"password"`
-	GameId     int    `json:"gameID" bson:"gameId"`
-	Score      int    `json:"score" bson:"score"`
-	Active     bool   `json:"active" bson:"active"`
-	WinCt      int    `json:"wins" bson:"wins"`
-	AvatarLink string `json:"avatarUrl" bson:"avatarUrl"`
+	Id                     int    `json:"id" bson:"id"`
+	Username               string `json:"username" bson:"username"`
+	Password               string `json:"-" bson:"password"`
+	SecurityQuestion       string `json:"securityQuestion" bson:"securityQuestion"`
+	SecurityQuestionAnswer string `json:"-" bson:"securityQuestionAnswer"`
+	GameId                 int    `json:"gameID" bson:"gameId"`
+	Score                  int    `json:"score" bson:"score"`
+	Active                 bool   `json:"active" bson:"active"`
+	WinCt                  int    `json:"wins" bson:"wins"`
+	AvatarLink             string `json:"avatarUrl" bson:"avatarUrl"`
 }
 
 func Init() User {

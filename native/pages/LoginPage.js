@@ -13,6 +13,8 @@ import {
 import {getAWSUrl} from '../utils/Urls'
 import { StackNavigator, NavigationActions } from 'react-navigation';
 import { Button, FormLabel, FormInput} from 'react-native-elements';
+//import {Prompt} from 'react-native-prompt';
+
 
 const remotebackg = 'https://i.imgur.com/vqTkUz8.png'; //background image
 
@@ -23,6 +25,9 @@ export default class LoginPage extends React.Component {
         this.state = {
             username: '',
             password: '',
+            promptVisible: false,
+            answer: '',
+            question: ''
         };
     }
     
@@ -75,7 +80,8 @@ export default class LoginPage extends React.Component {
         }
     }
 
-    createAccount(username, password) {
+    createAccount(username, password, question) {
+        //this.setState({ promptVisible: true })       
         fetch(getAWSUrl() + 'createuser',{ //create request for user to create account 
             method: 'POST',
             headers: {
@@ -84,7 +90,7 @@ export default class LoginPage extends React.Component {
             },
             body: JSON.stringify({ //add body 
                 username: username,
-                password: password,
+                password: password
             })
         }).then(function(response) {
             console.log(response.status);
@@ -93,8 +99,8 @@ export default class LoginPage extends React.Component {
             } else if (response.status === 500){
                 // There was an error with username or password
                 Alert.alert(
-                    'Invalid Password',
-                    'Try another password'
+                    'Error',
+                    'Try another password or username'
                 );
                 return null;
             } else {
@@ -108,11 +114,26 @@ export default class LoginPage extends React.Component {
         })
             .then((responseJson) => { //response was good so naviagate to the game menu logged in as new user 
                 if (responseJson) {
-                    this.props.navigation.navigate('GameMenu', { 
+                    // this.props.navigation.navigate('GameMenu', { 
+                    //     userId: responseJson.id, 
+                    //     username: this.state.username});
+                    this.props.navigation.navigate('SecurityQues', { 
                         userId: responseJson.id, 
                         username: this.state.username});
                 }
             })
+    }
+
+    checkusername(username){
+        if(username == '')
+        {
+            Alert.alert("Please enter a username");
+        }
+        else{
+            this.props.navigation.navigate('ForgotPassword', {
+                username: this.state.username
+            });
+        }
     }
 
     render() { // create actual page 
@@ -149,13 +170,15 @@ export default class LoginPage extends React.Component {
                 <Button 
                         buttonStyle={styles.buttons} 
                         title="Forgot Password" color='black' 
-                        onPress={() => this.props.navigation.navigate('ForgotPassword', {
-                        username: this.state.username
-                        })} />
+                        onPress={() => this.checkusername(this.state.username)} />
                 <Button buttonStyle={styles.buttons} title="Create Account" color='black' onPress={() => this.createAccount(this.state.username, this.state.password) } />
                 <Button buttonStyle={styles.buttons} title="Go Back" color='black' onPress={() => this.props.navigation.goBack()} />
                 </View>
+            
+                
                 </ImageBackground>
+                
+                
         );
     }
 }

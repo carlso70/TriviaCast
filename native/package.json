@@ -10,6 +10,9 @@
 		"react": "16.0.0",
 		"react-native": "0.50.4",
 		"react-native-elements": "^0.18.4",
+		"react-native-image-picker": "^0.26.7",
+		"react-native-photo-upload": "^1.1.1",
+		"react-native-prompt": "^1.0.0",
 		"react-native-simple-radio-button": "^2.7.0",
 		"react-native-vector-icons": "^4.4.2",
 		"react-navigation": "^1.0.0-beta.21"

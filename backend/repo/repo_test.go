@@ -110,3 +110,33 @@ func TestGenerateQuestionDeck(t *testing.T) {
 		t.Errorf("Error Deck Length, Wanted %d : Recieved %d", 10, len(deck))
 	}
 }
+
+func TestUpdateUser(t *testing.T) {
+	upId := -4000
+	user := user.Init()
+	user.Id = upId
+	user.Password = "OLDOLDOLDOLDUSERNAME"
+	err := AddUserToDB(user)
+	user, err = FindUser(upId)
+	if err != nil {
+		t.Error("Error Recieved:", err)
+	}
+	user.Username = "Test"
+	err = UpdateUser(user)
+	if err != nil {
+		t.Error("Error Recieved:", err)
+	}
+	user2, err := FindUser(user.Id)
+	if err != nil {
+		t.Error("Error Recieved:", err)
+	}
+	fmt.Println("USERNAME 1", user.Username, "USERNAME2", user2.Username)
+	if user2.Username != user.Username {
+		t.Error("Update failed")
+	}
+
+	err = DeleteUser(upId)
+	if err != nil {
+		t.Errorf("Error Recieved: ", err)
+	}
+}

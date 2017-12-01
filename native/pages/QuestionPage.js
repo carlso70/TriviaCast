@@ -136,7 +136,8 @@ export default class QuestionPage extends Component {
             .then((responseJson) => {
                 if (responseJson) { // parse the response sense it was a success 
                     // SUCCESS
-                    console.log("Joined Game")
+                    console.log("Joined Game");
+                    Alert.alert('Game Joined!');
                 }
             })
     }
@@ -174,6 +175,7 @@ export default class QuestionPage extends Component {
             .then((responseJson) => {
                 if (responseJson) { // parse the response sense it was a success 
                     // SUCCESS
+                    Alert.alert('Game Started!');
                 }
             })
     }
@@ -277,7 +279,7 @@ export default class QuestionPage extends Component {
                 style={{
                     backgroundColor: '#ccc',
                     flex: 1,
-                    resizeMode: 'cover',
+                    //resizeMode: 'cover',
                     position: 'absolute',
                     width: '100%',
                     height: '100%',
@@ -298,6 +300,7 @@ export default class QuestionPage extends Component {
                     <View style={styles.content}>
                     <View style={styles.buttonArrange}>
                     <RadioForm
+                    style={{padding: 50}}
                 radio_props={this.state.radio_props}
                 initial={0}
                 onPress={
@@ -313,18 +316,16 @@ export default class QuestionPage extends Component {
                     />
                     </View>
                     </View>
-                    <View style={styles.content}>
-                    <View style={styles.buttonArrange}>
+                    
+                    <View style={styles.container}>
                     <Button
                 raised
                 buttonStyle={{backgroundColor: 'white', borderRadius: 10, width: 200}}
                 textStyle={{textAlign: 'center', color: 'black'}}
                 title={`Submit response`}
-		onPress={() => this.emitResponse()}
+		        onPress={() => this.emitResponse()}
                     />
-                    </View>
-                    </View>
-                    <View style={styles.container}>
+                   
                     <Button
                 raised
                 buttonStyle={{backgroundColor: 'white', borderRadius: 10, width: 200}}
