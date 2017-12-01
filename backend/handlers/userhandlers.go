@@ -20,6 +20,8 @@ import (
 type AccountRequest struct {
 	Username string `json:"username"`
 	Password string `json:"password"`
+	Question string `json:"question"`
+	Answer   string `json:"answer"`
 }
 
 type AvatarRequest struct {
@@ -65,6 +67,8 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 	usr := user.Init()
 	usr.Username = request.Username
 	usr.Password = utils.EncryptPass(request.Password)
+	usr.SecurityQuestion = request.Question
+	usr.SecurityQuestionAnswer = request.Answer
 
 	if err := repo.AddUserToDB(usr); err != nil {
 		panic(err)
@@ -253,6 +257,7 @@ func SetSecurityQuestion(w http.ResponseWriter, r *http.Request) {
 
 	usr, err := repo.FindUserByUsername(request.Username)
 	usr.SecurityQuestion = request.Question
+	usr.SecurityQuestionAnswer = request.Answer
 	err = repo.UpdateUser(usr)
 	if err != nil {
 		fmt.Println("ERROR UPDATING SECURITY QUESTION:", err)
@@ -280,7 +285,7 @@ func AnswerQuestion(w http.ResponseWriter, r *http.Request) {
 	}
 
 	usr, err := repo.FindUserByUsername(request.Username)
-	if usr.SecurityQuestion != request.Question {
+	if usr.SecurityQuestionAnswer != request.Answer {
 		fmt.Println("INVALID ANSWER")
 		http.Error(w, "Empty fields request", 500)
 		fmt.Fprintf(w, "{ \"message\": \"failure\" }\n")
