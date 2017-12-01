@@ -130,3 +130,5 @@ node_modules*
 
 # Webapp ignore
 webapp/node_module*
+
+chatserver/node_modules*

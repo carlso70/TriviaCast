@@ -5,7 +5,6 @@ import (
 	"testing"
 
 	"github.com/carlso70/triviacast/backend/user"
-	"github.com/carlso70/triviacast/backend/utils"
 )
 
 var testId = -1
@@ -108,5 +107,36 @@ func TestGenerateQuestionDeck(t *testing.T) {
 	deck := GenerateQuestionDeck("Easy", 10)
 	if len(deck) != 10 {
 		t.Errorf("Error Deck Length, Wanted %d : Recieved %d", 10, len(deck))
+	}
+}
+
+func TestUpdateUserSecurityQuestion(t *testing.T) {
+	upId := -4000
+	user := user.Init()
+	user.Id = upId
+	user.Username = "Testing"
+	user.SecurityQuestion = "OLDOLDOLDOLD"
+	err := AddUserToDB(user)
+	user, err = FindUser(upId)
+	if err != nil {
+		t.Error("Error Recieved:", err)
+	}
+	user.SecurityQuestion = "NEWNEWNEWN"
+	err = UpdateUser(user)
+	if err != nil {
+		t.Error("Error Recieved:", err)
+	}
+	user2, err := FindUser(user.Id)
+	if err != nil {
+		t.Error("Error Recieved:", err)
+	}
+	fmt.Println("USERNAME 1", user.SecurityQuestion, "USERNAME2", user2.SecurityQuestion)
+	if user2.Username != user.Username {
+		t.Error("Update failed")
+	}
+
+	err = DeleteUser(upId)
+	if err != nil {
+		t.Errorf("Error Recieved: ", err)
 	}
 }

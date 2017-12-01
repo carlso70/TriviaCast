@@ -52,6 +52,10 @@
 				<true/>
 				<key>NSIncludesSubdomains</key>
 				<true/>
+				<key>NSPhotoLibraryUsageDescription</key>
+				<true/>
+				<key>NSCameraUsageDescription</key>
+				<true/>
 			</dict>
 			<key>localhost</key>
 			<dict>
