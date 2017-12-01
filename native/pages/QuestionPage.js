@@ -60,6 +60,7 @@ export default class QuestionPage extends Component {
                     this.setState({
                         radio_props: choices,
                         currentQuestion: data.question.question,
+                        quesitonCorrectAnswer: data.question.answer,
                         questionNumber: data.questionNumber,
                         gameOver: data.gameOver,
                         gameLobby: data.inLobby,
@@ -100,8 +101,13 @@ export default class QuestionPage extends Component {
                 username: this.state.username,
                 answer: this.state.choice
             }));
-
-            //Alert.alert('The correct answer was: ');
+            if(this.state.quesitonCorrectAnswer == this.state.choice)
+            {
+                    Alert.alert('Correct!', 'The correct answer was: ' + this.state.quesitonCorrectAnswer);
+            }
+            else {
+                Alert.alert('Incorrect!', 'The correct answer was: ' + this.state.quesitonCorrectAnswer);
+            }
         }
     }
 
@@ -333,7 +339,9 @@ export default class QuestionPage extends Component {
                 buttonStyle={{backgroundColor: 'white', borderRadius: 10, width: 200}}
                 textStyle={{textAlign: 'center', color: 'black'}}
                 title={`Go Back`}
-                onPress={() => this.props.navigation.goBack()}/>
+                onPress={() => {
+                    Alert.alert("You left game!");
+                    this.props.navigation.goBack()}}/>
                     </View>
 
                 </ImageBackground>
