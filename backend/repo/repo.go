@@ -128,12 +128,6 @@ func UpdateUserPassword(usr user.User) error {
 func DeleteUser(userId int) error {
 	session, err := mgo.DialWithInfo(&mgo.DialInfo{
 		Addrs: Host,
-		// Username: Username,
-		// Password: Password,
-		// Database: Database,
-		// DialServer: func(addr *mgo.ServerAddr) (net.Conn, error) {
-		// 	return tls.Dial("tcp", addr.String(), &tls.Config{})
-		// },
 	})
 	if err != nil {
 		return err

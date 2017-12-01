@@ -1,7 +1,6 @@
 package game
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/carlso70/triviacast/backend/user"
@@ -10,26 +9,11 @@ import (
 var testGameId = -99
 var testUserId = -1
 
-func TestAddUserToGame(t *testing.T) {
-	game := Init()
-	usr := user.Init()
-	if err := game.AddUserToGame(usr); err != nil {
-		for _, user := range game.Users {
-			t.Log("User in game: ", user)
-		}
-		t.Error("Error add user to game:", err)
-	}
-
-	if len(game.Users) != 1 {
-		t.Log("User in game:", game.Users)
-		t.Error("Invalid user count")
-	}
-}
-
 func TestAddMultipleUsersToGame(t *testing.T) {
 	game := Init()
 	for i := 0; i < 10; i++ {
-		if err := game.AddUserToGame(user.User{Id: i}); err != nil {
+		id := -1 * i
+		if err := game.AddUserToGame(user.User{Id: id}); err != nil {
 			t.Error("Error add user to game:", err)
 		}
 	}
@@ -46,7 +30,7 @@ func TestRemoveUserFromGame(t *testing.T) {
 		t.Error("Error Adding User to Game:", err)
 	}
 	t.Log("User count before delete:", len(game.Users))
-	if err := game.RemoveUserFromGame(usr); err != nil {
+	if err := game.RemoveUserFromGame(usr.Id); err != nil {
 		t.Error("Error Removing User From Game", err)
 	}
 	t.Log("User count after delete:", len(game.Users))
@@ -71,5 +55,20 @@ func TestRunGame(t *testing.T) {
 	err = game.StartGame()
 	if err != nil {
 		t.Error("Error starting game:", err)
+	}
+}
+
+func TestAddChromeCastUser(t *testing.T) {
+	game := Init()
+	if err := game.AddUserToGame(user.User{Id: 0, Username: "cast"}); err != nil {
+		t.Error("Error Adding User From Game", err)
+	}
+	err := game.StartGame()
+	if err != nil {
+		t.Error("ERROR STARTING GAME:", err)
+	}
+	t.Log("Pass")
+	if game.RealUserCount != 0 {
+		t.Error("INVALID REAL USER COUNT")
 	}
 }

@@ -29,7 +29,7 @@ type Game struct {
 	QuestionCt      int                 `json:"questionCt"`
 	GameDifficulty  int                 `json:"difficulty"`
 	Winner          string              `json:"-"`
-	realUserCount   int                 `json:"-"`
+	RealUserCount   int                 `json:"-"`
 	responses       chan string         `json:"-"`
 	GameOver        bool                `json:"gameOver"`
 	InLobby         bool                `json:"inLobby"`
@@ -85,7 +85,7 @@ func (g *Game) runGame() {
 
 	// Keep ask
 	for g.QuestionNumber-1 < g.QuestionCt {
-		if g.realUserCount == 0 {
+		if g.RealUserCount == 0 {
 			fmt.Println("Ending game")
 			g.endGame()
 			return
@@ -128,7 +128,7 @@ func (g *Game) startQuestion(q question.Question) error {
 					if alreadyAnswered(answers, answer) == false {
 						answers = append(answers, answer)
 					}
-					if len(answers) == g.realUserCount {
+					if len(answers) == g.RealUserCount {
 						g.AskingQuestion = false
 					}
 				} else {
@@ -156,15 +156,34 @@ func (g *Game) startQuestion(q question.Question) error {
 	return nil
 }
 
+// DetermineWinnerAndScoreboard goes through the games scoreboard and determines the game's winner
+func (g *Game) DetermineWinnerAndScoreboard() {
+	max := -1
+	for key, value := range g.Scoreboard {
+		if value > max {
+			max = value
+			g.Winner = key
+		}
+	}
+}
+
 // EndGame updates players all time score at the end of the game
 func (g *Game) endGame() {
 	fmt.Println("Ending game....")
 
-	//TODO determine game winner
-	for i := 0; i < g.realUserCount; i++ {
+	// Updates the users win count
+	for i := 0; i < len(g.Users); i++ {
+		// If the user is a cast user ignore
+		if g.Users[i].Username == "cast" {
+			continue
+		}
 		g.Users[i].Score += g.Scoreboard[g.Users[i].Username]
 		if g.Users[i].Username == g.Winner {
 			g.Users[i].WinCt += 1
+			// Update the user in the db
+		}
+		if err := repo.UpdateUser(g.Users[i]); err != nil {
+			fmt.Print("ERROR UPDATING USER AFTER GAME", err)
 		}
 	}
 
@@ -189,9 +208,14 @@ func (g *Game) AddUserToGame(user user.User) error {
 	// Dereference the user point and append it to current game slice
 	g.Users = append(g.Users, user)
 
+	// Test users have IDs less than 0 and we don't want to broadcast messages to them
+	if user.Id <= 0 {
+		return nil
+	}
+
 	// Check if its a chromecast, which just watches the game
 	if user.Username != "cast" {
-		g.realUserCount += 1
+		g.RealUserCount += 1
 		// Add them to the scoreboard
 		g.Scoreboard[user.Username] = 0
 	}
