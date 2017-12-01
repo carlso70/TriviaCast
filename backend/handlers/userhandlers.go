@@ -32,6 +32,7 @@ type SecurityQuestionRequest struct {
 	Username string `json:"username"`
 	Answer   string `json:"answer"`
 	Question string `json:"question"`
+	Password string `json:"newPassword"`
 }
 
 type PasswordChangeRequest struct {
@@ -278,7 +279,7 @@ func AnswerQuestion(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	fmt.Println("username: ", request.Username)
 
-	if request.Username == "" || request.Answer == "" {
+	if request.Username == "" || request.Answer == "" || request.Password == "" {
 		fmt.Println("Empty fields request")
 		http.Error(w, "Empty fields request", 500)
 		return
@@ -287,6 +288,15 @@ func AnswerQuestion(w http.ResponseWriter, r *http.Request) {
 	usr, err := repo.FindUserByUsername(request.Username)
 	if usr.SecurityQuestionAnswer != request.Answer {
 		fmt.Println("INVALID ANSWER")
+		http.Error(w, "Empty fields request", 500)
+		fmt.Fprintf(w, "{ \"message\": \"failure\" }\n")
+		return
+	}
+
+	password := utils.EncryptPass(request.Password)
+	usr.Password = password
+	if err = repo.UpdateUser(usr); err != nil {
+		fmt.Println("ERROR UPDATING USER AFTER ANSWERING QUESTION")
 		http.Error(w, "Empty fields request", 500)
 		fmt.Fprintf(w, "{ \"message\": \"failure\" }\n")
 		return
