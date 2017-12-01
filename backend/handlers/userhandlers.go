@@ -32,7 +32,7 @@ type SecurityQuestionRequest struct {
 	Username string `json:"username"`
 	Answer   string `json:"answer"`
 	Question string `json:"question"`
-	Password string `json:"newPassword"`
+	Password string `json:"password"`
 }
 
 type PasswordChangeRequest struct {
@@ -258,9 +258,14 @@ func SetSecurityQuestion(w http.ResponseWriter, r *http.Request) {
 	}
 
 	usr, err := repo.FindUserByUsername(request.Username)
+
+	fmt.Println("Username:", request.Username)
+	fmt.Println("Question:", request.Question)
+	fmt.Println("Answer:", request.Answer)
+
 	usr.SecurityQuestion = request.Question
 	usr.SecurityQuestionAnswer = request.Answer
-	err = repo.UpdateUser(usr)
+	err = repo.UpdateUserSecurityQuestion(usr)
 	if err != nil {
 		fmt.Println("ERROR UPDATING SECURITY QUESTION:", err)
 		return
@@ -280,6 +285,7 @@ func AnswerQuestion(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	fmt.Println("username: ", request.Username)
 
+	fmt.Printf("Username: %s, Answer: %s, Password: %s\n", request.Username, request.Answer, request.Password)
 	if request.Username == "" || request.Answer == "" || request.Password == "" {
 		fmt.Println("Empty fields request")
 		http.Error(w, "Empty fields request", 500)
@@ -297,7 +303,7 @@ func AnswerQuestion(w http.ResponseWriter, r *http.Request) {
 
 	password := utils.EncryptPass(request.Password)
 	usr.Password = password
-	if err = repo.UpdateUser(usr); err != nil {
+	if err = repo.UpdateUserSecurityQuestion(usr); err != nil {
 		fmt.Println("ERROR UPDATING USER AFTER ANSWERING QUESTION")
 		http.Error(w, "Empty fields request", 500)
 		fmt.Fprintf(w, "{ \"message\": \"failure\" }\n")
@@ -325,6 +331,8 @@ func GetSecurityQuestion(w http.ResponseWriter, r *http.Request) {
 	}
 	fmt.Println("GETING SECURITY QUESTION FOR:", request.Username)
 	usr, err := repo.FindUserByUsername(request.Username)
+	fmt.Println(usr)
+	fmt.Println("USERS QUESTION IS:", usr.SecurityQuestion)
 	if err != nil {
 		http.Error(w, "Error Finding User", 500)
 		fmt.Println(err)

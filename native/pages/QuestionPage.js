@@ -62,6 +62,7 @@ export default class QuestionPage extends Component {
                     this.setState({
                         radio_props: choices,
                         currentQuestion: data.question.question,
+                        quesitonCorrectAnswer: data.question.answer,
                         questionNumber: data.questionNumber,
                         gameOver: data.gameOver,
                         gameLobby: data.inLobby,
@@ -102,6 +103,13 @@ export default class QuestionPage extends Component {
                 username: this.state.username,
                 answer: this.state.choice
             }));
+            if(this.state.quesitonCorrectAnswer == this.state.choice)
+            {
+                    Alert.alert('Correct!', 'The correct answer was: ' + this.state.quesitonCorrectAnswer);
+            }
+            else {
+                Alert.alert('Incorrect!', 'The correct answer was: ' + this.state.quesitonCorrectAnswer);
+            }
         }
     }
 
@@ -290,7 +298,7 @@ export default class QuestionPage extends Component {
                 style={{
                     backgroundColor: '#ccc',
                     flex: 1,
-                    resizeMode: 'cover',
+                    //resizeMode: 'cover',
                     position: 'absolute',
                     width: '100%',
                     height: '100%',
@@ -311,6 +319,7 @@ export default class QuestionPage extends Component {
                     <View style={styles.content}>
                     <View style={styles.buttonArrange}>
                     <RadioForm
+                    style={{padding: 50}}
                 radio_props={this.state.radio_props}
                 initial={0}
                 onPress={
@@ -326,24 +335,24 @@ export default class QuestionPage extends Component {
                     />
                     </View>
                     </View>
-                    <View style={styles.content}>
-                    <View style={styles.buttonArrange}>
-                    <Button
-                raised
-                buttonStyle={{backgroundColor: 'white', borderRadius: 10, width: 200}}
-                textStyle={{textAlign: 'center', color: 'black'}}
-                title={`Submit response`}
-		onPress={() => this.emitResponse()}
-                    />
-                    </View>
-                    </View>
+                    
                     <View style={styles.container}>
                     <Button
                 raised
                 buttonStyle={{backgroundColor: 'white', borderRadius: 10, width: 200}}
                 textStyle={{textAlign: 'center', color: 'black'}}
+                title={`Submit response`}
+		        onPress={() => this.emitResponse()}
+                    />
+                   
+                    <Button
+                raised
+                buttonStyle={{backgroundColor: 'white', borderRadius: 10, width: 200}}
+                textStyle={{textAlign: 'center', color: 'black'}}
                 title={`Go Back`}
-                onPress={() => this.props.navigation.goBack()}/>
+                onPress={() => {
+                    Alert.alert("You left game!");
+                    this.props.navigation.goBack()}}/>
                     </View>
 
                 </ImageBackground>
