@@ -11,6 +11,7 @@ import {
   Alert
 } from 'react-native';
 import ButtonDemo from '../components/ButtonDemo'
+import { getAWSUrl } from '../utils/Urls'
 import { Button, FormLabel, FormInput} from 'react-native-elements';
 
 // background image 
@@ -22,8 +23,100 @@ export default class ForgotPage extends React.Component {
     super(props);
     this.state = { 
       username: this.props.navigation.state.params.username,
-      answer: ''};
-    
+      question: '',
+      answer: '',
+      password: ''
+    };    
+    this.getquest(this.props.navigation.state.params.username);
+  }
+
+  checkquest(username, question, answer, password){
+    fetch(getAWSUrl() + 'answersecurityquestion',{ //create request for user to create account 
+      method: 'POST',
+      headers: {
+          'Accept': 'application/json', // add headers
+          'Content-Type': 'application.json',
+      },
+      body: JSON.stringify({ //add body 
+          username: username,
+          question: question,
+          answer: answer,
+          password: password
+      })
+  }).then(function(response) {
+      console.log(response.status);
+      if (response.status === 200) { //good response no error 
+          return response.json();
+      } else if (response.status === 500){
+          // There was an error with username or password
+          Alert.alert(
+              'Incorrect answer!'
+          );
+          return null;
+      } else {
+          // 404 error or something else
+          Alert.alert(
+              'Please fix your network', //request didnt send 
+              'Try again'
+          );
+          return null;
+      }
+  })
+      .then((responseJson) => { //response was good so naviagate to the game menu logged in as new user 
+          if (responseJson) {
+              Alert.alert('Success', 'Your password has been changed!');
+              this.props.navigation.goBack();
+             
+          }
+      })
+  }
+
+
+  getquest(username){
+    //this.setState({ promptVisible: true })       
+    fetch(getAWSUrl() + 'getsecurityquestion',{ //create request for user to create account 
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json', // add headers
+            'Content-Type': 'application.json',
+        },
+        body: JSON.stringify({ //add body 
+            username: username
+        })
+    }).then(function(response) {
+        console.log(response.status);
+        if (response.status === 200) { //good response no error 
+            return response.json();
+        } else if (response.status === 500){
+            // There was an error with username or password
+            Alert.alert(
+                'Error, user does not exist!'
+
+            );
+            this.props.navigation.goBack();
+            return null;
+        } else {
+            // 404 error or something else
+            Alert.alert(
+                'Please fix your network', //request didnt send 
+                'Try again'
+            );
+            return null;
+        }
+    })
+        .then((responseJson) => { //response was good so naviagate to the game menu logged in as new user 
+            if (responseJson) {
+              //   if(responseJson.question == ''){
+              //     Alert.alert("User does not have a security question set");
+              //     this.props.navigation.goBack();
+              //   }
+              //  else {
+               this.setState({
+                  question: responseJson.question
+               });
+              //}
+            }
+        })
   }
 
   //render the page
@@ -56,8 +149,8 @@ export default class ForgotPage extends React.Component {
         //value={this.state.answer}
       />
       <TextInput // allow user to enter answer for security question 
-        placeholder = 'This will Hold The Users Question'
-        text = 'This will Hold The Users Question'
+        placeholder = {this.state.question}
+        text = {this.state.question}
         placeholderTextColor = 'black'
         editable = {false}
         style={styles.inputText}
@@ -70,6 +163,13 @@ export default class ForgotPage extends React.Component {
         onChangeText={ (text) => this.setState({ answer: text })} // set the state variable to answer 
         value={this.state.answer}
       />
+      <TextInput // allow user to enter answer for security question 
+        placeholder='New Password'
+        style={styles.inputText}
+        onChangeText={ (text) => this.setState({ password: text })} // set the state variable to answer 
+        value={this.state.password}
+      />
+
       <View style={styles.buttonArrange}>
         <Button
         raised
@@ -77,7 +177,7 @@ export default class ForgotPage extends React.Component {
           buttonStyle={btnstyles.buttons}
           textStyle={{textAlign: 'center', color: 'black'}}
           title={`Submit`}
-          //onPress={} //this will call method that checks the answer 
+          onPress={() => this.checkquest(this.state.username, this.state.question, this.state.answer, this.state.password)}
         />
         <Button 
           buttonStyle={btnstyles.buttons} 
