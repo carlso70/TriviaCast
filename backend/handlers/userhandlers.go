@@ -258,6 +258,11 @@ func SetSecurityQuestion(w http.ResponseWriter, r *http.Request) {
 	}
 
 	usr, err := repo.FindUserByUsername(request.Username)
+
+	fmt.Println("Username:", request.Username)
+	fmt.Println("Question:", request.Question)
+	fmt.Println("Answer:", request.Answer)
+
 	usr.SecurityQuestion = request.Question
 	usr.SecurityQuestionAnswer = request.Answer
 	err = repo.UpdateUser(usr)
