@@ -192,6 +192,8 @@ func (g *Game) AddUserToGame(user user.User) error {
 	// Check if its a chromecast, which just watches the game
 	if user.Username != "cast" {
 		g.realUserCount += 1
+		// Add them to the scoreboard
+		g.Scoreboard[user.Username] = 0
 	}
 
 	fmt.Println("Adding user:", user.Username, "to game:", g.Id)

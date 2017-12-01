@@ -253,6 +253,7 @@ func SetSecurityQuestion(w http.ResponseWriter, r *http.Request) {
 	if request.Username == "" || request.Question == "" || request.Answer == "" {
 		fmt.Println("Empty fields request")
 		http.Error(w, "Empty fields request", 500)
+		fmt.Fprintf(w, "{ \"message\": \"failure\" }\n")
 		return
 	}
 
