@@ -265,7 +265,7 @@ func SetSecurityQuestion(w http.ResponseWriter, r *http.Request) {
 
 	usr.SecurityQuestion = request.Question
 	usr.SecurityQuestionAnswer = request.Answer
-	err = repo.UpdateUser(usr)
+	err = repo.UpdateUserSecurityQuestion(usr)
 	if err != nil {
 		fmt.Println("ERROR UPDATING SECURITY QUESTION:", err)
 		return
