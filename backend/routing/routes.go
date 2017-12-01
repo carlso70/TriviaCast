@@ -96,7 +96,7 @@ var routes = Routes{
 	},
 	Route{
 		"GetSecurityQuestion",
-		"GET",
+		"POST",
 		"/getsecurityquestion",
 		handlers.GetSecurityQuestion,
 	},
