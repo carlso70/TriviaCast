@@ -1,6 +1,6 @@
 //import react and needed components and dependencies
 import React, { Component } from 'react';
-import {Image,Text, StyleSheet, Alert, AsyncStorage} from 'react-native';
+import {Image,Text, StyleSheet, View, Alert, AsyncStorage} from 'react-native';
 import {Button} from 'react-native-elements';
 import { StackNavigator } from 'react-navigation';
 import {getAWSUrl} from '../utils/Urls'
@@ -75,6 +75,7 @@ export default class MainMenu extends Component {
     // render actual page
     render() {
         return (
+            <View>
                 <Image
             style={{
                 backgroundColor: '#ccc',
@@ -86,7 +87,7 @@ export default class MainMenu extends Component {
                 justifyContent: 'center',
             }}
             source={{ uri: remotebackg }}
-                >
+                />
                 <Button
             raised
             buttonStyle={styles.buttons}
@@ -127,7 +128,7 @@ export default class MainMenu extends Component {
             title={'Log Out'}
             onPress={() => this.props.navigation.goBack()} // go back to the previous page and log out 
                 />
-                </Image>
+                </View>
         );
     }
 }
