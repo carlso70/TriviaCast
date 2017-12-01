@@ -285,7 +285,7 @@ func AnswerQuestion(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	fmt.Println("username: ", request.Username)
 
-	fmt.Printf("Username: %s, Answer: %s, Password: %s", request.Username, request.Answer, request.Password)
+	fmt.Printf("Username: %s, Answer: %s, Password: %s\n", request.Username, request.Answer, request.Password)
 	if request.Username == "" || request.Answer == "" || request.Password == "" {
 		fmt.Println("Empty fields request")
 		http.Error(w, "Empty fields request", 500)
@@ -331,6 +331,7 @@ func GetSecurityQuestion(w http.ResponseWriter, r *http.Request) {
 	}
 	fmt.Println("GETING SECURITY QUESTION FOR:", request.Username)
 	usr, err := repo.FindUserByUsername(request.Username)
+	fmt.Println("USERS QUESTION IS:", usr.SecurityQuestion)
 	if err != nil {
 		http.Error(w, "Error Finding User", 500)
 		fmt.Println(err)
