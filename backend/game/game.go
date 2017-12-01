@@ -23,12 +23,13 @@ type Game struct {
 	Users           []user.User         `json:"users"`
 	QuestionDeck    []question.Question `json:"-"`
 	CurrentQuestion question.Question   `json:"question"`
+	Scoreboard      map[string]int      `json:"scoreboard"`
 	QuestionNumber  int                 `json:"questionNumber"`
 	AskingQuestion  bool                `json:"askingQuestion"`
-	Scoreboard      map[string]int      `json:"scoreboard"`
 	QuestionCt      int                 `json:"questionCt"`
 	GameDifficulty  int                 `json:"difficulty"`
 	Winner          string              `json:"-"`
+	realUserCount   int                 `json:"-"`
 	responses       chan string         `json:"-"`
 	GameOver        bool                `json:"gameOver"`
 	InLobby         bool                `json:"inLobby"`
@@ -84,7 +85,7 @@ func (g *Game) runGame() {
 
 	// Keep ask
 	for g.QuestionNumber-1 < g.QuestionCt {
-		if len(g.Users) == 0 {
+		if g.realUserCount == 0 {
 			fmt.Println("Ending game")
 			g.endGame()
 			return
@@ -124,8 +125,10 @@ func (g *Game) startQuestion(q question.Question) error {
 				err := json.Unmarshal([]byte(c), &answer)
 				if err == nil {
 					// if there is no err with the response add it to the current answer array
-					answers = append(answers, answer)
-					if len(answers) == len(g.Users) {
+					if alreadyAnswered(answers, answer) == false {
+						answers = append(answers, answer)
+					}
+					if len(answers) == g.realUserCount {
 						g.AskingQuestion = false
 					}
 				} else {
@@ -153,16 +156,12 @@ func (g *Game) startQuestion(q question.Question) error {
 	return nil
 }
 
-func (g *Game) endEarly() {
-	g.GameOver = true
-}
-
 // EndGame updates players all time score at the end of the game
 func (g *Game) endGame() {
 	fmt.Println("Ending game....")
 
 	//TODO determine game winner
-	for i := 0; i < len(g.Users); i++ {
+	for i := 0; i < g.realUserCount; i++ {
 		g.Users[i].Score += g.Scoreboard[g.Users[i].Username]
 		if g.Users[i].Username == g.Winner {
 			g.Users[i].WinCt += 1
@@ -189,6 +188,11 @@ func (g *Game) AddUserToGame(user user.User) error {
 	user.GameId = g.Id
 	// Dereference the user point and append it to current game slice
 	g.Users = append(g.Users, user)
+
+	// Check if its a chromecast, which just watches the game
+	if user.Username != "cast" {
+		g.realUserCount += 1
+	}
 
 	fmt.Println("Adding user:", user.Username, "to game:", g.Id)
 	// Broadcast new user
@@ -218,4 +222,14 @@ func (g *Game) RemoveUserFromGame(id int) error {
 func (g *Game) BuildQuestionDeck() {
 	dif := question.ConvertDifficulty(g.GameDifficulty) // convert the int value to a difficulty string
 	g.QuestionDeck = repo.GenerateQuestionDeck(dif, g.QuestionCt)
+}
+
+// alreadyAnswered is a utility function to check if a user has already entered a response
+func alreadyAnswered(answers []QuestionResponse, answer QuestionResponse) bool {
+	for _, a := range answers {
+		if a.Username == answer.Username {
+			return true
+		}
+	}
+	return false
 }

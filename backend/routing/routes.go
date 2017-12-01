@@ -82,4 +82,22 @@ var routes = Routes{
 		"/uploadavatar",
 		handlers.UploadAvatar,
 	},
+	Route{
+		"SetSecurityQuestion",
+		"POST",
+		"/setsecurityquestion",
+		handlers.SetSecurityQuestion,
+	},
+	Route{
+		"AnswerSecurityQuestion",
+		"POST",
+		"/answersecurityquestion",
+		handlers.AnswerQuestion,
+	},
+	Route{
+		"GetSecurityQuestion",
+		"GET",
+		"/getsecurityquestion",
+		handlers.GetSecurityQuestion,
+	},
 }
