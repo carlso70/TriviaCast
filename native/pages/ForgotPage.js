@@ -151,7 +151,7 @@ export default class ForgotPage extends React.Component {
       <TextInput // allow user to enter answer for security question 
         placeholder = {this.state.question}
         text = {this.state.question}
-        placeholderTextColor = 'black'
+        placeholderTextColor = 'Your Favorite Color:'
         editable = {false}
         style={styles.inputText}
         //onChangeText={ (text) => this.setState({ answer: text })} // set the state variable to answer 

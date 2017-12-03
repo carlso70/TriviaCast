@@ -25,6 +25,7 @@ export default class MainPage extends Component {
     // render the page
     render() {
         var page;
+        console.disableYellowBox = true;
         if (!this.state.isLoggedIn) { // if the user is logged in 
             page = <LoginComponent navigation={this.props.navigation} />
         }else{
