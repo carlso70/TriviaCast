@@ -18,19 +18,33 @@ export default class MainMenu extends Component {
             userId: this.props.navigation.state.params.userId, // use class parameters
             username: this.props.navigation.state.params.username,
 
-            difficulty: 1,
+            // Default Values
+            difficulty: 1, 
             questionCt: 10,
         }
     }
 
     // method to create game and connec with backend
-    createGame(userId) {
-        var dif = AsyncStorage.getItem('Difficulty'); // get difficulty from async storage
-        if (dif == null)
-            dif = 1;
-        var ct = AsyncStorage.getItem('QuestionCount'); // get question count from async storage
-        if (ct == null)
-            ct = 10;
+    async createGame(userId) {
+        var diff;
+        var ct;
+        try{
+            await AsyncStorage.getItem('difficulty').then((value) => {
+                diff = JSON.parse(value)
+                this.setState({
+                    difficulty: diff
+                })
+            })
+            await AsyncStorage.getItem('questionCount').then((value) => {
+                ct = JSON.parse(value) 
+                this.setState({
+                    questionCt: ct
+                })               
+            }) // get question count from async storage
+        } catch (error) {
+            Alert.alert(error)
+        } 
+        Alert.alert('Creating Game With Difficulty = ' + this.state.difficulty + ' and Question Count = ' + this.state.questionCt)
         fetch(getAWSUrl() + 'creategame', { // create json request
             method: 'POST',
             headers: {
@@ -91,6 +105,7 @@ export default class MainMenu extends Component {
             }}
             source={{ uri: remotebackg }}
                 >
+                <View style={styles.buttonArrange}>
                 <Button
             raised
             buttonStyle={styles.buttons}
@@ -141,6 +156,7 @@ export default class MainMenu extends Component {
             title={'Log Out'}
             onPress={() => this.props.navigation.goBack()} // go back to the previous page and log out
                 />
+                </View>
                 </ImageBackground>
         );
     }
@@ -149,6 +165,11 @@ export default class MainMenu extends Component {
 
     // style sheet for page
     const styles = StyleSheet.create({
+        buttonArrange: {
+            alignItems: 'center',
+            paddingBottom: 4,
+            backgroundColor: "transparent"
+        },
         buttons: {
             alignItems: 'center',
             padding: 20,

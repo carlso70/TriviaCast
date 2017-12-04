@@ -22,10 +22,24 @@ export default class MainMenu extends Component {
 
     // method to create game and connec with backend
     createGame(userId) {
-        var dif = AsyncStorage.getItem('Difficulty'); // get difficulty from async storage
-        if (dif == null)
-            dif = 1;
-        var ct = AsyncStorage.getItem('QuestionCount'); // get question count from async storage
+        // var dif = AsyncStorage.getItem('Difficulty'); // get difficulty from async storage
+        // if (dif == null)
+        //     dif = 1;
+        const ct;
+        const diff;
+        try{
+            diff = await AsyncStorage.getItem('@TriviaCast:Difficulty');
+            ct = await AsyncStorage.getItem('@TriviaCast:QuestionCount'); // get question count from async storage
+            if(diff == null)
+            {
+                Alert.alert('error');
+            }
+        
+        }
+          catch (error) {
+              Alert.alert("Error saving data");
+          } 
+        
         if (ct == null)
             ct = 10;
         fetch(getAWSUrl() + 'creategame', { // create json request
@@ -153,5 +167,10 @@ export default class MainMenu extends Component {
             marginTop: 20,
             borderRadius: 10
 
+        },
+        buttonArrange: {
+            alignItems: 'center',
+            paddingBottom: 4,
+            backgroundColor: "transparent"
         }
     })

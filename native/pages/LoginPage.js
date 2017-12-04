@@ -29,6 +29,8 @@ export default class LoginPage extends React.Component {
             answer: '',
             question: ''
         };
+
+        console.disableYellowBox = true;
     }
     
     authenticate(username, password) { //create request for user to login 

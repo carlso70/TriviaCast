@@ -29,6 +29,7 @@ export default class QuestionPage extends Component {
             currentQuestion: "",
             quesitonCorrectAnswer: "",
             choice: "",
+            myScore: 0,
             users: [this.props.navigation.state.params.username],
             gameLobby: true,
             radio_props: [{label: 'Waiting For Questions....', value: 0 }],
@@ -103,6 +104,10 @@ export default class QuestionPage extends Component {
             if(this.state.quesitonCorrectAnswer == this.state.choice)
             {
                     Alert.alert('Correct!', 'The correct answer was: ' + this.state.quesitonCorrectAnswer);
+                    var score = this.state.myScore + 10;
+                    this.setState({
+                        myScore: score
+                    });
             }
             else {
                 Alert.alert('Incorrect!', 'The correct answer was: ' + this.state.quesitonCorrectAnswer);
@@ -277,11 +282,18 @@ export default class QuestionPage extends Component {
                     <View>
                     <List containerStyle={{marginBottom: 20}}>
                         {
-                            this.state.users.map((l, i) => (
-    					    <ListItem
- 	    					    key={i}
- 		    				    title={l +"   " + (Math.round(i + Math.random()*(100)) % 10)*10 } />
- 			            	))
+                            this.state.users.map((l, i) => (  
+                                <View>
+                                    {l == this.state.username ? 
+                                    <ListItem
+ 	    					            key={i}
+ 		    				            title={l + "   " + this.state.myScore } />
+                                    : <ListItem
+ 	    					            key={i}
+ 		    				            title={l + "   " + (Math.round(i + Math.random()*(100)) % 10)*10 } />
+                                     }
+                                     </View>
+                                     )) 
                         }
                         </List>
                     </View>

@@ -19,21 +19,32 @@ export default class SettingsPage extends React.Component {
       if(rating == 0)
         rating =1
       console.log("Difficulty is: " + rating) // log for debugging 
-      AsyncStorage.setItem('Difficulty', JSON.stringify(rating), () => { // set item in async storage 
-        AsyncStorage.getItem('Difficulty', (err, result) => { // connected to backend 
-          console.log(result); // log result 
-        });
-      });
+      try{
+         AsyncStorage.setItem('@TriviaCast:Difficulty', JSON.stringify(rating));
+      }
+      catch (error) {
+          Alert.alert("Error saving data");
+      } 
+        // => { // set item in async storage 
+        // AsyncStorage.getItem('Difficulty', (err, result) => { // connected to backend 
+        //   console.log(result); // log result 
+        // });
+      
     }
-
     // method for changing the number of questions 
     numberOfQuestionsChanged(scale){
       console.log("Number of questions is: " + scale) // log for debugging 
-      AsyncStorage.setItem('QuestionCount', JSON.stringify(scale), () => { // connect to backend using async storage
-        AsyncStorage.getItem('QuestionCount', (err, result) => {
-          console.log(result);
-        });
-      });
+      // AsyncStorage.setItem('QuestionCount', JSON.stringify(scale), () => { // connect to backend using async storage
+      //   AsyncStorage.getItem('QuestionCount', (err, result) => {
+      //     console.log(result);
+      //   });
+      // });
+      try{
+         AsyncStorage.setItem('@TriviaCast:QuestionCount', JSON.stringify(scale));
+      }
+      catch (error) {
+          Alert.alert("Error saving data");
+      } 
     }
 
     render() {

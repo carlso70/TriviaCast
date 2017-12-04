@@ -1,6 +1,6 @@
 // import react and needed components 
 import React, {Component} from 'react'
-import {View, Text, StyleSheet, Image, AsyncStorage, ImageBackground} from 'react-native'
+import {View, Text, StyleSheet, Image, AsyncStorage, ImageBackground, Alert} from 'react-native'
 import {Button} from 'react-native-elements';
 import { StackNavigator, NavigationActions } from 'react-navigation';
 import { Rating, Slider } from 'react-native-elements';
@@ -19,21 +19,26 @@ export default class SettingsPage extends React.Component {
       if(rating == 0)
         rating =1
       console.log("Difficulty is: " + rating) // log for debugging 
-      AsyncStorage.setItem('Difficulty', JSON.stringify(rating), () => { // set item in async storage 
-        AsyncStorage.getItem('Difficulty', (err, result) => { // connected to backend 
-          console.log(result); // log result 
-        });
-      });
+      try{
+        Alert.alert(JSON.stringify(rating))        
+        AsyncStorage.setItem('difficulty', JSON.stringify(rating));
+      }
+      catch (error) {
+          Alert.alert("Error saving data");
+      } 
     }
 
     // method for changing the number of questions 
     numberOfQuestionsChanged(scale){
       console.log("Number of questions is: " + scale) // log for debugging 
-      AsyncStorage.setItem('QuestionCount', JSON.stringify(scale), () => { // connect to backend using async storage
-        AsyncStorage.getItem('QuestionCount', (err, result) => {
-          console.log(result);
-        });
-      });
+      
+      try{
+        Alert.alert(JSON.stringify(scale))
+        AsyncStorage.setItem('questionCount', JSON.stringify(scale));
+      }
+      catch (error) {
+          Alert.alert("Error saving data");
+      } 
     }
 
     render() {
