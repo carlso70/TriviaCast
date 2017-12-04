@@ -41,7 +41,7 @@ func (g *GameManager) deleteDoneGames() {
 // Cleaner sweeps all the games and removes the ones that are over
 func (g *GameManager) Cleaner() {
 	for {
-		<-time.After(15 * time.Millisecond)
+		<-time.After(3 * time.Millisecond)
 		go g.deleteDoneGames()
 	}
 }
