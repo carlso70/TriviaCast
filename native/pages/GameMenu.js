@@ -153,6 +153,15 @@ export default class MainMenu extends Component {
             raised
             buttonStyle={styles.buttons}
             textStyle={{textAlign: 'center', color: 'black'}}
+            title={'High Scores'}
+            onPress={() => this.props.navigation.navigate('HighScores', {
+                userId: this.state.userId
+                })} // navigate to avatar page
+                />
+                <Button
+            raised
+            buttonStyle={styles.buttons}
+            textStyle={{textAlign: 'center', color: 'black'}}
             title={'Log Out'}
             onPress={() => this.props.navigation.goBack()} // go back to the previous page and log out
                 />
