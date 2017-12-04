@@ -150,7 +150,7 @@ func (g *Game) startQuestion(q question.Question) error {
 	// Check if the question responses match the answer
 	for _, resp := range answers {
 		if resp.Answer == g.CurrentQuestion.Answer {
-			g.Scoreboard[resp.Username] += question.ConvertDifficultyToValue(g.CurrentQuestion.Difficulty)
+			g.Scoreboard[resp.Username] += question.ConvertDifficultyToValue(g.CurrentQuestion.Difficulty) * 10
 		}
 	}
 	return nil
