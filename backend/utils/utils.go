@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"math/rand"
 	"os"
+	"time"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
@@ -55,7 +56,8 @@ func GetKey() string {
 }
 
 func GenerateId() int {
-	max := 1000000
+	max := 100000000
+	rand.Seed(time.Now().UTC().UnixNano())
 	return rand.Intn(max)
 }
 
