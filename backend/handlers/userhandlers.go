@@ -114,7 +114,7 @@ func LoginUser(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
-	fmt.Println("Login User: ", usr.Username)
+	fmt.Println("Returning: ", string(byteSlice))
 	fmt.Fprintf(w, "%s\n", string(byteSlice))
 }
 
