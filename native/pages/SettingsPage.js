@@ -20,7 +20,7 @@ export default class SettingsPage extends React.Component {
         rating =1
       console.log("Difficulty is: " + rating) // log for debugging 
       try{
-        Alert.alert(JSON.stringify(rating))        
+        Alert.alert('Difficulty rating: ' + JSON.stringify(rating))        
         AsyncStorage.setItem('difficulty', JSON.stringify(rating));
       }
       catch (error) {
@@ -33,7 +33,7 @@ export default class SettingsPage extends React.Component {
       console.log("Number of questions is: " + scale) // log for debugging 
       
       try{
-        Alert.alert(JSON.stringify(scale))
+        Alert.alert('Question count: ' + JSON.stringify(scale))
         AsyncStorage.setItem('questionCount', JSON.stringify(scale));
       }
       catch (error) {

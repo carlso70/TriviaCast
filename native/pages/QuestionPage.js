@@ -360,7 +360,7 @@ export default class QuestionPage extends Component {
                 textStyle={{textAlign: 'center', color: 'black'}}
                 title={`Go Back`}
                 onPress={() => {
-                    Alert.alert("You left game!");
+                    Alert.alert("You left the game!");
                     this.props.navigation.goBack()}}/>
                     </View>
 
