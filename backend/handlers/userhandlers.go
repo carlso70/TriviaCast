@@ -52,7 +52,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 	}
 	defer r.Body.Close()
 
-	fmt.Println("username: ", request.Username)
+	fmt.Println("request username: ", request.Username)
 
 	// password encrypting check user is valid
 	if request.Username == "" || request.Password == "" {
@@ -74,6 +74,8 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 	if err := repo.AddUserToDB(usr); err != nil {
 		panic(err)
 	}
+
+	fmt.Println("Created new username: ", usr.Username)
 
 	byteSlice, err := json.Marshal(&usr)
 	if err != nil {
@@ -111,6 +113,8 @@ func LoginUser(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err)
 	}
+
+	fmt.Println("Login User: ", usr.Username)
 	fmt.Fprintf(w, "%s\n", string(byteSlice))
 }
 
