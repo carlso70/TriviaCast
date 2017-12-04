@@ -307,6 +307,13 @@ func AnswerQuestion(w http.ResponseWriter, r *http.Request) {
 
 	password := utils.EncryptPass(request.Password)
 	usr.Password = password
+	if err = repo.UpdateUserPassword(usr); err != nil {
+		fmt.Println("ERROR Password USER AFTER ANSWERING QUESTION")
+		http.Error(w, "Empty fields request", 500)
+		fmt.Fprintf(w, "{ \"message\": \"failure\" }\n")
+		return
+	}
+
 	if err = repo.UpdateUserSecurityQuestion(usr); err != nil {
 		fmt.Println("ERROR UPDATING USER AFTER ANSWERING QUESTION")
 		http.Error(w, "Empty fields request", 500)
